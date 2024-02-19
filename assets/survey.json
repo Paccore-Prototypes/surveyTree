@@ -1,0 +1,254 @@
+[
+  {
+    "id": 1,
+    "isMandatory": true,
+    "question": "What is your gender?",
+    "questionType": "radio",
+    "answerChoices": {
+      "Male": [
+        {
+          "question": "Do you have a smoking habit?",
+          "questionType": "list",
+          "score": 8,
+          "answerChoices": {
+            "Yes": [
+              {
+                "question": "How many times do you smoke per day?",
+                "questionType": "text",
+                "answerChoices": null,
+                "score": 5
+              }
+            ],
+            "No": [
+              {
+                "question": "",
+                "answerChoices": null,
+                "score": 4
+              }
+            ]
+          }
+        }
+      ],
+      "Female": [
+        {
+          "question": "Are you pregnant?",
+          "questionType": "list",
+          "answerChoices": {
+            "Yes": [
+              {
+                "question": "Are you taking medication?",
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": [
+                    {
+                      "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
+                      "questionType": "list",
+                      "answerChoices": {
+                        "Yes": [
+                          {
+                            "question": "Name The Medicine You Are Taking",
+                            "questionType": "text",
+                            "answerChoices": null
+                          }
+                        ],
+                        "No": [
+                          {
+                            "question": "",
+                            "questionType": null,
+                            "answerChoices": null,
+                            "score": 4
+                          }
+                        ]
+                      },
+                      "score": 10
+                    }
+                  ]
+                },
+                "score": 6
+              }
+            ],
+            "No": [
+              {
+                "question": "Are you taking medication?",
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": [
+                    {
+                      "score": 8
+                    }
+                  ]
+                },
+                "score": 2
+              }
+            ]
+          },
+          "score": 4
+        }
+      ],
+      "Other": null
+    }
+  },
+  {
+    "id": 2,
+    "isMandatory": true,
+    "question": "How old are you?",
+    "questionType": "slider",
+    "answerChoices": null
+  },
+  {
+    "id": 4,
+    "isMandatory": true,
+    "question": "Give your Blood Pressure?",
+    "questionType": "radio",
+    "answerChoices": {
+      "between 80/70mmHg and 130/90mmHg.": [
+        {
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 2,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 100/70mmHg and 90/100mmHg.": [
+        {
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 4,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 90/60mmHg and 120/80mmHg.": [
+        {
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 6,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 70/60mmHg and 110/80mmHg.": [
+        {
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 8,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "question": "How Many times do you eat?",
+    "questionType": "multipleChoices",
+    "answerChoices": {
+      "two": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 4
+        }
+      ],
+      "three": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "one": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "four": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "isMandatory": true,
+    "question": "What diet do you prefer?",
+    "questionType": "radio",
+    "answerChoices": {
+      "Veg": [
+        {
+          "score": 10
+        }
+      ],
+      "Non-Veg": [
+        {
+          "score": 20
+        }
+      ]
+    }
+  }
+]
