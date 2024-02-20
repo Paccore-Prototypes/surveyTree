@@ -112,6 +112,12 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
     // TODO: implement initState
     super.initState();
     modelJson();
+    _controller = AnimationController(
+      vsync: this,
+      lowerBound: 0.5,
+      duration: Duration(seconds: 3),
+      reverseDuration: Duration(seconds: 3)
+    )..repeat();
   }
 
   TextEditingController nameController = TextEditingController();
@@ -387,6 +393,7 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
   final double _height = 50 - _shadowHeight;
   double circleSize = 140;
   double iconSize = 108;
+
   Future<void> _showSubmitDialog() async {
     //  List intValues = radioSelectedValues?.map((value) =>  value).toList() ?? [];
     // int sum = intValues.fold(0, (previousValue, element) => (previousValue + element).toInt());
@@ -445,9 +452,87 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
                               Answers(scores: sumOfScores,
                                 answersMap: answersMap,
                               )));
+                }else{
+                  showScore();
                 }
               },
             ),
+          ],
+        );
+      },
+    );
+  }
+  bool show = false;
+  Future<void> showScore() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          insetPadding: const EdgeInsets.only(left: 20,right: 20,top: 150,bottom: 180),
+          title: const Text('Your Health Score is:', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
+          elevation: 0,
+          content: Column(
+            children: [
+              const SizedBox(height: 30),
+              _buildBody(),
+              const SizedBox(height: 30),
+              Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Colors.red, Colors.orange, Colors.yellow, Colors.greenAccent, Colors.green],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Colors.transparent,
+                    inactiveTrackColor: Colors.transparent,
+                    trackHeight: 0.1,
+                    thumbColor: Colors.red,
+                    overlayColor: Colors.yellow.withAlpha(1),
+                  ),
+                  child: Slider(
+                    min: 0,
+                    max: 100,divisions: 10,
+                    value: sumOfScores.toDouble(),
+                    onChanged: (_) {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  late AnimationController _controller;
+
+  Widget _buildContainer(double radius) {
+    return Container(
+      width: radius,
+      height: radius,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue.withOpacity(1 - _controller.value),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return AnimatedBuilder(
+      animation: CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+      builder: (context, child) {
+        return Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            _buildContainer(100 * _controller.value),
+            _buildContainer(150 * _controller.value),
+            _buildContainer(200 * _controller.value),
+            _buildContainer(250 * _controller.value),
+            _buildContainer(250 * _controller.value),
+            Align(child: Text('$sumOfScores', style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold))),
           ],
         );
       },
@@ -500,22 +585,6 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
                   selectedValue = answersMap[data.question]['answer'];
                 }
               }
-              //   return RadioListTile(
-              //     title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle(
-              //         color: selectedValue==answer ? Colors.deepPurple:Colors.grey.shade700,
-              //         fontWeight: FontWeight.w400,fontSize: 16),),
-              //     activeColor: widget.activeRadioColor ?? Colors.deepPurple,
-              //     value: answer,
-              //     groupValue: selectedValue?.isNotEmpty ?? false,
-              //     onChanged: (null),
-              //   );
-              //
-              // } else {
-              //
-              //   if(answersMap.containsKey(data.question)){
-              //     selectedValue=answersMap[data.question]['answer'];
-              //
-              //   }
                 return RadioListTile(
                     title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer?Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
                     value: answer,
@@ -523,7 +592,6 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
                     groupValue: selectedValue?.isNotEmpty ?? false
                         ? selectedValue
                         : null,
-                    selectedTileColor: Colors.yellow,
                     onChanged: (selectedAnswer) {
                       setState(() {
                         selectedValue = selectedAnswer;
@@ -575,38 +643,40 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
                 }else{
                   ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
 
-                }}
-
-// else {
-//                   answersMap[data.question!]={
-//                     'score':data.answerChoices == null?data.score:data.answerChoices[selectedValue][0]
-//                     ['score'],
-//                     'answer':selectedValue
-//                   };
-//                   sumOfScoresData();
-//
-//                   ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-//                       SnackBar(content: Text('Your Score Is $sumOfScores')));
-//
-//                   _showSubmitDialog();
-//                 }
-             // }
-              else {
-                if (answers.isEmpty) {
-                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
-                  return;
                 }
-                addTheFollowUpQuestion('',
-                    isNestedchoice: true,
-                    question: data.question,
-                    answeValue: {
-                      'score': data.answerChoices == null ? 0 : data.score,
-                      'answer': ''
-                    });
-                pageController.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                );
+              } else {
+                if(data.isMandatory==true) {
+                  if (answers.isEmpty) {
+                    ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select at least one answer'),
+                          behavior: SnackBarBehavior.floating,));
+                    return;
+                  }
+                  addTheFollowUpQuestion('',
+                      isNestedchoice: true,
+                      question: data.question,
+                      answeValue: {
+                        'score': data.answerChoices == null ? 0 : data.score,
+                        'answer': ''
+                      });
+                  pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }else{
+                  addTheFollowUpQuestion('',
+                      isNestedchoice: true,
+                      question: data.question,
+                      answeValue: {
+                        'score': data.answerChoices == null ? 0 : data.score,
+                        'answer': ''
+                      });
+                  pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
               }
             },
             child: Container(
@@ -648,58 +718,152 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
   }
 
   Widget buildLIstQuestioins(TreeNode questionData) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            questionData.question,
-            style: widget.listTileQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          Column(
-            children: (questionData.answerChoices as Map<String, dynamic>)
-                .keys
-                .map<Widget>((answer) {
-              bool isSelected = answersMap.containsKey(questionData.question) &&
-                  answersMap[questionData.question]['answer'] == answer;
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 430),
+      color: Colors.blueGrey.shade200,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              questionData.question,
+              style: widget.listTileQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Column(
+              children: (questionData.answerChoices as Map<String, dynamic>)
+                  .keys
+                  .map<Widget>((answer) {
+                bool isSelected = answersMap.containsKey(questionData.question) &&
+                    answersMap[questionData.question]['answer'] == answer;
 
-              if (questionData.answerChoices[answer] == null) {
-                return ListTile(
-                  title: Text(answer,style: widget.optionListTileStyle ?? const TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
-                  tileColor:  isSelected ? widget.tileListColor ?? Colors.green.withOpacity(0.2) : null,
-                );
-              } else {
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(answer),
-                      if (isSelected)
-                        const Icon(
-                          Icons.check,
-                          color: Colors.black,
-                        ),
-                    ],
-                  ),
-                  tileColor: isSelected ? (widget.tileListColor ?? Colors.green.withOpacity(0.2)) : null,
+                if (questionData.answerChoices[answer] == null) {
+                  return ListTile(
+                    selectedColor: Colors.red,
+                    title: Text(answer,style: widget.optionListTileStyle ?? const TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
+                    tileColor:  isSelected ? widget.tileListColor ?? Colors.green.withOpacity(0.2) : null,
+                  );
+                } else {
+                  return ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(answer),
+                        if (isSelected)
+                          const Icon(
+                            Icons.check,
+                            color: Colors.black,
+                          ),
+                      ],
+                    ),
+                   // selectedTileColor: widget.tileListColor ?? Colors.green,
+                    tileColor: isSelected ? widget.tileListColor ?? Colors.green : null,
+
+                    onTap: () {
+                      addTheFollowUpQuestion(answer,
+                          isNestedchoice: true,
+                          question: questionData.question,
+                          answeValue: {
+                            'score': questionData.answerChoices[answer][0]['score'],
+                            'answer': answer
+                          });
+                      pageController.nextPage(
+                          duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                    },
+                  );
+                }
+              }).toList(),
+            ),
+            SizedBox(height: 20,),
+            widget.customButton ??
+                GestureDetector(
                   onTap: () {
-                    addTheFollowUpQuestion(answer,
-                        isNestedchoice: true,
-                        question: questionData.question,
-                        answeValue: {
-                          'score': questionData.answerChoices[answer][0]['score'],
-                          'answer': answer
-                        });
-                    pageController.nextPage(
-                        duration: const Duration(milliseconds: 500), curve: Curves.ease);
+
+                    if (isLast) {
+
+                      if(answersMap.containsKey(questionData.question)){
+                        sumOfScoresData();
+
+                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            SnackBar(content: Text('Your Score Is $sumOfScores')));
+
+                        _showSubmitDialog();
+                      }else{
+                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
+
+                      }
+                    } else {
+                      if(questionData.isMandatory==true) {
+                        if (answers.isEmpty) {
+                          ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                              const SnackBar(
+                                content: Text('Please select at least one answer'),
+                                behavior: SnackBarBehavior.floating,));
+                          return;
+                        }
+                        addTheFollowUpQuestion('',
+                            isNestedchoice: true,
+                            question: questionData.question,
+                            answeValue: {
+                              'score': questionData.answerChoices == null ? 0 : questionData.score,
+                              'answer': ''
+                            });
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      }else{
+                        addTheFollowUpQuestion('',
+                            isNestedchoice: true,
+                            question: questionData.question,
+                            answeValue: {
+                              'score': questionData.answerChoices == null ? 0 : questionData.score,
+                              'answer': ''
+                            });
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    }
                   },
-                );
-              }
-            }).toList(),
-          ),
-        ],
+                  child: Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.teal,
+                          Colors.teal.shade300,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(5, 5),
+                          blurRadius: 10,
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        isLast ? 'SubmitSurvey!':'Next',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+          ],
+        ),
       ),
     );
   }
@@ -855,12 +1019,12 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
           widget.customButton ??
               GestureDetector(
                 onTap: () {
+                  int score = 0;
+                  if(questionData.isMandatory==true){
                   if (answers.isEmpty) {
                     ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one option')));
                     return;
                   }
-                  int score = 0;
-
                   for (int i = 0; i < answers.length; i++) {
                     if (questionData.answerChoices != null) {
                       score = score +
@@ -872,17 +1036,24 @@ class _SurveyTreeState extends State<SurveyTree> with TickerProviderStateMixin{
                       'score':score,
                       'answer':answers
                     };
-
-
                     sumOfScoresData();
-
                     ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(content: Text('Your Score Is $sumOfScores')));
                     _showSubmitDialog();
                   }else{
 
                     setState(() {
-                      // if (currentQuestionIndex < surveyData.length - 1) {
 
+                      addTheFollowUpQuestion(answers.toString(),
+                          isNestedchoice: true,
+                          question: questionData.question,
+                          answeValue: {'score': score, 'answer': answers});
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    });
+                  }}else{
+                    setState(() {
                       addTheFollowUpQuestion(answers.toString(),
                           isNestedchoice: true,
                           question: questionData.question,
