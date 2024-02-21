@@ -85,9 +85,9 @@ import 'package:info_survey/info_survey.dart';
 ```
 
 # 💻 Usage
-## Example
-A working example project can be found [HERE](example/)
 
+[//]: # (## Example)
+[//]: # (A working example project can be found [HERE]&#40;example/&#41;)
 
 ### Start the survey
 All that's left is to insert the survey in the widget tree and enjoy.🎉🎊
