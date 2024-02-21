@@ -1,3 +1,5 @@
+<p align="center">
+<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/Survey%20design.jpg?raw=true"height="700">
 
 
 # SurveyTree: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
