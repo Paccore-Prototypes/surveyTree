@@ -28,8 +28,8 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 
 |                                                                                                                                         | | | | | 
 |:---------------------------------------------------------------------------------------------------------------------------------------:| :---: | :---: | :---: | :---: |
-| <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/one%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/nine.jpg?raw=true" width="200">  | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/three%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/four%20photo.jpg?raw=true" width="200">  |
-| <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/five%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/six%20photo.jpg?raw=true" width="200">  | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/Seven%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/eight%20photo.jpg?raw=true" width="200"> |
+| <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/one%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/nine.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/three%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/four%20photo.jpg?raw=true" width="200">  |
+| <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/five%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/six%20photo.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/Seven%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/eight%20photo.jpg?raw=true" width="200"> |
 
 
 
@@ -67,13 +67,13 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 As stated before, this is an early version and a work in progress. We aim to extend this library until it matches the functionality of the [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html).
 
 # 🏃 Setup
-To use this plugin, add infosurvey as a dependency in your pubspec.yaml file.
+To use this plugin, add info_survey as a dependency in your pubspec.yaml file.
 
 ## 1. Add the dependecy
 `pubspec.yaml`
 ```yaml
 dependencies:
-  infosurvey: ^0.1.1
+  info_survey: ^0.1.1
 ```
 
 ## 2. Install it
