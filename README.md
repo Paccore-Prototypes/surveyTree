@@ -2,9 +2,9 @@
 <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/infoswift%20corp.jpeg?raw=true"height="200">
 
 
-# SurveyTree: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
+#   InfoSurvey: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
 
-Survey kits, also known as survey platforms or survey software, are tools used to design, distribute, and analyze surveys. These tools are used by individuals, businesses, organizations, and researchers to collect data from respondents on various topics.Users start by designing their survey questionnaires using the survey kit's interface. This involves creating various types of questions such as multiple-choice, open-ended, Likert scale, rating scale, etc.
+InfoSurvey, also known as survey platforms or survey software, are tools used to design, distribute, and analyze surveys. These tools are used by individuals, businesses, organizations, and researchers to collect data from respondents on various topics.Users start by designing their survey questionnaires using the survey kit's interface. This involves creating various types of questions such as multiple-choice, open-ended, Likert scale, rating scale, etc.
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
 # flowchat
 <p align="center">
@@ -94,18 +94,17 @@ A working example project can be found [HERE](example/)
 ### Start the survey
 All that's left is to insert the survey in the widget tree and enjoy.🎉🎊
 ```dart
-Scaffold(
-body: SurveyTree(
-treeModel: Model!, 
-customButton: ElevatedButton(
-onPressed: () {
-// Your onPressed callback function
-},
-child: Text('Next'),
-),
-tileListColor: Colors.blue,
-),
-);
+InfoSurvey(
+  treeModel: model!,
+  tileListColor: Colors.blueGrey.shade200,
+  showScoreWidget: true,
+  surveyResult: (healthScore, answersMap) {
+   print('Health Score: $healthScore');
+   print('Answers Map: $answersMap');
+  },
+)
+
+
 
 ```
 
