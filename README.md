@@ -21,15 +21,15 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 # Examples
 ###### Flow
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/surveygif.gif?raw=true" width="350">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/surveyvideo.gif?raw=true" width="350">
 </p>
 
 ###### Screenshots
 
 |                                                                                                                                         | | | | | 
 |:---------------------------------------------------------------------------------------------------------------------------------------:| :---: | :---: | :---: | :---: |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/one%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/nine.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/three%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/four%20photo.jpg?raw=true" width="200">  |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/one%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/six%20photo.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/Seven%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/eight%20photo.jpg?raw=true" width="200"> |
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageone.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagetwo.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagethree.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefour.jpg?raw=true" width="200">  |
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefive.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagesix.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageseven.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageeight.jpg?raw=true" width="200"> |
 
 
 
@@ -113,7 +113,7 @@ This is an overview of which features [iOS ResearchKit Surveys](https://research
 The goal is to make all three libraries match in terms of their functionality.
 
 <p> 
-<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/survey-table-assetsone/assetsone/surveyfeature.png?raw=true">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/surveyfeature.png?raw=true">
 </p>
 
 
