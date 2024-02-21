@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:custom_scale/src/survey_tree.dart';
+import 'package:custom_scale/src/info_survey.dart';
 import 'package:custom_scale/src/tree_node.dart';
 import 'package:flutter/material.dart';
 
@@ -52,12 +52,11 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       body: isLoad
           ? const CircularProgressIndicator()
           : model != null
-          ? SurveyTree(
+          ? InfoSurvey(
         treeModel: model!,
-        tileListColor: Colors.blueGrey.shade400,
-        isNavigation: false,
-        showResultant: (result, healthScore, answersMap) {
-          print('Result: $result');
+        tileListColor: Colors.blueGrey.shade200,
+        showScoreWidget: true,
+        surveyResult: (healthScore, answersMap) {
           print('Health Score: $healthScore');
           print('Answers Map: $answersMap');
         },
