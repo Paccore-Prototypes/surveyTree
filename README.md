@@ -377,8 +377,7 @@ Just call ```dart Task.fromJson() ``` with your JSON-File or Response. The JSON 
 ]
 
 ```
-
-You can find the complete example [HERE](https://github.com/Paccore-Prototypes/SurveyTree/blob/main/assets/survey.json)
+[//]: # (You can find the complete example [HERE]&#40;https://github.com/Paccore-Prototypes/SurveyTree/blob/main/assets/survey.json&#41;)
 
 # 👤 Author
 This Flutter library is created with 💙 by [Infoswift Corp DBA Paccore](https://infoswift.com/).
