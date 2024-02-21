@@ -1,8 +1,4 @@
-[//]: # (<p align="center">)
 
-[//]: # (<img src="https://github.com/quickbirdstudios/survey_kit/blob/main/example/assets/surveykit_logo.png?raw=true" width="500">)
-
-[//]: # (</p>)
 
 # SurveyTree: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
 
@@ -10,7 +6,7 @@ Survey kits, also known as survey platforms or survey software, are tools used t
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
 # flowchat
 <p align="center">
-<img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/Survey%20design.jpg?raw=true"height="700">
+<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/Survey%20design.jpg?raw=true"height="700">
 
 Question Hierarchy: In a survey, questions are often organized hierarchically, with some questions being dependent on others. For example, follow-up questions may depend on the answers to previous questions. A tree structure allows you to represent this hierarchy efficiently. Each node in the tree can represent a question, and child nodes can represent follow-up questions or options dependent on the parent question.
 Navigation Flow: A survey kit needs to manage the flow of questions, directing respondents through the survey in a logical sequence. A tree structure can represent the navigation flow, with branches representing different paths respondents can take based on their answers. This makes it easier to implement branching logic in the survey.
@@ -23,7 +19,7 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 # Examples
 ###### Flow
 <p align="center">
-<img src="https://github.com/Alavalaiah123/SurveyTree/blob/feature-surveycustomization/assetsone/surveygif.gif?raw=true" width="350">
+<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/surveygif.gif?raw=true" width="350">
 </p>
 
 ###### Screenshots
@@ -116,7 +112,7 @@ This is an overview of which features [iOS ResearchKit Surveys](https://research
 The goal is to make all three libraries match in terms of their functionality.
 
 <p> 
-<img src="https://github.com/Alavalaiah123/SurveyTree/blob/survey-table-assetsone/assetsone/surveyfeature.png?raw=true">
+<img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/survey-table-assetsone/assetsone/surveyfeature.png?raw=true">
 </p>
 
 
