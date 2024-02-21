@@ -51,7 +51,7 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 - [❤️ Contributing](#️-contributing)
 - [📃 License](#-license)
 
-## What SurveyKit does for you
+## What infosurvey does for you
 -   Simplifies the creation of surveys
 -   Provides rich animations and transitions out of the box (custom animations planned)
 -   Build with a consistent, lean, simple style, to fit research purposes
@@ -61,17 +61,17 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 -   Allows you to customize the style
 -   Provides an API and structure that is very similar to [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 
-## What SurveyKit does not (yet) do for you
+## What infosurvey does not (yet) do for you
 As stated before, this is an early version and a work in progress. We aim to extend this library until it matches the functionality of the [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html).
 
 # 🏃 Setup
-To use this plugin, add flutter_surveykit as a dependency in your pubspec.yaml file.
+To use this plugin, add infosurvey as a dependency in your pubspec.yaml file.
 
 ## 1. Add the dependecy
 `pubspec.yaml`
 ```yaml
 dependencies:
-  survey_kit: ^0.1.1
+  infosurvey: ^0.1.1
 ```
 
 ## 2. Install it
@@ -81,7 +81,7 @@ flutter pub get
 
 ## 3. Import it
 ```dart
-import 'package:survey_kit/survey_kit.dart';
+import 'package:info_survey/info_survey.dart';
 ```
 
 # 💻 Usage
@@ -107,7 +107,7 @@ tileListColor: Colors.blue,
 
 ```
 
-# 🍏vs🤖 : Comparison of Flutter SurveyKit, [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
+# 🍏vs🤖 : Comparison of Flutter infosurvey, [infosurvey on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
 The goal is to make all three libraries match in terms of their functionality.
 
