@@ -40,10 +40,8 @@ class _ImportingPropertiesState extends State<ImportingProperties>
     setState(() {
       isLoad = true;
     });
-    String data =
-    await DefaultAssetBundle.of(context).loadString("assets/survey.json");
-    List<Map<String, dynamic>> dataList =
-    List<Map<String, dynamic>>.from(jsonDecode(data));
+    String data = await DefaultAssetBundle.of(context).loadString("assets/survey.json");
+    List<Map<String, dynamic>> dataList = List<Map<String, dynamic>>.from(jsonDecode(data));
     TreeModel treeModel = TreeModel.fromJson(dataList);
     return treeModel;
   }
@@ -56,8 +54,8 @@ class _ImportingPropertiesState extends State<ImportingProperties>
           : model != null
           ? SurveyTree(
         treeModel: model!,
-        tileListColor: Colors.teal.shade400,
-        isNavigation: true,
+        tileListColor: Colors.blueGrey.shade400,
+        isNavigation: false,
         showResultant: (result, healthScore, answersMap) {
           print('Result: $result');
           print('Health Score: $healthScore');

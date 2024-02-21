@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "isMandatory": true,
+    "isMandatory": false,
     "question": "What is your gender?",
     "questionType": "radio",
     "answerChoices": {
@@ -113,7 +113,7 @@
   },
   {
     "id": 4,
-    "isMandatory": true,
+    "isMandatory": false,
     "question": "Give your Blood Pressure?",
     "questionType": "radio",
     "answerChoices": {
@@ -138,6 +138,7 @@
       ],
       "between 100/70mmHg and 90/100mmHg.": [
         {
+          "isMandatory": true,
           "question": "Is this your average BP of the year?",
           "questionType": "radio",
           "score": 4,
@@ -196,6 +197,7 @@
     }
   },
   {
+    "isMandatory": false,
     "question": "How Many times do you eat?",
     "questionType": "multipleChoices",
     "answerChoices": {
