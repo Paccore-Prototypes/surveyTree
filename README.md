@@ -40,19 +40,10 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
     - [2. Install it](#2-install-it)
     - [3. Import it](#3-import-it)
 - [💻 Usage](#-usage)
-     - [Start the survey](#start-the-survey)
-  
-[//]: # (    - [Create survey steps]&#40;#create-survey-steps&#41;)
+ 
+ - [Start the survey](#start-the-survey)
 
-[//]: # (    - [Create a Task]&#40;#create-a-task&#41;)
-
-[//]: # (    - [Evaluate the results]&#40;#evaluate-the-results&#41;)
-
-[//]: # (    - [Style]&#40;#style&#41;)
-
-[//]: # (    - [Start the survey]&#40;#start-the-survey&#41;)
-[//]: # (- [📇 Custom steps]&#40;#-custom-steps&#41;)
-- [🍏vs🤖 : Comparison of Flutter infosurvey, infosurvey on Android to  ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-surveykit,-surveykit-on-android-to-researchkit-on-iOS)
+- [🍏vs🤖 : Comparison of Flutter infosurvey, infosurvey on Android to ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-infosurvey,-infosurvey-on-android-to-researchkit-on-iOS)
 - [👤 Author](#-author)
 - [❤️ Contributing](#️-contributing)
 - [📃 License](#-license)
@@ -381,7 +372,8 @@ Just call ```dart Task.fromJson() ``` with your JSON-File or Response. The JSON 
 ]
 
 ```
-[//]: # (You can find the complete example [HERE]&#40;https://github.com/Paccore-Prototypes/SurveyTree/blob/main/assets/survey.json&#41;)
+
+You can find the complete example [HERE](https://github.com/Paccore-Prototypes/SurveyTree/blob/main/assets/survey.json)
 
 # 👤 Author
 This Flutter library is created with 💙 by [Infoswift Corp DBA Paccore](https://infoswift.com/).
