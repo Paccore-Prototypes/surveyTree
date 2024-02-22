@@ -33,20 +33,26 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 
 
 ## 📚 Overview: Creating Research Surveys
-- [What SurveyKit does for you](#what-surveykit-does-for-you)
-- [What SurveyKit does not (yet) do for you](#what-surveykit-does-not-yet-do-for-you)
+- [What infosurvey does for you](#what-infosurvey-does-for-you)
+- [What infosurvey does not (yet) do for you](#what-infosurvey-does-not-yet-do-for-you)
 - [🏃 Setup](#-🏃-setup)
     - [1. Add the dependecy](#1-add-the-dependecy)
     - [2. Install it](#2-install-it)
     - [3. Import it](#3-import-it)
 - [💻 Usage](#-usage)
-    - [Create survey steps](#create-survey-steps)
-    - [Create a Task](#create-a-task)
-    - [Evaluate the results](#evaluate-the-results)
-    - [Style](#style)
-    - [Start the survey](#start-the-survey)
-- [📇 Custom steps](#-custom-steps)
-- [🍏vs🤖 : Comparison of Flutter SurveyKit, SurveyKit on Android to ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-surveykit,-surveykit-on-android-to-researchkit-on-iOS)
+     - [Start the survey](#start-the-survey)
+  
+[//]: # (    - [Create survey steps]&#40;#create-survey-steps&#41;)
+
+[//]: # (    - [Create a Task]&#40;#create-a-task&#41;)
+
+[//]: # (    - [Evaluate the results]&#40;#evaluate-the-results&#41;)
+
+[//]: # (    - [Style]&#40;#style&#41;)
+
+[//]: # (    - [Start the survey]&#40;#start-the-survey&#41;)
+[//]: # (- [📇 Custom steps]&#40;#-custom-steps&#41;)
+- [🍏vs🤖 : Comparison of Flutter infosurvey, infosurvey on Android to  ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-surveykit,-surveykit-on-android-to-researchkit-on-iOS)
 - [👤 Author](#-author)
 - [❤️ Contributing](#️-contributing)
 - [📃 License](#-license)
@@ -97,8 +103,6 @@ InfoSurvey(
   tileListColor: Colors.blueGrey.shade200,
   showScoreWidget: true,
   surveyResult: (healthScore, answersMap) {
-   print('Health Score: $healthScore');
-   print('Answers Map: $answersMap');
   },
 )
 
