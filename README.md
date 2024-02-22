@@ -96,10 +96,14 @@ InfoSurvey(
   surveyResult: (healthScore, answersMap) {
   },
 )
-
-
-
 ```
+treeModel: model!: This is likely represents the model or data structure that defines the structure and content of the survey. The model! notation suggests that the model variable is expected to be non-null.
+tileListColor: Colors.blueGrey.shade200: This parameter sets the color for the tiles or elements within the survey interface. 
+showScoreWidget likely controls whether a widget displaying the survey score is shown. When set to true, it indicates that the survey should display a widget showing the survey score.
+surveyResult: (healthScore, answersMap) {}: This parameter is a callback function that is called when the survey is completed.
+healthScore: This is likely represents the calculated health score or result of the survey.
+answersMap: This is likely a map or data structure containing the user's answers to the survey questions.
+
 
 # 🍏vs🤖 : Comparison of Flutter infosurvey, [infosurvey on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
