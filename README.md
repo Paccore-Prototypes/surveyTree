@@ -8,7 +8,7 @@ InfoSurvey, also known as survey platforms or survey software, are tools used to
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
 # flowchat
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/Survey%20design.jpg?raw=true"height="700">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/design.jpg?raw=true"height="700">
 
 Question Hierarchy: In a survey, questions are often organized hierarchically, with some questions being dependent on others. For example, follow-up questions may depend on the answers to previous questions. A tree structure allows you to represent this hierarchy efficiently. Each node in the tree can represent a question, and child nodes can represent follow-up questions or options dependent on the parent question.
 Navigation Flow: A survey kit needs to manage the flow of questions, directing respondents through the survey in a logical sequence. A tree structure can represent the navigation flow, with branches representing different paths respondents can take based on their answers. This makes it easier to implement branching logic in the survey.
@@ -96,17 +96,21 @@ InfoSurvey(
   surveyResult: (healthScore, answersMap) {
   },
 )
-
-
-
 ```
+treeModel: model!: This is likely represents the model or data structure that defines the structure and content of the survey. The model! notation suggests that the model variable is expected to be non-null.
+tileListColor: Colors.blueGrey.shade200: This parameter sets the color for the tiles or elements within the survey interface. 
+showScoreWidget likely controls whether a widget displaying the survey score is shown. When set to true, it indicates that the survey should display a widget showing the survey score.
+surveyResult: (healthScore, answersMap) {}: This parameter is a callback function that is called when the survey is completed.
+healthScore: This is likely represents the calculated health score or result of the survey.
+answersMap: This is likely a map or data structure containing the user's answers to the survey questions.
+
 
 # 🍏vs🤖 : Comparison of Flutter infosurvey, [infosurvey on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
 The goal is to make all three libraries match in terms of their functionality.
 
 <p> 
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/surveyfeature.png?raw=true">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/features.png?raw=true">
 </p>
 
 
