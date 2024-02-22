@@ -7,12 +7,16 @@
     "answerChoices": {
       "Male": [
         {
+          "id": 101,
+          "isMandatory": true,
           "question": "Do you have a smoking habit?",
           "questionType": "list",
           "score": 8,
           "answerChoices": {
             "Yes": [
               {
+                "id": 102,
+                "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
                 "answerChoices": null,
@@ -31,16 +35,22 @@
       ],
       "Female": [
         {
+          "id": 103,
+          "isMandatory": true,
           "question": "Are you pregnant?",
           "questionType": "list",
           "answerChoices": {
             "Yes": [
               {
+                "id": 104,
+                "isMandatory": true,
                 "question": "Are you taking medication?",
                 "questionType": "list",
                 "answerChoices": {
                   "Yes": [
                     {
+                      "id": 105,
+                      "isMandatory": true,
                       "question": "From when are you taking medication?",
                       "questionType": "datetime",
                       "answerChoices": null,
@@ -49,11 +59,15 @@
                   ],
                   "No": [
                     {
+                      "id": 106,
+                      "isMandatory": true,
                       "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
                       "questionType": "list",
                       "answerChoices": {
                         "Yes": [
                           {
+                            "id": 107,
+                            "isMandatory": true,
                             "question": "Name The Medicine You Are Taking",
                             "questionType": "text",
                             "answerChoices": null
@@ -77,11 +91,15 @@
             ],
             "No": [
               {
+                "id": 109,
+                "isMandatory": true,
                 "question": "Are you taking medication?",
                 "questionType": "list",
                 "answerChoices": {
                   "Yes": [
                     {
+                      "id": 110,
+                      "isMandatory": true,
                       "question": "From when are you taking medication?",
                       "questionType": "datetime",
                       "answerChoices": null,
@@ -109,16 +127,19 @@
     "isMandatory": true,
     "question": "How old are you?",
     "questionType": "slider",
+    "score": 6,
     "answerChoices": null
   },
   {
-    "id": 4,
+    "id": 3,
     "isMandatory": false,
     "question": "Give your Blood Pressure?",
     "questionType": "radio",
     "answerChoices": {
       "between 80/70mmHg and 130/90mmHg.": [
         {
+          "id": 301,
+          "isMandatory": true,
           "question": "Is this your average BP of the year?",
           "questionType": "radio",
           "score": 2,
@@ -138,6 +159,7 @@
       ],
       "between 100/70mmHg and 90/100mmHg.": [
         {
+          "id": 302,
           "isMandatory": true,
           "question": "Is this your average BP of the year?",
           "questionType": "radio",
@@ -158,6 +180,8 @@
       ],
       "between 90/60mmHg and 120/80mmHg.": [
         {
+          "id": 303,
+          "isMandatory": true,
           "question": "Is this your average BP of the year?",
           "questionType": "radio",
           "score": 6,
@@ -177,6 +201,8 @@
       ],
       "between 70/60mmHg and 110/80mmHg.": [
         {
+          "id": 304,
+          "isMandatory": true,
           "question": "Is this your average BP of the year?",
           "questionType": "radio",
           "score": 8,
@@ -197,6 +223,7 @@
     }
   },
   {
+    "id": 4,
     "isMandatory": false,
     "question": "How Many times do you eat?",
     "questionType": "multipleChoices",
