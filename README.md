@@ -8,7 +8,7 @@ InfoSurvey, also known as survey platforms or survey software, are tools used to
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
 # flowchat
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/Survey%20design.jpg?raw=true"height="700">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/design.jpg?raw=true"width="700">
 
 Question Hierarchy: In a survey, questions are often organized hierarchically, with some questions being dependent on others. For example, follow-up questions may depend on the answers to previous questions. A tree structure allows you to represent this hierarchy efficiently. Each node in the tree can represent a question, and child nodes can represent follow-up questions or options dependent on the parent question.
 Navigation Flow: A survey kit needs to manage the flow of questions, directing respondents through the survey in a logical sequence. A tree structure can represent the navigation flow, with branches representing different paths respondents can take based on their answers. This makes it easier to implement branching logic in the survey.
@@ -26,27 +26,24 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 
 ###### Screenshots
 
-|                                                                                                                                         | | | | | 
-|:---------------------------------------------------------------------------------------------------------------------------------------:| :---: | :---: | :---: | :---: |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageone.jpg?raw=true" width="150">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagetwo.jpg?raw=true" width="150"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagethree.jpg?raw=true" width="150"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefour.jpg?raw=true" width="150">  |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefive.jpg?raw=true" width="150"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagesix.jpg?raw=true" width="150"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageseven.jpg?raw=true" width="150"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageeight.jpg?raw=true" width="150"> |
+|                                                                                                                                   |                                                                                                                                  |                                                                                                                                    |                                                                                                                                    | | 
+|:---------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------:| :---: |
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageone.jpg?raw=true" width="180">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagetwo.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagethree.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefour.jpg?raw=true" width="180">  |
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefive.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagesix.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageseven.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageeight.jpg?raw=true" width="180"> |
 
 
 ## 📚 Overview: Creating Research Surveys
-- [What SurveyKit does for you](#what-surveykit-does-for-you)
-- [What SurveyKit does not (yet) do for you](#what-surveykit-does-not-yet-do-for-you)
+- [What infosurvey does for you](#what-infosurvey-does-for-you)
+- [What infosurvey does not (yet) do for you](#what-infosurvey-does-not-yet-do-for-you)
 - [🏃 Setup](#-🏃-setup)
     - [1. Add the dependecy](#1-add-the-dependecy)
     - [2. Install it](#2-install-it)
     - [3. Import it](#3-import-it)
 - [💻 Usage](#-usage)
-    - [Create survey steps](#create-survey-steps)
-    - [Create a Task](#create-a-task)
-    - [Evaluate the results](#evaluate-the-results)
-    - [Style](#style)
-    - [Start the survey](#start-the-survey)
-- [📇 Custom steps](#-custom-steps)
-- [🍏vs🤖 : Comparison of Flutter SurveyKit, SurveyKit on Android to ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-surveykit,-surveykit-on-android-to-researchkit-on-iOS)
+ 
+ - [Start the survey](#start-the-survey)
+
+- [🍏vs🤖 : Comparison of Flutter infosurvey, surveykit on Android to ResearchKit on iOS](#-🍏vs🤖-:-comparison-of-flutter-infosurvey,-infosurvey-on-android-to-researchkit-on-iOS)
 - [👤 Author](#-author)
 - [❤️ Contributing](#️-contributing)
 - [📃 License](#-license)
@@ -97,21 +94,23 @@ InfoSurvey(
   tileListColor: Colors.blueGrey.shade200,
   showScoreWidget: true,
   surveyResult: (healthScore, answersMap) {
-   print('Health Score: $healthScore');
-   print('Answers Map: $answersMap');
   },
 )
-
-
-
 ```
+treeModel: model!: This is likely represents the model or data structure that defines the structure and content of the survey. The model! notation suggests that the model variable is expected to be non-null.
+tileListColor: Colors.blueGrey.shade200: This parameter sets the color for the tiles or elements within the survey interface. 
+showScoreWidget likely controls whether a widget displaying the survey score is shown. When set to true, it indicates that the survey should display a widget showing the survey score.
+surveyResult: (healthScore, answersMap) {}: This parameter is a callback function that is called when the survey is completed.
+healthScore: This is likely represents the calculated health score or result of the survey.
+answersMap: This is likely a map or data structure containing the user's answers to the survey questions.
+
 
 # 🍏vs🤖 : Comparison of Flutter infosurvey, [surveykit on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
 The goal is to make all three libraries match in terms of their functionality.
 
 <p> 
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/surveyfeature.png?raw=true">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/features.png?raw=true">
 </p>
 
 
