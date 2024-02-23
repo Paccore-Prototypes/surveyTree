@@ -38,7 +38,7 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    parseAnswers(); // Convert answersMap to JSON when the widget builds
+    parseAnswers();
 
     List<String> questionKeys = widget.answersMap.keys.toList();
 
@@ -48,17 +48,20 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
           "Survey App",
           style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Roboto"),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue.shade800,
+        elevation: 3,
+        shadowColor: Colors.blueGrey,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20,),
-            const Center(
+             Center(
               child: Text(
                 'Your Health Score:',
-                style: TextStyle(fontSize: 20, color: Colors.green, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, color: Colors.green.shade800, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10,),
@@ -66,7 +69,7 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
             const SizedBox(height: 20,),
             const Text(
               'Your survey questions are:',
-              style: TextStyle(fontSize: 17, color: Colors.orange, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20,),
             SizedBox(
@@ -76,25 +79,25 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
                 itemBuilder: (context, index) {
                   String question = questionKeys[index];
                   dynamic answer = widget.answersMap[question];
-                  String answerJson = JsonEncoder.withIndent('  ').convert(answer);
+                  String answerJson = const JsonEncoder.withIndent('  ').convert(answer);
                   return ListTile(
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Question ${index + 1}:',
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
+                        // Text(
+                        //   'Question ${index + 1}:',
+                        //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        // ),
+                        // const SizedBox(height: 8),
                         Text(
                           question,
-                          style: const TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Answer (JSON format):',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
+                        // const Text(
+                        //   'Answer :',
+                        //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        // ),
                         Text(
                           answerJson,
                           style: const TextStyle(fontSize: 14),
@@ -173,7 +176,7 @@ class _AnimatedCheckState extends State<AnimatedCheck> with TickerProviderStateM
               child: Container(
                 height: circleSize,
                 width: circleSize,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.green,
                   shape: BoxShape.circle,
                 ),
@@ -194,7 +197,7 @@ class _AnimatedCheckState extends State<AnimatedCheck> with TickerProviderStateM
                     child: Center(
                       child: showScore ? Text(
                         '${widget.scores}',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
                       ) : Icon(
                           Icons.check, color: Colors.white, size: iconSize),
                     ),

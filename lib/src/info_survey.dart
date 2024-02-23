@@ -74,7 +74,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
 
 
-  GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
 
@@ -115,8 +115,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
     _controller = AnimationController(
       vsync: this,
       lowerBound: 0.5,
-      duration: Duration(seconds: 3),
-      reverseDuration: Duration(seconds: 3)
+      duration: const Duration(seconds: 3),
+      reverseDuration: const Duration(seconds: 3)
     )..repeat();
   }
 
@@ -164,11 +164,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
         child: Scaffold(
           key: _scafoldKey,
           appBar: AppBar(
-            foregroundColor: Colors.red,
             surfaceTintColor: Colors.greenAccent,
             shadowColor: Colors.blueGrey,
+            elevation: 3,
             title:  const Text(
-              "Survey App",
+              "Info Survey",
               style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Roboto"),
             ),
             backgroundColor: Colors.blue.shade800,
@@ -186,7 +186,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                 controller: pageController,
                 itemCount: pageviewTree?.nodes.length ?? 0,
                 itemBuilder: (context, index) {
-
                     return buildQuestion(pageviewTree!.nodes, index);
                 },
               ),
@@ -242,8 +241,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
   var jsonData;
 
   void  parseAnswers() {
-    jsonData = JsonEncoder.withIndent('  ').convert(answersMap);
-    print('---------------------------------getting all data from answersMap'+jsonData.toString());
+    jsonData = const JsonEncoder.withIndent('  ').convert(answersMap);
+    print('---------------------------------getting all data from answersMap$jsonData');
   }
 
 
@@ -265,10 +264,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               .nodes[pageController.page!.toInt() ].answerChoices[answer] ==
           null) {
         currentMainChildrenlistIndex = currentMainChildrenlistIndex + 1;
-        if (currentMainChildrenlistIndex == widget.treeModel!.nodes.length -1) {
+        if (currentMainChildrenlistIndex == widget.treeModel.nodes.length -1) {
           isLast = true;
         }
-        node = widget.treeModel!.nodes[currentMainChildrenlistIndex];
+        node = widget.treeModel.nodes[currentMainChildrenlistIndex];
       } else {
 //    print('The answer choices where----'+pageviewTree!
  //   .nodes[pageController.page!.toInt() ].answerChoices[answer].toString());
@@ -280,7 +279,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       // print('The answer choices where----'+pageviewTree!
       //     .nodes[pageController.page!.toInt() ].answerChoices[answer]);
       model = TreeModel.fromJson(
-          widget.treeModel!.nodes[currentQuestionIndex].answerChoices[answer]);
+          widget.treeModel.nodes[currentQuestionIndex].answerChoices[answer]);
       node = model.nodes[0];
     }
     if (node.questionType != "") {
@@ -298,7 +297,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
   var sum = 0;
   static const double _shadowHeight = 4;
-  double _position = 4;
   final double _height = 50 - _shadowHeight;
   double circleSize = 140;
   double iconSize = 108;
@@ -311,8 +309,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       String question =
           pageviewTree!.nodes[pageController.page!.toInt() ].question;
 
-      for (int i = 0; i < widget.treeModel!.nodes.length; i++) {
-        if (question == widget.treeModel!.nodes[i].question) {
+      for (int i = 0; i < widget.treeModel.nodes.length; i++) {
+        if (question == widget.treeModel.nodes[i].question) {
           if (currentMainChildrenlistIndex > 0) {
             currentMainChildrenlistIndex = currentMainChildrenlistIndex - 1;
             shouldBreak = true;
@@ -334,6 +332,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10),
+
           Text(
             data.question??'',
             style: widget.radioQuestion ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -342,7 +342,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           const SizedBox(height: 10),
 
           Column(
-            children: (data.answerChoices as Map<String, dynamic>)
+            children: (data.answerChoices)
                 .keys
                 .map<Widget>((answer) {
               if (data.answerChoices[answer] != null) {
@@ -396,7 +396,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
              // }
             }).toList(),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           widget.customButton ??
           GestureDetector(
             onTap: () {
@@ -454,8 +454,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               }
             },
             child: Container(
-              width: 120,
-              height: 40,
+              width: isLast ? 150 :120,
+              height: isLast ? 50 : 40,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -507,7 +507,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             ),
             const SizedBox(height: 10),
             Column(
-              children: (questionData.answerChoices as Map<String, dynamic>)
+              children: (questionData.answerChoices)
                   .keys
                   .map<Widget>((answer) {
                 bool isSelected = answersMap.containsKey(questionData.question) &&
@@ -551,7 +551,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                 }
               }).toList(),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             widget.customButton ??
                 GestureDetector(
                   onTap: () {
@@ -609,8 +609,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                     }
                   },
                   child: Container(
-                    width: 120,
-                    height: 40,
+                    width: isLast ? 150 :120,
+                    height: isLast ? 50 : 40,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -650,10 +650,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
   Widget buildSliderQuestion(TreeNode questionData) {
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
+    double sliderScore = 0;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
+        const SizedBox(height: 10,),
         Text(
           questionData.question??"",
           style: widget.sliderQuestionStyle?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -668,7 +670,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               children: [
                 Slider(
                   value: value.clamp(0, 100),
-                  divisions: 100,
+                  divisions: 10,
                   onChanged: (double newValue) {
                     sliderValue.value = newValue;
                   },
@@ -693,10 +695,69 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
         ),
         GestureDetector(
           onTap: () {
+
+            String? ageGroup;
+            double valueSlider = sliderValue.value;
+            if (valueSlider < 10) {
+              ageGroup = 'under_10';
+            } else if (valueSlider >= 10 && valueSlider <= 20) {
+              ageGroup = '10_to_20';
+            } else if (valueSlider > 20 && valueSlider <= 30) {
+              ageGroup = '20_to_30';
+            } else if (valueSlider >= 10 && valueSlider <= 20) {
+              ageGroup = '30_to_40';
+            } else if (valueSlider > 20 && valueSlider <= 30) {
+              ageGroup = '40_to_50';
+            }else if (valueSlider >= 10 && valueSlider <= 20) {
+              ageGroup = '50_to_60';
+            } else if (valueSlider > 20 && valueSlider <= 30) {
+              ageGroup = '60_to_70';
+            }else if (valueSlider >= 10 && valueSlider <= 20) {
+              ageGroup = '70_to_80';
+            } else if (valueSlider > 20 && valueSlider <= 30) {
+              ageGroup = '80_to_90';
+            }else if (valueSlider >= 10 && valueSlider <= 20) {
+              ageGroup = '90_to_100';
+            } else {
+            }
+
+            switch (ageGroup) {
+              case 'under_10':
+                sliderScore = 1;
+                break;
+              case '10_to_20':
+                sliderScore = 2;
+                break;
+              case '20_to_30':
+                sliderScore = 3;
+              case '30_to_40':
+                sliderScore = 4;
+                break;
+              case '40_to_50':
+                sliderScore = 5;
+                break;
+              case '50_to_60':
+                sliderScore = 6;
+                case '60_to_70':
+              sliderScore = 7;
+              break;
+              case '70_to_80':
+                sliderScore = 8;
+                break;
+              case '80_to_90':
+                sliderScore = 9;
+              case '90_to_100':
+                sliderScore = 10;
+                break;
+              default:
+                sliderScore = questionData.score!.toDouble();
+                break;
+            }
+
             if (isLast) {
               answersMap[questionData.question!]={
                 'id':questionData.id,
-                'score':questionData.score,
+                'score': sliderScore,
                 'question-type':questionData.questionType,
                 'answer':sliderValue.value.toStringAsFixed(0)
               };
@@ -708,10 +769,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                   answeValue: {
                     'id':questionData.id,
                     'question-type':questionData.questionType,
-                    'score': questionData.answerChoices == null
-                        ? 0
-                        : questionData.score,
-                    'answer': '${sliderValue.value.toStringAsFixed(0)}'
+                    'score': sliderScore,
+                    // 'score': questionData.answerChoices == null
+                    //     ? 0
+                    //     : questionData.score,
+                    'answer': sliderValue.value.toStringAsFixed(0)
                   });
               pageController.nextPage(
                 duration: const Duration(milliseconds: 500),
@@ -789,6 +851,18 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       //    widget.isLastButton ??
           GestureDetector(
             onTap: () {
+              // Check if the question is mandatory
+              if (questionData.isMandatory == true) {
+
+                String textAnswer = textControllers[index]?.text ?? '';
+                if (textAnswer.isEmpty) {
+
+                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                    const SnackBar(content: Text('Please provide an answer')),
+                  );
+                  return; // Exit the onTap function to prevent further action
+                }
+              }
               String textAnswer = textControllers[index]?.text ?? '';
 
               if (isLast) {
@@ -824,8 +898,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               }
             },
             child:  Container(
-              width: 120,
-              height: 40,
+              width: isLast ? 150 :120,
+              height: isLast ? 50 : 40,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -868,13 +942,14 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10,),
           Text(
             questionData.question,
             style: widget.checkBoxQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Column(
-            children: (questionData.answerChoices as Map<String, dynamic>)
+            children: (questionData.answerChoices)
                 .keys
                 .map<Widget>((answer) {
               return CheckboxListTile(
@@ -892,7 +967,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               );
             }).toList(),
           ),
-          SizedBox(height: 20,),
+         const SizedBox(height: 20,),
           widget.customButton ??
               GestureDetector(
                 onTap: () {
@@ -951,8 +1026,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                     });
                   }},
                 child: Container(
-                  width: 120,
-                  height: 40,
+                  width: isLast ? 150 :120,
+                  height: isLast ? 50 : 40,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -996,7 +1071,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
         children: [
           Text(
             questionData.question,
-            style: widget.dateTimeQuestionStyle ?? TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: widget.dateTimeQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
 
@@ -1081,8 +1156,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
                 },
                 child: Container(
-                  width: 120,
-                  height: 40,
+                  width: isLast ? 150 :120,
+                  height: isLast ? 50 : 40,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -1187,6 +1262,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       },
     );
   }
+
+
   bool show = false;
   Future<void> showScore() async {
     await showDialog(
@@ -1254,8 +1331,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             _buildContainer(100 * _controller.value),
             _buildContainer(150 * _controller.value),
             _buildContainer(200 * _controller.value),
-            _buildContainer(250 * _controller.value),
-            _buildContainer(250 * _controller.value),
+            _buildContainer(200 * _controller.value),
+            _buildContainer(200 * _controller.value),
             Align(child: Text('$sumOfScores', style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold))),
           ],
         );
