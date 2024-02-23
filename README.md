@@ -21,15 +21,15 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 # Examples
 ###### Flow
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/surveyvideo.gif?raw=true" width="350">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/surveyvideogif.gif?raw=true" width="350">
 </p>
 
 ###### Screenshots
 
-|                                                                                                                                   |                                                                                                                                  |                                                                                                                                    |                                                                                                                                    | | 
-|:---------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------:| :---: |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageone.jpg?raw=true" width="180">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagetwo.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagethree.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefour.jpg?raw=true" width="180">  |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagefive.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imagesix.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageseven.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/changed-images/assets/images/imageeight.jpg?raw=true" width="180"> |
+|                                                                                                                                     |                                                                                                                                    |                                                                                                                                      |                                                                                                                                      | | 
+|:-----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :---: |
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imageone.jpg?raw=true" width="180">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imagetwo.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imagethree.jpg?raw=true" width="180"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imagefour.jpg?raw=true" width="180">  |
+|  <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imagefive.jpg?raw=true" width="180">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imagesix.jpg?raw=true" width="180"> |  <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imageseven.jpg?raw=true" width="180">  |  <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-newimages/assets/images/imageeight.jpg?raw=true" width="180">  |
 
 
 ## 📚 Overview: Creating Research Surveys
@@ -92,7 +92,7 @@ All that's left is to insert the survey in the widget tree and enjoy.🎉🎊
 InfoSurvey(
   treeModel: model!,
   tileListColor: Colors.blueGrey.shade200,
-  showScoreWidget: true,
+  showScoreWidget: false,
   surveyResult: (healthScore, answersMap) {
   },
 )
