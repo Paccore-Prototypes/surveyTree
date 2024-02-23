@@ -106,7 +106,7 @@ InfoSurvey(
 
 ```
 
-# 🍏vs🤖 : Comparison of Flutter infosurvey, [infosurvey on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
+# 🍏vs🤖 : Comparison of Flutter infosurvey, [surveykit on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
 The goal is to make all three libraries match in terms of their functionality.
 
