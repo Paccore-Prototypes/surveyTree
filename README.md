@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/infoswift.png?raw=true"height="200">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/addedimagesreadme/assets/images/infoswiftlogo.png?raw=true"height="200">
 
 
 #   InfoSurvey: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
@@ -8,7 +8,7 @@ InfoSurvey, also known as survey platforms or survey software, are tools used to
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
 # flowchat
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/design.jpg?raw=true"width="700">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/addedimagesreadme/assets/images/Flow%20Diagram%20.png?raw=true"width="700">
 
 Question Hierarchy: In a survey, questions are often organized hierarchically, with some questions being dependent on others. For example, follow-up questions may depend on the answers to previous questions. A tree structure allows you to represent this hierarchy efficiently. Each node in the tree can represent a question, and child nodes can represent follow-up questions or options dependent on the parent question.
 Navigation Flow: A survey kit needs to manage the flow of questions, directing respondents through the survey in a logical sequence. A tree structure can represent the navigation flow, with branches representing different paths respondents can take based on their answers. This makes it easier to implement branching logic in the survey.
@@ -110,7 +110,7 @@ This is an overview of which features [iOS ResearchKit Surveys](https://research
 The goal is to make all three libraries match in terms of their functionality.
 
 <p> 
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/resized-survey-readme/assets/images/features.png?raw=true">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/addedimagesreadme/assets/images/featuretable.png?raw=true">
 </p>
 
 
