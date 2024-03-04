@@ -26,11 +26,8 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 
 ###### Screenshots
 
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/SurveyTree/assets/images/Screenshots/1.jpg?raw=true" width="200"> 
-| <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/main/SurveyTree/assets/images/imagetwo.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/main/SurveyTree/assets/images/imagethree.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/four%20photo.jpg?raw=true" width="200">  |
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/feature-base/SurveyTree/assets/images/one%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/six%20photo.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/Seven%20photo.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/SurveyTree/blob/feature-surveycustomization/assetsone/eight%20photo.jpg?raw=true" width="200"> |
-
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/1.jpg?raw=true" width="200"> 
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/2.jpg?raw=true" width="200">  
 
 
 
