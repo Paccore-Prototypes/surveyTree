@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:custom_scale/src/survey_tree.dart';
+import 'package:custom_scale/src/info_survey.dart';
 import 'package:custom_scale/src/tree_node.dart';
 import 'package:flutter/material.dart';
 
@@ -40,10 +40,8 @@ class _ImportingPropertiesState extends State<ImportingProperties>
     setState(() {
       isLoad = true;
     });
-    String data =
-    await DefaultAssetBundle.of(context).loadString("assets/survey.json");
-    List<Map<String, dynamic>> dataList =
-    List<Map<String, dynamic>>.from(jsonDecode(data));
+    String data = await DefaultAssetBundle.of(context).loadString("assets/survey.json");
+    List<Map<String, dynamic>> dataList = List<Map<String, dynamic>>.from(jsonDecode(data));
     TreeModel treeModel = TreeModel.fromJson(dataList);
     return treeModel;
   }
@@ -54,12 +52,11 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       body: isLoad
           ? const CircularProgressIndicator()
           : model != null
-          ? SurveyTree(
+          ? InfoSurvey(
         treeModel: model!,
-        tileListColor: Colors.teal.shade400,
-        isNavigation: true,
-        showResultant: (result, healthScore, answersMap) {
-          print('Result: $result');
+        tileListColor: Colors.blueGrey.shade200,
+        showScoreWidget: false,
+        surveyResult: (healthScore, answersMap) {
           print('Health Score: $healthScore');
           print('Answers Map: $answersMap');
         },
