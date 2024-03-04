@@ -26,14 +26,7 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
 
 ###### Screenshots
 
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/1.jpg?raw=true" width="200"> 
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/2.jpg?raw=true" width="200">
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/3.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/4.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/5.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/6.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/7.jpg?raw=true" width="200">  
-| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/8.jpg?raw=true" width="200">  
+| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/1.jpg?raw=true" width="200"> | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/2.jpg?raw=true" width="200">| <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/3.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/4.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/5.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/6.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/7.jpg?raw=true" width="200">  | <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/Screenshots/8.jpg?raw=true" width="200">  
 
 ## 📚 Overview: Creating Research Surveys
 - [What infosurvey does for you](#what-infosurvey-does-for-you)
