@@ -39,7 +39,7 @@ Analysis and Reporting: After data collection, trees can aid in the analysis and
  
  - [Start the survey](#start-the-survey)
 
-- [🍏vs🤖 : Comparison of Flutter infosurvey, surveykit on Android to ResearchKit on iOS](#https://github.com/Paccore-Prototypes/surveyTree/blob/main/README.md#vs--comparison-of-flutter-infosurvey-surveykit-on-android-to-researchkit-on-ios)
+- [Comparison of Flutter infosurvey, surveykit on Android to ResearchKit on iOS](#https://github.com/Paccore-Prototypes/surveyTree/blob/main/README.md#vs--comparison-of-flutter-infosurvey-surveykit-on-android-to-researchkit-on-ios)
 - [👤 Author](#-author)
 - [❤️ Contributing](#️-contributing)
 - [📃 License](#-license)
