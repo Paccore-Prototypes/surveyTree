@@ -65,7 +65,11 @@ To use this plugin, add info_survey as a dependency in your pubspec.yaml file.
 ```yaml
 dependencies:
   info_survey: ^0.1.1
-=======or use the git & Specific branch================
+```
+
+` use the git & Specific branch`
+
+```yaml
 dependencies:
   info_survey:
     git:
