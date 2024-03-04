@@ -65,6 +65,12 @@ To use this plugin, add info_survey as a dependency in your pubspec.yaml file.
 ```yaml
 dependencies:
   info_survey: ^0.1.1
+=======or use the git & Specific branch================
+dependencies:
+  info_survey:
+    git:
+      url: https://github.com/Paccore-Prototypes/surveyTree.git
+      ref: main # branch name
 ```
 
 ## 2. Install it
