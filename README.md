@@ -2,7 +2,7 @@
 <img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/infoswiftCorp.jpeg?raw=true"height="200">
 
 
-#   InfoSurvey: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
+#   InfoSurvey: Create beautiful surveys with Flutter.
 
 InfoSurvey, also known as survey platforms or survey software, are tools used to design, distribute, and analyze surveys. These tools are used by individuals, businesses, organizations, and researchers to collect data from respondents on various topics.Users start by designing their survey questionnaires using the survey kit's interface. This involves creating various types of questions such as multiple-choice, open-ended, Likert scale, rating scale, etc.
 This is an early version and work in progress. Do not hesitate to give feedback, ideas or improvements via an issue.
