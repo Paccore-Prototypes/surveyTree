@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/readme-assets/assets/images/infoswiftCorp.jpeg?raw=true"height="200">
+<img src="https://github.com/Paccore-Prototypes/surveyTree/blob/main/assets/images/infoswiftCorp.jpeg?raw=true"height="200">
 
 
 #   InfoSurvey: Create beautiful surveys with Flutter (inspired by [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html))
