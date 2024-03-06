@@ -250,13 +250,16 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
       {bool isNestedchoice = false,
       String? question,
       Map<String, dynamic>? answeValue,
-      bool isRecrusive = false}) async {
+      bool isRecrusive = false,haveDescription = false}) async {
 
     TreeModel? model;
     TreeNode? node;
     resetOption();
     if (!isRecrusive) {
       answersMap[question!] = answeValue;
+    }
+    if(!haveDescription){
+      haveDescription=true;
     }
 
     if (isNestedchoice) {
@@ -340,6 +343,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           ),
 
           const SizedBox(height: 10),
+          data.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+          data.description!.isNotEmpty?
+          Text(
+            data.description.toString(),
+            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ):SizedBox(height: 0,),
 
           Column(
             children: (data.answerChoices)
@@ -379,6 +388,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
                         addTheFollowUpQuestion(answer,
                             isNestedchoice: true,
+                            haveDescription: data.description != null ? true : false,
                             question: data.question,
                             answeValue: {
                               'id':data.id,
@@ -397,93 +407,150 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             }).toList(),
           ),
           const SizedBox(height: 20,),
-          widget.customButton ??
-          GestureDetector(
-            onTap: () {
-
-              if (isLast) {
-
-                if(answersMap.containsKey(data.question)){
-                  sumOfScoresData();
-
-                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                      SnackBar(content: Text('Your Score Is $sumOfScores')));
-
-                  _showSubmitDialog();
-                }else{
-                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
-
-                }
-              } else {
-                if(data.isMandatory==true) {
-                  if (answers.isEmpty) {
-                    ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                        const SnackBar(
-                          content: Text('Please select at least one answer'),
-                          behavior: SnackBarBehavior.floating,));
-                    return;
-                  }
-                  addTheFollowUpQuestion('',
-                      isNestedchoice: true,
-                      question: data.question,
-                      answeValue: {
-                        'id':data.id,
-                        'question-type':data.questionType,
-                        'score': data.answerChoices == null ? 0 : data.score,
-                        'answer': ''
-                      });
-                  pageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                }else{
-                  addTheFollowUpQuestion('',
-                      isNestedchoice: true,
-                      question: data.question,
-                      answeValue: {
-                        'id':data.id,
-                        'question-type':data.questionType,
-                        'score': data.answerChoices == null ? 0 : data.score,
-                        'answer': ''
-                      });
-                  pageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                }
-              }
-            },
-            child: Container(
-              width: isLast ? 150 :120,
-              height: isLast ? 50 : 40,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.teal,
-                    Colors.teal.shade300,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(5, 5),
-                    blurRadius: 10,
-                  )
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  isLast ? 'SubmitSurvey!':'Next',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                data.isMandatory==false && isLast ==false ?
+                GestureDetector(
+                  onTap: () {
+                        addTheFollowUpQuestion('',
+                            isNestedchoice: true,
+                            question: data.question,
+                            answeValue: {
+                              'score':0
+                            }
+                            );
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                  },
+                  child: Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
+                        )
+                      ],
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                ):
+                    const SizedBox(),
+                widget.customButton ??
+                    GestureDetector(
+                      onTap: () {
+
+                        if (isLast) {
+
+                          if(answersMap.containsKey(data.question)){
+                            sumOfScoresData();
+
+                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                SnackBar(content: Text('Your Score Is $sumOfScores')));
+
+                            _showSubmitDialog();
+                          }else{
+                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
+
+                          }
+                        } else {
+                          if(data.isMandatory==true) {
+                            if (answers.isEmpty) {
+                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Please select at least one answer'),
+                                    behavior: SnackBarBehavior.floating,));
+                              return;
+                            }
+                            addTheFollowUpQuestion('',
+                                isNestedchoice: true,
+                                question: data.question,
+                                answeValue: {
+                                  'id':data.id,
+                                  'question-type':data.questionType,
+                                  'score': data.answerChoices == null ? 0 : data.score,
+                                  'answer': ''
+                                });
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          }else{
+                            addTheFollowUpQuestion('',
+                                isNestedchoice: true,
+                                question: data.question,
+                                answeValue: {
+                                  'id':data.id,
+                                  'question-type':data.questionType,
+                                  'score': data.answerChoices == null ? 0 : data.score,
+                                  'answer': ''
+                                });
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        }
+                      },
+                      child: Container(
+                        width: isLast ? 150 :120,
+                        height: isLast ? 50 : 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            isLast ? 'SubmitSurvey!':'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+              ],
             ),
           ),
         ],
@@ -505,6 +572,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               questionData.question,
               style: widget.listTileQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+            questionData.description!.isNotEmpty?
+            Text(
+              questionData.description.toString(),
+              style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ):SizedBox(height: 0,),
             const SizedBox(height: 10),
             Column(
               children: (questionData.answerChoices)
@@ -536,6 +609,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
                     onTap: () {
                       addTheFollowUpQuestion(answer,
+                          haveDescription: questionData.description != null ? true : false,
                           isNestedchoice: true,
                           question: questionData.question,
                           answeValue: {
@@ -552,95 +626,152 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               }).toList(),
             ),
             const SizedBox(height: 20,),
-            widget.customButton ??
-                GestureDetector(
-                  onTap: () {
-
-                    if (isLast) {
-
-                      if(answersMap.containsKey(questionData.question)){
-                        sumOfScoresData();
-
-                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                            SnackBar(content: Text('Your Score Is $sumOfScores')));
-
-                        _showSubmitDialog();
-                      }else{
-                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
-
-                      }
-                    } else {
-                      if(questionData.isMandatory==true) {
-                        if (answers.isEmpty) {
-                          ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                              const SnackBar(
-                                content: Text('Please select at least one answer'),
-                                behavior: SnackBarBehavior.floating,));
-                          return;
-                        }
-                        addTheFollowUpQuestion('',
-                            isNestedchoice: true,
-                            question: questionData.question,
-                            answeValue: {
-                              'id':questionData.id,
-                              'question-type':questionData.questionType,
-                              'score': questionData.answerChoices == null ? 0 : questionData.score,
-                              'answer': ''
-                            });
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
-                        );
-                      }else{
-                        addTheFollowUpQuestion('',
-                            isNestedchoice: true,
-                            question: questionData.question,
-                            answeValue: {
-                              'id':questionData.id,
-                              'question-type':questionData.questionType,
-                              'score': questionData.answerChoices == null ? 0 : questionData.score,
-                              'answer': ''
-                            });
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    }
-                  },
-                  child: Container(
-                    width: isLast ? 150 :120,
-                    height: isLast ? 50 : 40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.teal,
-                          Colors.teal.shade300,
+            Padding(
+              padding: const EdgeInsets.only(left: 15,right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  questionData.isMandatory==false && isLast ==false ?
+                  GestureDetector(
+                    onTap: () {
+                      addTheFollowUpQuestion('',
+                          isNestedchoice: true,
+                          question: questionData.question,
+                          answeValue: {
+                            'score':0
+                          }
+                          );
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: Container(
+                      width: 120,
+                      height:  40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.blueGrey.shade200,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(5, 5),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        isLast ? 'SubmitSurvey!':'Next',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                      child: const Center(
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  ):
+                  const SizedBox(),
+                  widget.customButton ??
+                      GestureDetector(
+                        onTap: () {
+
+                          if (isLast) {
+
+                            if(answersMap.containsKey(questionData.question)){
+                              sumOfScoresData();
+
+                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                  SnackBar(content: Text('Your Score Is $sumOfScores')));
+
+                              _showSubmitDialog();
+                            }else{
+                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one answer'),behavior: SnackBarBehavior.floating,));
+
+                            }
+                          } else {
+                            if(questionData.isMandatory==true) {
+                              if (answers.isEmpty) {
+                                ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Please select at least one answer'),
+                                      behavior: SnackBarBehavior.floating,));
+                                return;
+                              }
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {
+                                    'id':questionData.id,
+                                    'question-type':questionData.questionType,
+                                    'score': questionData.answerChoices == null ? 0 : questionData.score,
+                                    'answer': ''
+                                  });
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            }else{
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {
+                                    'id':questionData.id,
+                                    'question-type':questionData.questionType,
+                                    'score': questionData.answerChoices == null ? 0 : questionData.score,
+                                    'answer': ''
+                                  });
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          }
+                        },
+                        child: Container(
+                          width: isLast ? 150 :120,
+                          height: isLast ? 50 : 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal,
+                                Colors.teal.shade300,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              isLast ? 'SubmitSurvey!':'Next',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -660,6 +791,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           questionData.question??"",
           style: widget.sliderQuestionStyle?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+        questionData.description!.isNotEmpty?
+        Text(
+          questionData.description.toString(),
+          style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        ):SizedBox(height: 0,),
+
         const SizedBox(
           height: 12,
         ),
@@ -670,7 +808,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               children: [
                 Slider(
                   value: value.clamp(0, 100),
-                  divisions: 10,
+                  divisions: 100,
                   onChanged: (double newValue) {
                     sliderValue.value = newValue;
                   },
@@ -693,125 +831,181 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
         const SizedBox(
           height: 25,
         ),
-        GestureDetector(
-          onTap: () {
+        Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              questionData.isMandatory==false && isLast ==false ?
+              GestureDetector(
+                onTap: () {
+                  addTheFollowUpQuestion('',
+                      isNestedchoice: true,
+                      question: questionData.question,
+                      answeValue: {
+                        'score':0
+                      }
+                      );
+                  pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Container(
+                  width: 120,
+                  height:  40,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blueGrey,
+                        Colors.blueGrey.shade200,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(5, 5),
+                        blurRadius:  10,
+                      )
+                    ],
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ):
+              const SizedBox(),
+              GestureDetector(
+                onTap: () {
 
-            String? ageGroup;
-            double valueSlider = sliderValue.value;
-            if (valueSlider < 10) {
-              ageGroup = 'under_10';
-            } else if (valueSlider >= 10 && valueSlider <= 20) {
-              ageGroup = '10_to_20';
-            } else if (valueSlider > 20 && valueSlider <= 30) {
-              ageGroup = '20_to_30';
-            } else if (valueSlider >= 10 && valueSlider <= 20) {
-              ageGroup = '30_to_40';
-            } else if (valueSlider > 20 && valueSlider <= 30) {
-              ageGroup = '40_to_50';
-            }else if (valueSlider >= 10 && valueSlider <= 20) {
-              ageGroup = '50_to_60';
-            } else if (valueSlider > 20 && valueSlider <= 30) {
-              ageGroup = '60_to_70';
-            }else if (valueSlider >= 10 && valueSlider <= 20) {
-              ageGroup = '70_to_80';
-            } else if (valueSlider > 20 && valueSlider <= 30) {
-              ageGroup = '80_to_90';
-            }else if (valueSlider >= 10 && valueSlider <= 20) {
-              ageGroup = '90_to_100';
-            } else {
-            }
+                  String? ageGroup;
+                  double valueSlider = sliderValue.value;
+                  if (valueSlider < 10) {
+                    ageGroup = 'under_10';
+                  } else if (valueSlider >= 10 && valueSlider <= 20) {
+                    ageGroup = '10_to_20';
+                  } else if (valueSlider > 20 && valueSlider <= 30) {
+                    ageGroup = '20_to_30';
+                  } else if (valueSlider >= 10 && valueSlider <= 20) {
+                    ageGroup = '30_to_40';
+                  } else if (valueSlider > 20 && valueSlider <= 30) {
+                    ageGroup = '40_to_50';
+                  }else if (valueSlider >= 10 && valueSlider <= 20) {
+                    ageGroup = '50_to_60';
+                  } else if (valueSlider > 20 && valueSlider <= 30) {
+                    ageGroup = '60_to_70';
+                  }else if (valueSlider >= 10 && valueSlider <= 20) {
+                    ageGroup = '70_to_80';
+                  } else if (valueSlider > 20 && valueSlider <= 30) {
+                    ageGroup = '80_to_90';
+                  }else if (valueSlider >= 10 && valueSlider <= 20) {
+                    ageGroup = '90_to_100';
+                  } else {
+                  }
 
-            switch (ageGroup) {
-              case 'under_10':
-                sliderScore = 1;
-                break;
-              case '10_to_20':
-                sliderScore = 2;
-                break;
-              case '20_to_30':
-                sliderScore = 3;
-              case '30_to_40':
-                sliderScore = 4;
-                break;
-              case '40_to_50':
-                sliderScore = 5;
-                break;
-              case '50_to_60':
-                sliderScore = 6;
-                case '60_to_70':
-              sliderScore = 7;
-              break;
-              case '70_to_80':
-                sliderScore = 8;
-                break;
-              case '80_to_90':
-                sliderScore = 9;
-              case '90_to_100':
-                sliderScore = 10;
-                break;
-              default:
-                sliderScore = questionData.score!.toDouble();
-                break;
-            }
+                  switch (ageGroup) {
+                    case 'under_10':
+                      sliderScore = 1;
+                      break;
+                    case '10_to_20':
+                      sliderScore = 2;
+                      break;
+                    case '20_to_30':
+                      sliderScore = 3;
+                    case '30_to_40':
+                      sliderScore = 4;
+                      break;
+                    case '40_to_50':
+                      sliderScore = 5;
+                      break;
+                    case '50_to_60':
+                      sliderScore = 6;
+                    case '60_to_70':
+                      sliderScore = 7;
+                      break;
+                    case '70_to_80':
+                      sliderScore = 8;
+                      break;
+                    case '80_to_90':
+                      sliderScore = 9;
+                    case '90_to_100':
+                      sliderScore = 10;
+                      break;
+                    default:
+                      sliderScore = questionData.score!.toDouble();
+                      break;
+                  }
 
-            if (isLast) {
-              answersMap[questionData.question!]={
-                'id':questionData.id,
-                'score': sliderScore,
-                'question-type':questionData.questionType,
-                'answer':sliderValue.value.toStringAsFixed(0)
-              };
-              _showSubmitDialog();
-            } else {
-              addTheFollowUpQuestion('',
-                  isNestedchoice: true,
-                  question: questionData.question,
-                  answeValue: {
-                    'id':questionData.id,
-                    'question-type':questionData.questionType,
-                    'score': sliderScore,
-                    // 'score': questionData.answerChoices == null
-                    //     ? 0
-                    //     : questionData.score,
-                    'answer': sliderValue.value.toStringAsFixed(0)
-                  });
-              pageController.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            }
-          },
-          child: Container(
-            width: 120,
-            height: 40,
-            decoration: widget.buttonDecoration ?? BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.teal,
-                  Colors.teal.shade300,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(5, 5),
-                  blurRadius: 10,
-                )
-              ],
-            ),
-            child: Center(
-              child: Text(widget.buttonText ??
-                  'Next',
-                style: widget.buttonTextStyle ?? const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  if (isLast) {
+                    answersMap[questionData.question!]={
+                      'id':questionData.id,
+                      'score': questionData.answerChoices == null ? 0 : questionData.score,
+                      //  'score': sliderScore,
+                      'question-type':questionData.questionType,
+                      'answer':sliderValue.value.toStringAsFixed(0)
+                    };
+                    _showSubmitDialog();
+                  } else {
+                    addTheFollowUpQuestion('',
+                        isNestedchoice: true,
+                        question: questionData.question,
+                        answeValue: {
+                          'id':questionData.id,
+                          'question-type':questionData.questionType,
+                          //  'score': sliderScore,
+                          'score': questionData.answerChoices == null ? 0 : questionData.score,
+                          'answer': sliderValue.value.toStringAsFixed(0)
+                        });
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                },
+                child: Container(
+                  width: 120,
+                  height: 40,
+                  decoration: widget.buttonDecoration ?? BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.teal,
+                        Colors.teal.shade300,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(5, 5),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(widget.buttonText ??
+                        'Next',
+                      style: widget.buttonTextStyle ?? const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],
@@ -833,6 +1027,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             questionData.question,
             style: widget.textFieldQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+          questionData.description!.isNotEmpty?
+          Text(
+            questionData.description.toString(),
+            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ):SizedBox(height: 0,),
+          SizedBox(height: 10,),
           TextField(
             decoration: const InputDecoration(
               labelText: 'Your Answer',
@@ -849,85 +1050,141 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           ),
           // currentQuestionIndex == surveyData.length-1
       //    widget.isLastButton ??
-          GestureDetector(
-            onTap: () {
-              // Check if the question is mandatory
-              if (questionData.isMandatory == true) {
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                questionData.isMandatory==false && isLast ==false ?
+                GestureDetector(
+                  onTap: () {
+                    addTheFollowUpQuestion('',
+                        isNestedchoice: true,
+                        question: questionData.question,
+                        answeValue: {
+                         'score':0
+                        });
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.blueGrey,
+                          Colors.blueGrey.shade200,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(5, 5),
+                          blurRadius: 10,
+                        )
+                      ],
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ):
+                const SizedBox(),
+                GestureDetector(
+                  onTap: () {
+                    // Check if the question is mandatory
+                    if (questionData.isMandatory == true) {
 
-                String textAnswer = textControllers[index]?.text ?? '';
-                if (textAnswer.isEmpty) {
+                      String textAnswer = textControllers[index]?.text ?? '';
+                      if (textAnswer.isEmpty) {
 
-                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                    const SnackBar(content: Text('Please provide an answer')),
-                  );
-                  return; // Exit the onTap function to prevent further action
-                }
-              }
-              String textAnswer = textControllers[index]?.text ?? '';
+                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                          const SnackBar(content: Text('Please provide an answer')),
+                        );
+                        return; // Exit the onTap function to prevent further action
+                      }
+                    }
+                    String textAnswer = textControllers[index]?.text ?? '';
 
-              if (isLast) {
-                textControllers[index]?.text;
+                    if (isLast) {
+                      textControllers[index]?.text;
 
-                answersMap[questionData.question]={
-                  'id':questionData.id,
-                  'question-type':questionData.questionType,
-                  'score':questionData.score,
-                  'answer':textAnswer
-                };
+                      answersMap[questionData.question]={
+                        'id':questionData.id,
+                        'question-type':questionData.questionType,
+                        'score':questionData.score,
+                        'answer':textAnswer
+                      };
 
-                sumOfScoresData();
+                      sumOfScoresData();
 
-                ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                    SnackBar(content: Text('Your Score Is $sumOfScores')));
+                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                          SnackBar(content: Text('Your Score Is $sumOfScores')));
 
-                _showSubmitDialog();
+                      _showSubmitDialog();
 
-                //show Popup Dailog here
-              } else {
-                addTheFollowUpQuestion(textAnswer,
-                    isNestedchoice: true,
-                    question: questionData.question,
-                    answeValue: {
-                      'id':questionData.id,
-                      'question-type':questionData.questionType,
-                      'score': questionData.score,
-                      'answer': textAnswer
-                    });
-                pageController.nextPage(
-                    duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-              }
-            },
-            child:  Container(
-              width: isLast ? 150 :120,
-              height: isLast ? 50 : 40,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.teal,
-                    Colors.teal.shade300,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(5, 5),
-                    blurRadius: 10,
-                  )
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  isLast?'Submit Survey':'Next',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
+                      //show Popup Dailog here
+                    } else {
+                      addTheFollowUpQuestion(textAnswer,
+                          isNestedchoice: true,
+                          question: questionData.question,
+                          answeValue: {
+                            'id':questionData.id,
+                            'question-type':questionData.questionType,
+                            'score': questionData.score,
+                            'answer': textAnswer
+                          });
+                      pageController.nextPage(
+                          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                    }
+                  },
+                  child:  Container(
+                    width: isLast ? 150 :120,
+                    height: isLast ? 50 : 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.teal,
+                          Colors.teal.shade300,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(5, 5),
+                          blurRadius: 10,
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        isLast?'Submit Survey':'Next',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           )
         ],
@@ -947,6 +1204,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             questionData.question,
             style: widget.checkBoxQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+          questionData.description!.isNotEmpty?
+          Text(
+            questionData.description.toString(),
+            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ):SizedBox(height: 0,),
           const SizedBox(height: 10),
           Column(
             children: (questionData.answerChoices)
@@ -968,96 +1231,153 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             }).toList(),
           ),
          const SizedBox(height: 20,),
-          widget.customButton ??
-              GestureDetector(
-                onTap: () {
-                  int score = 0;
-                  if(questionData.isMandatory==true){
-                  if (answers.isEmpty) {
-                    ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one option')));
-                    return;
-                  }
-                  for (int i = 0; i < answers.length; i++) {
-                    if (questionData.answerChoices != null) {
-                      score = score +
-                          questionData.answerChoices[answers[i]][0]['score'] as int;
-                    }
-                  }
-                  if(isLast){
-                    answersMap[questionData.question!]={
-                      'id':questionData.id,
-                      'question-type':questionData.questionType,
-                      'score':score,
-                      'answer':answers
-                    };
-                    sumOfScoresData();
-                    ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(content: Text('Your Score Is $sumOfScores')));
-                    _showSubmitDialog();
-                  }else{
-
-                    setState(() {
-
-                      addTheFollowUpQuestion(answers.toString(),
-                          isNestedchoice: true,
-                          question: questionData.question,
-                          answeValue: {
-                            'id':questionData.id,
-                            'question-type':questionData.questionType,
-                            'score': score,
-                            'answer': answers});
-                      pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    });
-                  }}else{
-                    setState(() {
-                      addTheFollowUpQuestion(answers.toString(),
-                          isNestedchoice: true,
-                          question: questionData.question,
-                          answeValue: {
-                            'id':questionData.id,
-                            'question-type':questionData.questionType,
-                            'score': score, 'answer': answers});
-                      pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    });
-                  }},
-                child: Container(
-                  width: isLast ? 150 :120,
-                  height: isLast ? 50 : 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.teal,
-                        Colors.teal.shade300,
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                questionData.isMandatory==false && isLast ==false ?
+                GestureDetector(
+                  onTap: () {
+                    addTheFollowUpQuestion('',
+                        isNestedchoice: true,
+                        question: questionData.question,
+                        answeValue: {
+                         'score':0
+                        }
+                        );
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.blueGrey,
+                          Colors.blueGrey.shade200,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(5, 5),
+                          blurRadius: 10,
+                        )
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(5, 5),
-                        blurRadius: 10,
-                      )
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      isLast?'Submit Survey':'Next',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                ):
+                const SizedBox(),
+                widget.customButton ??
+                    GestureDetector(
+                      onTap: () {
+                        int score = 0;
+                        if(questionData.isMandatory==true){
+                          if (answers.isEmpty) {
+                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(const SnackBar(content: Text('Please select at least one option')));
+                            return;
+                          }
+                          for (int i = 0; i < answers.length; i++) {
+                            if (questionData.answerChoices != null) {
+                              score = score +
+                                  questionData.answerChoices[answers[i]][0]['score'] as int;
+                            }
+                          }
+                          if(isLast){
+                            answersMap[questionData.question!]={
+                              'id':questionData.id,
+                              'question-type':questionData.questionType,
+                              'score':score,
+                              'answer':answers
+                            };
+                            sumOfScoresData();
+                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(content: Text('Your Score Is $sumOfScores')));
+                            _showSubmitDialog();
+                          }else{
+
+                            setState(() {
+
+                              addTheFollowUpQuestion(answers.toString(),
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {
+                                    'id':questionData.id,
+                                    'question-type':questionData.questionType,
+                                    'score': score,
+                                    'answer': answers});
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            });
+                          }}else{
+                          setState(() {
+                            addTheFollowUpQuestion(answers.toString(),
+                                isNestedchoice: true,
+                                question: questionData.question,
+                                answeValue: {
+                                  'id':questionData.id,
+                                  'question-type':questionData.questionType,
+                                  'score': score, 'answer': answers});
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          });
+                        }},
+                      child: Container(
+                        width: isLast ? 150 :120,
+                        height: isLast ? 50 : 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            isLast?'Submit Survey':'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -1073,6 +1393,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             questionData.question,
             style: widget.dateTimeQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+          questionData.description!.isNotEmpty?
+          Text(
+            questionData.description.toString(),
+            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ):SizedBox(height: 0,),
           const SizedBox(height: 10),
 
               GestureDetector(
@@ -1121,71 +1447,128 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           ),
           const SizedBox(height: 15),
        //   widget.isLastButton ??
-              GestureDetector(
-                onTap: () {
-                  if(isLast){
+              Padding(
+                padding: const EdgeInsets.only(left: 15,right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    questionData.isMandatory==false && isLast ==false ?
+                    GestureDetector(
+                      onTap: () {
+                        addTheFollowUpQuestion('',
+                            isNestedchoice: true,
+                            question: questionData.question,
+                            answeValue: {
+                            'score':0
+                            }
+                            );
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: Container(
+                        width: 120,
+                        height:  40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blueGrey,
+                              Colors.blueGrey.shade200,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ):
+                    const SizedBox(),
+                    GestureDetector(
+                      onTap: () {
+                        if(isLast){
 
-                    answersMap[questionData.question]={
-                      'id':questionData.id,
-                      'question-type':questionData.questionType,
-                      'score':questionData.score,
-                      'answer':selectedDate.toIso8601String()
-                    };
+                          answersMap[questionData.question]={
+                            'id':questionData.id,
+                            'question-type':questionData.questionType,
+                            'score':questionData.score,
+                            'answer':selectedDate.toIso8601String()
+                          };
 
 
-                    sumOfScoresData();
+                          sumOfScoresData();
 
-                    ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(content: Text('Your Score Is $sumOfScores')));
-                    _showSubmitDialog();
+                          ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(content: Text('Your Score Is $sumOfScores')));
+                          _showSubmitDialog();
 
-                  }else{
+                        }else{
 
-                    addTheFollowUpQuestion('',isNestedchoice: true,
+                          addTheFollowUpQuestion('',isNestedchoice: true,
 
-                        question: questionData.question,answeValue: {
-                          'id':questionData.id,
-                          'question-type':questionData.questionType,
-                          'score':questionData.answerChoices.isEmpty?0: questionData.score,
-                          'answer':selectedDate.toIso8601String()
+                              question: questionData.question,answeValue: {
+                                'id':questionData.id,
+                                'question-type':questionData.questionType,
+                                'score':questionData.answerChoices.isEmpty?0: questionData.score,
+                                'answer':selectedDate.toIso8601String()
+                              }
+                          );
+                          pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+
                         }
-                    );
-                    pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
-
-                  }
 
 
-                },
-                child: Container(
-                  width: isLast ? 150 :120,
-                  height: isLast ? 50 : 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.teal,
-                        Colors.teal.shade300,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(5, 5),
-                        blurRadius: 10,
-                      )
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      isLast?'Submit Survey':'Next',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                      },
+                      child: Container(
+                        width: isLast ? 150 :120,
+                        height: isLast ? 50 : 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            isLast?'Submit Survey':'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               )
         ],

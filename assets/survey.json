@@ -3,6 +3,7 @@
     "id": 1,
     "isMandatory": false,
     "question": "What is your gender?",
+    "description": "Better giving the description",
     "questionType": "radio",
     "answerChoices": {
       "Male": [
@@ -36,21 +37,23 @@
       "Female": [
         {
           "id": 103,
-          "isMandatory": true,
+          "isMandatory": false,
           "question": "Are you pregnant?",
+          "description": "giving the description",
           "questionType": "list",
           "answerChoices": {
             "Yes": [
               {
                 "id": 104,
-                "isMandatory": true,
+                "isMandatory": false,
                 "question": "Are you taking medication?",
+                "description": null,
                 "questionType": "list",
                 "answerChoices": {
                   "Yes": [
                     {
                       "id": 105,
-                      "isMandatory": true,
+                      "isMandatory": false,
                       "question": "From when are you taking medication?",
                       "questionType": "datetime",
                       "answerChoices": null,
@@ -60,7 +63,7 @@
                   "No": [
                     {
                       "id": 106,
-                      "isMandatory": true,
+                      "isMandatory": false,
                       "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
                       "questionType": "list",
                       "answerChoices": {
@@ -124,8 +127,9 @@
   },
   {
     "id": 2,
-    "isMandatory": true,
+    "isMandatory": false,
     "question": "How old are you?",
+    "description": null,
     "questionType": "slider",
     "score": 6,
     "answerChoices": null
@@ -264,7 +268,7 @@
   },
   {
     "id": 5,
-    "isMandatory": true,
+    "isMandatory": false,
     "question": "What diet do you prefer?",
     "questionType": "radio",
     "answerChoices": {
