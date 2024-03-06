@@ -2,6 +2,7 @@ class TreeNode {
   int id;
   bool isMandatory;
   String question;
+  String? description;
   String questionType;
   Map<String, dynamic> answerChoices;
   List<TreeNode> children;
@@ -11,6 +12,7 @@ class TreeNode {
     required this.id,
     required this.isMandatory,
     required this.question,
+    required this.description,
     required this.questionType,
     required this.answerChoices,
     this.children = const [],
@@ -38,6 +40,7 @@ class TreeModel {
       id: data['id'] ?? 0,
       isMandatory: data['isMandatory'] ?? false,
       question: data['question'] ?? '',
+      description: data['description'] ?? '',
       questionType: data['questionType'] ?? '',
       answerChoices: data['answerChoices'] ?? {},
       score: data['score'] ?? 0,
@@ -66,7 +69,8 @@ class TreeModel {
           id: -1, // Placeholder value for children without a specific ID
           isMandatory: false, // Placeholder value for children without isMandatory
           question: key,
-          questionType: "list", // Placeholder value for children without questionType
+          description: key,
+          questionType: key, // Placeholder value for children without questionType
           answerChoices: {},
           children: childNodes,
         ),

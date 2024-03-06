@@ -55,7 +55,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
           ? InfoSurvey(
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
-        showScoreWidget: false,
+        showScoreWidget: true,
         surveyResult: (healthScore, answersMap) {
           print('Health Score: $healthScore');
           print('Answers Map: $answersMap');
