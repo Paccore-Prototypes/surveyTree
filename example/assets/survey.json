@@ -1,0 +1,287 @@
+[
+  {
+    "id": 1,
+    "isMandatory": false,
+    "question": "What is your gender?",
+    "description": "Better giving the description",
+    "questionType": "radio",
+    "answerChoices": {
+      "Male": [
+        {
+          "id": 101,
+          "isMandatory": true,
+          "question": "Do you have a smoking habit?",
+          "questionType": "list",
+          "score": 8,
+          "answerChoices": {
+            "Yes": [
+              {
+                "id": 102,
+                "isMandatory": true,
+                "question": "How many times do you smoke per day?",
+                "questionType": "text",
+                "answerChoices": null,
+                "score": 5
+              }
+            ],
+            "No": [
+              {
+                "question": "",
+                "answerChoices": null,
+                "score": 4
+              }
+            ]
+          }
+        }
+      ],
+      "Female": [
+        {
+          "id": 103,
+          "isMandatory": false,
+          "question": "Are you pregnant?",
+          "description": "giving the description",
+          "questionType": "list",
+          "answerChoices": {
+            "Yes": [
+              {
+                "id": 104,
+                "isMandatory": false,
+                "question": "Are you taking medication?",
+                "description": null,
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "id": 105,
+                      "isMandatory": false,
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": [
+                    {
+                      "id": 106,
+                      "isMandatory": false,
+                      "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
+                      "questionType": "list",
+                      "answerChoices": {
+                        "Yes": [
+                          {
+                            "id": 107,
+                            "isMandatory": true,
+                            "question": "Name The Medicine You Are Taking",
+                            "questionType": "text",
+                            "answerChoices": null
+                          }
+                        ],
+                        "No": [
+                          {
+                            "question": "",
+                            "questionType": null,
+                            "answerChoices": null,
+                            "score": 4
+                          }
+                        ]
+                      },
+                      "score": 10
+                    }
+                  ]
+                },
+                "score": 6
+              }
+            ],
+            "No": [
+              {
+                "id": 109,
+                "isMandatory": true,
+                "question": "Are you taking medication?",
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "id": 110,
+                      "isMandatory": true,
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": [
+                    {
+                      "score": 8
+                    }
+                  ]
+                },
+                "score": 2
+              }
+            ]
+          },
+          "score": 4
+        }
+      ],
+      "Other": null
+    }
+  },
+  {
+    "id": 2,
+    "isMandatory": false,
+    "question": "How old are you?",
+    "description": null,
+    "questionType": "slider",
+    "score": 6,
+    "answerChoices": null
+  },
+  {
+    "id": 3,
+    "isMandatory": false,
+    "question": "Give your Blood Pressure?",
+    "questionType": "radio",
+    "answerChoices": {
+      "between 80/70mmHg and 130/90mmHg.": [
+        {
+          "id": 301,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 2,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 100/70mmHg and 90/100mmHg.": [
+        {
+          "id": 302,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 4,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 90/60mmHg and 120/80mmHg.": [
+        {
+          "id": 303,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 6,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ],
+      "between 70/60mmHg and 110/80mmHg.": [
+        {
+          "id": 304,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 8,
+          "answerChoices": {
+            "yes": [
+              {
+                "score": 10
+              }
+            ],
+            "no": [
+              {
+                "score": 7
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "isMandatory": false,
+    "question": "How Many times do you eat?",
+    "questionType": "multipleChoices",
+    "answerChoices": {
+      "two": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 4
+        }
+      ],
+      "three": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "one": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "four": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "isMandatory": false,
+    "question": "What diet do you prefer?",
+    "questionType": "radio",
+    "answerChoices": {
+      "Veg": [
+        {
+          "score": 10
+        }
+      ],
+      "Non-Veg": [
+        {
+          "score": 20
+        }
+      ]
+    }
+  }
+]
