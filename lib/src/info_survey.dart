@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:custom_scale/src/tree_node.dart';
+import 'package:info_survey/src/tree_node.dart';
 import 'package:flutter/material.dart';
 import 'answers.dart';
 

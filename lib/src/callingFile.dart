@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:custom_scale/src/info_survey.dart';
-import 'package:custom_scale/src/tree_node.dart';
+import 'package:info_survey/src/info_survey.dart';
+import 'package:info_survey/src/tree_node.dart';
 import 'package:flutter/material.dart';
 
 class ImportingProperties extends StatefulWidget {

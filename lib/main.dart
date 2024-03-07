@@ -1,5 +1,5 @@
-import 'package:custom_scale/src/callingFile.dart';
-import 'package:custom_scale/src/info_survey.dart';
+import 'package:info_survey/src/callingFile.dart';
+import 'package:info_survey/src/info_survey.dart';
 import 'package:flutter/material.dart';
 
 void main() {
