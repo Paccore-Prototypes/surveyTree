@@ -28,7 +28,9 @@ class InfoSurvey extends StatefulWidget {
     this.buttonDecoration,
     this.submitSurveyPopup,
     this.surveyResult,
-    required this.showScoreWidget
+    required this.showScoreWidget,
+    this.description,
+    this.customSkipButton
   });
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
@@ -52,6 +54,8 @@ class InfoSurvey extends StatefulWidget {
   AlertDialog? submitSurveyPopup;
   Function(int healthScore,  HashMap<String, dynamic> answersMap)? surveyResult;
   bool showScoreWidget;
+  TextStyle? description;
+  ElevatedButton? customSkipButton;
 
 
 
@@ -347,7 +351,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           data.description!.isNotEmpty?
           Text(
             data.description.toString(),
-            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: widget.description ?? const TextStyle(fontSize: 12,),
           ):SizedBox(height: 0,),
 
           Column(
@@ -413,6 +417,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 data.isMandatory==false && isLast ==false ?
+                    widget.customSkipButton ??
                 GestureDetector(
                   onTap: () {
                         addTheFollowUpQuestion('',
@@ -572,12 +577,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               questionData.question,
               style: widget.listTileQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+            questionData.description!.isNotEmpty? const SizedBox(height: 10,): const SizedBox(height: 0,),
             questionData.description!.isNotEmpty?
             Text(
               questionData.description.toString(),
-              style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ):SizedBox(height: 0,),
+              style: widget.description ?? const TextStyle(fontSize: 12),
+            ):const SizedBox(height: 0,),
             const SizedBox(height: 10),
             Column(
               children: (questionData.answerChoices)
@@ -632,7 +637,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   questionData.isMandatory==false && isLast ==false ?
-                  GestureDetector(
+                  widget.customSkipButton ??
+                      GestureDetector(
                     onTap: () {
                       addTheFollowUpQuestion('',
                           isNestedchoice: true,
@@ -643,7 +649,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                           );
                       pageController.nextPage(
                         duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
+                        curve: Curves.ease,
                       );
                     },
                     child: Container(
@@ -795,7 +801,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
         questionData.description!.isNotEmpty?
         Text(
           questionData.description.toString(),
-          style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          style: widget.description ?? const TextStyle(fontSize: 12),
         ):SizedBox(height: 0,),
 
         const SizedBox(
@@ -837,7 +843,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               questionData.isMandatory==false && isLast ==false ?
-              GestureDetector(
+              widget.customSkipButton ??
+                  GestureDetector(
                 onTap: () {
                   addTheFollowUpQuestion('',
                       isNestedchoice: true,
@@ -885,6 +892,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                 ),
               ):
               const SizedBox(),
+              widget.customButton ??
               GestureDetector(
                 onTap: () {
 
@@ -1031,7 +1039,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           questionData.description!.isNotEmpty?
           Text(
             questionData.description.toString(),
-            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: widget.description ?? const TextStyle(fontSize: 12),
           ):SizedBox(height: 0,),
           SizedBox(height: 10,),
           TextField(
@@ -1056,7 +1064,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 questionData.isMandatory==false && isLast ==false ?
-                GestureDetector(
+                widget.customSkipButton ??
+                    GestureDetector(
                   onTap: () {
                     addTheFollowUpQuestion('',
                         isNestedchoice: true,
@@ -1103,6 +1112,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                   ),
                 ):
                 const SizedBox(),
+                widget.customButton ??
                 GestureDetector(
                   onTap: () {
                     // Check if the question is mandatory
@@ -1202,13 +1212,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           const SizedBox(height: 10,),
           Text(
             questionData.question,
-            style: widget.checkBoxQuestionStyle ?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: widget.checkBoxQuestionStyle ?? const TextStyle(fontSize: 18),
           ),
           questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
           questionData.description!.isNotEmpty?
           Text(
             questionData.description.toString(),
-            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: widget.description ?? const TextStyle(fontSize: 12,),
           ):SizedBox(height: 0,),
           const SizedBox(height: 10),
           Column(
@@ -1237,7 +1247,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 questionData.isMandatory==false && isLast ==false ?
-                GestureDetector(
+                widget.customSkipButton ??
+                    GestureDetector(
                   onTap: () {
                     addTheFollowUpQuestion('',
                         isNestedchoice: true,
@@ -1397,7 +1408,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
           questionData.description!.isNotEmpty?
           Text(
             questionData.description.toString(),
-            style: widget.radioQuestion ?? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: widget.description ?? const TextStyle(fontSize: 14),
           ):SizedBox(height: 0,),
           const SizedBox(height: 10),
 
@@ -1453,7 +1464,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     questionData.isMandatory==false && isLast ==false ?
-                    GestureDetector(
+                    widget.customSkipButton ??
+                        GestureDetector(
                       onTap: () {
                         addTheFollowUpQuestion('',
                             isNestedchoice: true,
@@ -1501,10 +1513,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                       ),
                     ):
                     const SizedBox(),
+                    widget.customButton ??
                     GestureDetector(
                       onTap: () {
                         if(isLast){
-
                           answersMap[questionData.question]={
                             'id':questionData.id,
                             'question-type':questionData.questionType,
