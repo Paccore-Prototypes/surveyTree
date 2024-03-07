@@ -3,20 +3,24 @@ class TreeNode {
   bool isMandatory;
   String question;
   String? description;
+  String? image;
   String questionType;
   Map<String, dynamic> answerChoices;
   List<TreeNode> children;
   int? score;
+  String? imagePosition;
 
   TreeNode({
     required this.id,
     required this.isMandatory,
     required this.question,
     required this.description,
+    this.image,
     required this.questionType,
     required this.answerChoices,
     this.children = const [],
     this.score,
+    this.imagePosition
   });
 }
 
@@ -41,9 +45,11 @@ class TreeModel {
       isMandatory: data['isMandatory'] ?? false,
       question: data['question'] ?? '',
       description: data['description'] ?? '',
+      image: data['image'] ?? '',
       questionType: data['questionType'] ?? '',
       answerChoices: data['answerChoices'] ?? {},
       score: data['score'] ?? 0,
+      imagePosition: data['imagePosition'] ?? '',
       children: _parseChildren(data['answerChoices']),
     );
   }
@@ -70,7 +76,10 @@ class TreeModel {
           isMandatory: false, // Placeholder value for children without isMandatory
           question: key,
           description: key,
+          image: '',
           questionType: key, // Placeholder value for children without questionType
+
+          imagePosition: key,
           answerChoices: {},
           children: childNodes,
         ),

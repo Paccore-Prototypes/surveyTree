@@ -40,6 +40,7 @@
           "isMandatory": false,
           "question": "Are you pregnant?",
           "description": "giving the description",
+          "image": "https://fastly.picsum.photos/id/60/200/300.jpg?hmac=OeRKYl1vFStEdR8BEDJW4JRnkE3FdcrGzxxKT_omffg",
           "questionType": "list",
           "answerChoices": {
             "Yes": [
@@ -130,6 +131,7 @@
     "isMandatory": false,
     "question": "How old are you?",
     "description": null,
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=1024x1024&w=is&k=20&c=ho97hTtpbzO2oM5e8EDdGf8a6ZLRZr94gWxBAnRMzLk=",
     "questionType": "slider",
     "score": 6,
     "answerChoices": null
