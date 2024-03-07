@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
 import '../answers.dart';
+import 'enum.dart';
 
 
 class InfoSurvey extends StatefulWidget {
@@ -149,6 +150,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+    ImagePlace refEnum = ImagePlace.top;
     return WillPopScope(
         onWillPop: () async {
           pageController.previousPage(
@@ -432,7 +434,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                           curve: Curves.easeInOut,
                         );
                   },
-                  child: Container(
+                  /* child:
+                  Container(
                     width: 120,
                     height:  40,
                     decoration: BoxDecoration(
@@ -452,15 +455,16 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                           blurRadius:  10,
                         )
                       ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          color: Colors.white,
+                    ),*/
+                  child: const Center(
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                          color: Colors.blue,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.blue,
+                          fontStyle: FontStyle.italic
                       ),
                     ),
                   ),
@@ -652,38 +656,40 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                         curve: Curves.ease,
                       );
                     },
-                    child: Container(
-                      width: 120,
-                      height:  40,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.blueGrey,
-                            Colors.blueGrey.shade200,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(5, 5),
-                            blurRadius: 10,
-                          )
+                        /* child:
+                  Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
                         ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      child: const Center(
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
+                        )
+                      ],
+                    ),*/
+                        child: const Center(
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.blue,
+                                fontStyle: FontStyle.italic
+                            ),
                           ),
                         ),
-                      ),
-                    ),
                   ):
                   const SizedBox(),
                   widget.customButton ??
@@ -789,27 +795,72 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
     double sliderScore = 0;
 
+    ImagePlace imagePosition = ImagePlace.top;
+    if (questionData.imagePosition != null) {
+      imagePosition = ImagePlace.values.firstWhere(
+            (e) => e.toString().split('.').last == questionData.imagePosition!,
+        orElse: () => ImagePlace.top,
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 10,),
+   imagePosition == ImagePlace.top && questionData.image != null && questionData.image!.isNotEmpty?
+
+    Container(
+            height: 200,
+            decoration:
+            BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(questionData.image!),
+                fit: BoxFit.cover,
+              ),
+            ) // Empty decoration if image URL is not available
+        ) :Container(),
         Text(
           questionData.question??"",
           style: widget.sliderQuestionStyle?? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        questionData.description!.isNotEmpty? SizedBox(height: 10,): SizedBox(height: 0,),
+        const SizedBox(height: 10,),
+  imagePosition == ImagePlace.middle && questionData.image != null && questionData.image!.isNotEmpty ?
+        Container(
+            height: 200,
+            decoration:
+            BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(questionData.image!),
+                fit: BoxFit.cover,
+              ),
+            ) // Empty decoration if image URL is not available
+        ):Container(),
+
+        questionData.description!.isNotEmpty? const SizedBox(height: 10,): const SizedBox(height: 0,),
         questionData.description!.isNotEmpty?
         Text(
           questionData.description.toString(),
           style: widget.description ?? const TextStyle(fontSize: 12),
-        ):SizedBox(height: 0,),
+        ):const SizedBox(height: 0,),
 
         const SizedBox(
           height: 12,
         ),
+  imagePosition == ImagePlace.bottom && questionData.image != null && questionData.image!.isNotEmpty ?
+
+    Container(
+            height: 200,
+            decoration:
+            BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(questionData.image!),
+                fit: BoxFit.cover,
+              ),
+            ) // Empty decoration if image URL is not available
+        )  : Container(),
         ValueListenableBuilder<double>(
           valueListenable: sliderValue,
           builder: (context, value, child) {
+            print('----------------------------------------sarada${value}');
             return Column(
               children: [
                 Slider(
@@ -858,38 +909,40 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                     curve: Curves.easeInOut,
                   );
                 },
-                child: Container(
-                  width: 120,
-                  height:  40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.blueGrey,
-                        Colors.blueGrey.shade200,
+                    /* child:
+                  Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
+                        )
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(5, 5),
-                        blurRadius:  10,
-                      )
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Skip',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    ),*/
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.blue,
+                            fontStyle: FontStyle.italic
+                        ),
                       ),
                     ),
-                  ),
-                ),
               ):
               const SizedBox(),
               widget.customButton ??
@@ -1081,38 +1134,40 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                       curve: Curves.easeInOut,
                     );
                   },
-                  child: Container(
+                      /* child:
+                  Container(
                     width: 120,
                     height:  40,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.blueGrey,
-                          Colors.blueGrey.shade200,
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(5, 5),
-                          blurRadius: 10,
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
                         )
                       ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                    ),*/
+                      child: const Center(
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue,
+                              fontStyle: FontStyle.italic
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                 ):
                 const SizedBox(),
                 widget.customButton ??
@@ -1265,38 +1320,40 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                       curve: Curves.easeInOut,
                     );
                   },
-                  child: Container(
+                      /* child:
+                  Container(
                     width: 120,
                     height:  40,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.blueGrey,
-                          Colors.blueGrey.shade200,
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(5, 5),
-                          blurRadius: 10,
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
                         )
                       ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                    ),*/
+                      child: const Center(
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue,
+                              fontStyle: FontStyle.italic
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                 ):
                 const SizedBox(),
                 widget.customButton ??
@@ -1482,38 +1539,40 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
                           curve: Curves.easeInOut,
                         );
                       },
-                      child: Container(
-                        width: 120,
-                        height:  40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.blueGrey,
-                              Colors.blueGrey.shade200,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(5, 5),
-                              blurRadius: 10,
-                            )
-                          ],
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Skip',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                          /* child:
+                  Container(
+                    width: 120,
+                    height:  40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                           Colors.blueGrey,
+                           Colors.blueGrey.shade200,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.shade50,
+                          offset: const Offset(5, 5),
+                          blurRadius:  10,
+                        )
+                      ],
+                    ),*/
+                          child: const Center(
+                            child: Text(
+                              'Skip',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue,
+                                  fontStyle: FontStyle.italic
+                              ),
                             ),
                           ),
-                        ),
-                      ),
                     ):
                     const SizedBox(),
                     widget.customButton ??
@@ -1738,3 +1797,4 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin{
     );
   }
 }
+
