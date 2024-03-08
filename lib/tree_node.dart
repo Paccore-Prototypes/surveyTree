@@ -9,6 +9,9 @@ class TreeNode {
   List<TreeNode> children;
   int? score;
   String? imagePosition;
+  String? imagePlace;
+  int? imageHeight;
+  int? imageWidth;
 
   TreeNode({
     required this.id,
@@ -20,7 +23,10 @@ class TreeNode {
     required this.answerChoices,
     this.children = const [],
     this.score,
-    this.imagePosition
+    this.imagePosition,
+    this.imagePlace,
+    this.imageHeight,
+    this.imageWidth
   });
 }
 
@@ -50,6 +56,9 @@ class TreeModel {
       answerChoices: data['answerChoices'] ?? {},
       score: data['score'] ?? 0,
       imagePosition: data['imagePosition'] ?? '',
+      imagePlace: data['imagePlace'] ?? '',
+      imageHeight: data['imageHeight'] ?? 100,
+      imageWidth: data['imageWidth'] ?? 150,
       children: _parseChildren(data['answerChoices']),
     );
   }
@@ -78,8 +87,10 @@ class TreeModel {
           description: key,
           image: '',
           questionType: key, // Placeholder value for children without questionType
-
           imagePosition: key,
+          imagePlace: key,
+          imageHeight: 100,
+          imageWidth: 150,
           answerChoices: {},
           children: childNodes,
         ),

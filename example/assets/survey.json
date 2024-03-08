@@ -4,13 +4,22 @@
     "isMandatory": false,
     "question": "What is your gender?",
     "description": "Better giving the description",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "top",
+    "imagePlace": "right",
+    "imageHeight": 200,
+    "imageWidth": 200,
     "questionType": "radio",
     "answerChoices": {
       "Male": [
         {
           "id": 101,
-          "isMandatory": true,
+          "isMandatory": false,
+          "description": "Better giving the description",
           "question": "Do you have a smoking habit?",
+          "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+          "imagePosition": "middle",
+          "imagePlace": "right",
           "questionType": "list",
           "score": 8,
           "answerChoices": {
@@ -20,6 +29,9 @@
                 "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
+                "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+                "imagePosition": "bottom",
+                "imagePlace": "right",
                 "answerChoices": null,
                 "score": 5
               }
@@ -40,6 +52,9 @@
           "isMandatory": false,
           "question": "Are you pregnant?",
           "description": "giving the description",
+          "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+          "imagePosition": "middle",
+          "imagePlace": "right",
           "questionType": "list",
           "answerChoices": {
             "Yes": [
@@ -130,9 +145,12 @@
     "isMandatory": false,
     "question": "How old are you?",
     "description": "description has given",
-    "image": "https://fastly.picsum.photos/id/60/200/300.jpg?hmac=OeRKYl1vFStEdR8BEDJW4JRnkE3FdcrGzxxKT_omffg",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "middle",
+    "imagePlace": "right",
+    "imageHeight": 100,
+    "imageWidth": 200,
     "questionType": "slider",
-    "imagePosition": "top",
     "score": 6,
     "answerChoices": null
   },
@@ -141,6 +159,10 @@
     "isMandatory": false,
     "question": "Give your Blood Pressure?",
     "questionType": "radio",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "bottom",
+    "imagePlace": "left",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
     "answerChoices": {
       "between 80/70mmHg and 130/90mmHg.": [
         {
@@ -233,6 +255,10 @@
     "isMandatory": false,
     "question": "How Many times do you eat?",
     "questionType": "multipleChoices",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "middle",
+    "imagePlace": "center",
     "answerChoices": {
       "two": [
         {
@@ -273,6 +299,10 @@
     "isMandatory": false,
     "question": "What diet do you prefer?",
     "questionType": "radio",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "bottom",
+    "imagePlace": "right",
     "answerChoices": {
       "Veg": [
         {
