@@ -247,7 +247,7 @@
     "isMandatory": false,
     "question": "Are you available for break-fast ?",
     "description": null,
-    "questionType": "radio",
+    "questionType": "slider",
     "answerChoices": {
       "Yes": [
         {
@@ -265,7 +265,7 @@
     "isMandatory": false,
     "question": "Are you available for lunch ?",
     "description": null,
-    "questionType": "radio",
+    "questionType": "slider",
     "answerChoices": {
       "Yes": [
         {
@@ -283,7 +283,7 @@
     "isMandatory": false,
     "question": "Are you available for dinner ?",
     "description": null,
-    "questionType": "radio",
+    "questionType": "slider",
     "answerChoices": {
       "Yes": [
         {

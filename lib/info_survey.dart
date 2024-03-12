@@ -206,7 +206,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     );
   }
 
-  ValueNotifier<double> sliderValue = ValueNotifier<double>(50);
 
   Widget buildQuestion(List<TreeNode> data, int pageIndex) {
     String questionType = data[pageIndex].questionType;
@@ -214,7 +213,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
       case "radio":
         return buildRadioQuestion(data[pageIndex], pageIndex);
       case "slider":
-        return buildSliderQuestion(data[pageIndex]);
+        return buildSliderQuestion(data[pageIndex],);
       case "multipleChoices":
         return buildMultipleChoicesQuestion(data[pageIndex]);
       case "datetime":
@@ -985,8 +984,15 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     );
   }
 
+  
   Widget buildSliderQuestion(TreeNode questionData) {
+
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
+
+    if(answersMap.containsKey(questionData.question)){
+      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']));
+    }
+
     double sliderScore = 0;
 
     ImagePosition imagePosition = ImagePosition.top;
@@ -1086,10 +1092,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             return Column(
               children: [
                 Slider(
-                  value: value.clamp(0, 100),
+                  value: sliderValue.value,
                   divisions: 100,
                   onChanged: (double newValue) {
-                    sliderValue.value = newValue;
+                      sliderValue.value = newValue;
                   },
                   max: 100,
                   inactiveColor:
@@ -1165,6 +1171,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                       )
                   : const SizedBox(),
               widget.customButton ??
+
                   GestureDetector(
                     onTap: () {
                       String? ageGroup;
@@ -1645,17 +1652,17 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 value: answers.contains(answer),
-                onChanged: (selected) {
-                    if (answers.contains(answer)) {
-                      answers.remove(answer);
-                    } else {
-                        answers.add(answer);
-                        setState(() {
-
-                        });
-                    }
-                },
-              );
+                  onChanged: (bool? selected) {
+                    setState(() {
+                      if (selected ?? false) {
+                        if (!answers.contains(answer)) {
+                          answers.add(answer);
+                        }
+                      } else {
+                        answers.remove(answer);
+                      }
+                    });
+                  } );
             }).toList(),
           ),
           const SizedBox(
