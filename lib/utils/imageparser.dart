@@ -24,13 +24,14 @@ class _ImageParserState extends State<ImageParser> {
     }
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Image.network(widget.data.image!,
+      child: FadeInImage.assetNetwork(
+        image: widget.data.image!,
           height: widget.data.imageHeight?.toDouble(),
           alignment: imagePlace == ImagePlace.left
               ? Alignment.topLeft
               : imagePlace == ImagePlace.right
               ? Alignment.topRight
-              : Alignment.topCenter),
+              : Alignment.topCenter,
+        placeholder: 'assets/images/placeholder1.png'),
     );
-  }
-}
+  }}

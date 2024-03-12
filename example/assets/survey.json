@@ -1,12 +1,12 @@
 [
-  {
+   {
     "id": 1,
     "isMandatory": false,
     "question": "What is your gender?",
     "description": "Better giving the description",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "imagePosition": "top",
-    "imagePlace": "center",
+    "imagePlace": "left",
     "imageHeight": 200,
     "imageWidth": 200,
     "questionType": "radio",
@@ -247,7 +247,9 @@
     "isMandatory": false,
     "question": "Are you available for break-fast ?",
     "description": null,
-    "questionType": "slider",
+    "imageHeight": 200,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
     "answerChoices": {
       "Yes": [
         {
@@ -265,7 +267,8 @@
     "isMandatory": false,
     "question": "Are you available for lunch ?",
     "description": null,
-    "questionType": "slider",
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
     "answerChoices": {
       "Yes": [
         {
@@ -283,7 +286,8 @@
     "isMandatory": false,
     "question": "Are you available for dinner ?",
     "description": null,
-    "questionType": "slider",
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
     "answerChoices": {
       "Yes": [
         {
