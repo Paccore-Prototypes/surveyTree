@@ -35,7 +35,7 @@ class InfoSurvey extends StatefulWidget {
       this.customSkipButton,
       this.imageContainer,
       this.customSizedBox,
-      this.imagePlace});
+      this.imagePlace, this.listTileShape});
 
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
@@ -64,6 +64,7 @@ class InfoSurvey extends StatefulWidget {
   Container? imageContainer;
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
+  RoundedRectangleBorder? listTileShape;
 
   @override
   State<InfoSurvey> createState() => _InfoSurveyState();
@@ -345,20 +346,14 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (data.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == data.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // const SizedBox(
-          //   height: 50,
-          // ),
+          const SizedBox(
+            height: 10,
+          ),
           imagePosition == ImagePosition.top &&
                   data.image != null &&
                   data.image!.isNotEmpty
@@ -384,6 +379,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           //           height: 10,
           //         )
           //     : const SizedBox(),
+          imagePosition == ImagePosition.top &&
+              data.image != null &&
+              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           Text(
             data.question ?? "",
             style: widget.radioQuestion ??
@@ -398,6 +396,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   data.image!.isNotEmpty
               ? ImageParser(data:data)
               : Container(),
+          imagePosition == ImagePosition.middle &&
+              data.image != null &&
+              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
 
           // imagePosition == ImagePosition.middle &&
           //         data.image != null &&
@@ -424,15 +425,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   data.image!.isNotEmpty
               ? ImageParser(data:data)
               : Container(),
-
           imagePosition == ImagePosition.bottom &&
-                  data.image != null &&
-                  data.image!.isNotEmpty
-              ? widget.customSizedBox ??
-                  const SizedBox(
-                    height: 10,
-                  )
-              : const SizedBox(),
+              data.image != null &&
+              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+         const SizedBox(height: 10,),
+
           Column(
             children: (data.answerChoices).keys.map<Widget>((answer) {
               if (data.answerChoices[answer] != null) {
@@ -470,13 +467,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                             SnackBar(content: Text('Your Score Is $sumOfScores')));
 
                         _showSubmitDialog();
-                      }else {
+                      }
 
-                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(
-                          content: Text('Your Score Is $sumOfScores')));
-
-                      _showSubmitDialog();
-                    } else {
                       addTheFollowUpQuestion(answer,
                           isNestedchoice: true,
                           haveDescription:
@@ -494,7 +486,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
-                    }
                   });
               // }
             }).toList(),
@@ -670,13 +661,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (questionData.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == questionData.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return Card(
       elevation: 0,
       color: Colors.transparent,
@@ -685,21 +670,15 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? Padding(
-                    padding: imagePlace == ImagePlace.left
-                        ? const EdgeInsets.only(right: 200)
-                        : imagePlace == ImagePlace.right
-                            ? const EdgeInsets.only(left: 200)
-                            : const EdgeInsets.only(left: 75),
-                    child: Image.network(
-                      questionData.image!,
-                      height: 200,
-                    ),
-                  )
+                ? ImageParser(data:questionData)
                 : Container(),
+            imagePosition == ImagePosition.top &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             Text(
               questionData.question ?? "",
               style: widget.listTileQuestionStyle ??
@@ -711,19 +690,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             imagePosition == ImagePosition.middle &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? Padding(
-                    padding: imagePlace == ImagePlace.left
-                        ? const EdgeInsets.only(right: 200)
-                        : imagePlace == ImagePlace.right
-                            ? const EdgeInsets.only(left: 200)
-                            : const EdgeInsets.only(left: 75),
-                    child: Image.network(
-                      questionData.image!,
-                      height: 200,
-                      width: 350,
-                    ),
-                  )
+                ? ImageParser(data:questionData)
                 : Container(),
+            imagePosition == ImagePosition.middle &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             questionData.description!.isNotEmpty
                 ? Text(
                     questionData.description.toString(),
@@ -735,18 +706,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             imagePosition == ImagePosition.bottom &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? Padding(
-                    padding: imagePlace == ImagePlace.left
-                        ? const EdgeInsets.only(right: 200)
-                        : imagePlace == ImagePlace.right
-                            ? const EdgeInsets.only(left: 200)
-                            : const EdgeInsets.only(left: 75),
-                    child: Image.network(
-                      questionData.image!,
-                      height: 200,
-                    ),
-                  )
+                ? ImageParser(data:questionData)
                 : Container(),
+            imagePosition == ImagePosition.bottom &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             const SizedBox(height: 10),
             Column(
               children: (questionData.answerChoices).keys.map<Widget>((answer) {
@@ -756,17 +720,14 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
                 if (questionData.answerChoices[answer] == null) {
                   return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(answer),
-                        if (isSelected)
-                          const Icon(
-                            Icons.check,
-                            color: Colors.black,
-                          ),
-                      ],
+                    shape: isSelected ? widget.listTileShape ??  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.black),
+                    ): RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.transparent),
                     ),
+                    title:  Text(answer),
                     tileColor: isSelected
                         ? widget.tileListColor ?? Colors.blueGrey.shade200
                         : null,
@@ -783,23 +744,19 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   );
                 } else {
                   return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(answer),
-                        if (isSelected)
-                          const Icon(
-                            Icons.check,
-                            color: Colors.black,
-                          ),
-                      ],
-                    ),
+                    title:  Text(answer),
                     // selectedTileColor: widget.tileListColor ?? Colors.green,
                     tileColor: isSelected
                         ? widget.tileListColor ?? Colors.blueGrey.shade200
                         : null,
-
-                    onTap: () {
+                    shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.black),
+                    ) : RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.transparent),
+                    ),
+                      onTap: () {
                       addTheFollowUpQuestion(answer,
                           haveDescription:
                               questionData.description != null ? true : false,
@@ -1002,13 +959,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (questionData.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == questionData.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1018,18 +969,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.top &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? Padding(
-                padding: imagePlace == ImagePlace.left
-                    ? const EdgeInsets.only(right: 200)
-                    : imagePlace == ImagePlace.right
-                        ? const EdgeInsets.only(left: 200)
-                        : const EdgeInsets.only(left: 75),
-                child: Image.network(
-                  questionData.image!,
-                  height: 200,
-                ),
-              )
+            ? ImageParser(data:questionData)
             : Container(),
+        imagePosition == ImagePosition.top &&
+            questionData.image != null &&
+            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
         Text(
           questionData.question ?? "",
           style: widget.sliderQuestionStyle ??
@@ -1041,25 +985,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.middle &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? Padding(
-                padding: imagePlace == ImagePlace.left
-                    ? const EdgeInsets.only(right: 200)
-                    : imagePlace == ImagePlace.right
-                        ? const EdgeInsets.only(left: 200)
-                        : const EdgeInsets.only(left: 75),
-                child: Image.network(
-                  questionData.image!,
-                  height: 200,
-                ),
-              )
+            ? ImageParser(data:questionData)
             : Container(),
-        questionData.description!.isNotEmpty
-            ? const SizedBox(
-                height: 10,
-              )
-            : const SizedBox(
-                height: 0,
-              ),
+        imagePosition == ImagePosition.middle &&
+            questionData.image != null &&
+            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+
         questionData.description!.isNotEmpty
             ? Text(
                 questionData.description.toString(),
@@ -1074,18 +1005,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.bottom &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? Padding(
-                padding: imagePlace == ImagePlace.left
-                    ? const EdgeInsets.only(right: 200)
-                    : imagePlace == ImagePlace.right
-                        ? const EdgeInsets.only(left: 200)
-                        : const EdgeInsets.only(left: 75),
-                child: Image.network(
-                  questionData.image!,
-                  height: 200,
-                ),
-              )
+            ? ImageParser(data:questionData)
             : Container(),
+        imagePosition == ImagePosition.bottom &&
+            questionData.image != null &&
+            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
         ValueListenableBuilder<double>(
           valueListenable: sliderValue,
           builder: (context, value, child) {
@@ -1316,13 +1240,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (questionData.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == questionData.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -1331,6 +1249,15 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           const SizedBox(
             height: 10,
           ),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty
+              ? ImageParser(data:questionData)
+              : Container(),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+
           Text(
             questionData.question ?? "",
             style: widget.textFieldQuestionStyle ??
@@ -1342,18 +1269,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.middle &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
 
           questionData.description!.isNotEmpty
               ? Text(
@@ -1367,18 +1287,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.bottom &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           const SizedBox(
             height: 10,
           ),
@@ -1555,13 +1468,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (questionData.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == questionData.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1572,18 +1479,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           Text(
             questionData.question ?? "",
             style: widget.checkBoxQuestionStyle ??
@@ -1595,18 +1495,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.middle &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           questionData.description!.isNotEmpty
               ? Text(
                   questionData.description.toString(),
@@ -1616,23 +1509,16 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   height: 0,
                 ),
           const SizedBox(
-            height: 12,
+            height: 10,
           ),
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           const SizedBox(height: 10),
           Column(
 
@@ -1837,13 +1723,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-    ImagePlace imagePlace = ImagePlace.center;
-    if (questionData.imagePlace != null) {
-      imagePlace = ImagePlace.values.firstWhere(
-        (e) => e.toString().split('.').last == questionData.imagePlace!,
-        orElse: () => ImagePlace.center,
-      );
-    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -1855,18 +1735,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           Text(
             questionData.question ?? "",
             style: widget.dateTimeQuestionStyle ??
@@ -1878,19 +1751,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
-
+          imagePosition == ImagePosition.middle &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           questionData.description!.isNotEmpty
               ? Text(
                   questionData.description.toString(),
@@ -1901,23 +1766,16 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                 ),
 
           const SizedBox(
-            height: 12,
+            height: 10,
           ),
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? Padding(
-                  padding: imagePlace == ImagePlace.left
-                      ? const EdgeInsets.only(right: 200)
-                      : imagePlace == ImagePlace.right
-                          ? const EdgeInsets.only(left: 200)
-                          : const EdgeInsets.only(left: 75),
-                  child: Image.network(
-                    questionData.image!,
-                    height: 200,
-                  ),
-                )
+              ? ImageParser(data:questionData)
               : Container(),
+          imagePosition == ImagePosition.bottom &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           const SizedBox(height: 10),
 
           GestureDetector(
