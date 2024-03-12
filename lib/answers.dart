@@ -43,6 +43,7 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
     List<String> questionKeys = widget.answersMap.keys.toList();
 
     return Scaffold(
+
       appBar: AppBar(
         title: const Text(
           "Survey App",
@@ -60,16 +61,21 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
             const SizedBox(height: 20,),
              Center(
               child: Text(
-                'Your Health Score:',
+                'Your Survey Score:',
                 style: TextStyle(fontSize: 20, color: Colors.green.shade800, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10,),
             Center(child: AnimatedCheck(scores: widget.scores)),
             const SizedBox(height: 20,),
-            const Text(
-              'Your survey questions are:',
-              style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+            Container(
+              width:MediaQuery.of(context).size.width,
+              height: 50,
+              child: const Text(
+                'Survey Responses',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 20,),
             SizedBox(
@@ -80,29 +86,21 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
                   String question = questionKeys[index];
                   dynamic answer = widget.answersMap[question];
                   String answerJson = const JsonEncoder.withIndent('  ').convert(answer);
-                  return ListTile(
-                    title: Column(
+                  return Card(
+                    margin: EdgeInsets.all(10),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(
-                        //   'Question ${index + 1}:',
-                        //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        // ),
-                        // const SizedBox(height: 8),
                         Text(
-                          question,
+                          '${index+1} . $question',
                           style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        // const Text(
-                        //   'Answer :',
-                        //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                        // ),
                         Text(
                           answerJson,
                           style: const TextStyle(fontSize: 14),
                         ),
-                        const Divider(), // Add a divider between questions
+                        // const Divider(), // Add a divider between questions
                       ],
                     ),
                   );

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:infosurvey/infosurvey.dart';
 import 'package:infosurvey_example/callingFile.dart';
 
 void main() {
@@ -18,12 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'InfoSurvey Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: ImportingProperties()
+        home: const ImportingProperties()
     );
   }
 }

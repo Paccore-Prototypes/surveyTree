@@ -4,11 +4,11 @@
     "isMandatory": false,
     "question": "What is your gender?",
     "description": "Better giving the description",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "imagePosition": "top",
-    "imagePlace": "right",
-    "imageHeight": 200,
-    "imageWidth": 200,
+    "imagePlace": "left",
+    "imageHeight": 100,
+    "imageWidth":100,
     "questionType": "radio",
     "answerChoices": {
       "Male": [

@@ -5,7 +5,7 @@ import 'package:infosurvey/info_survey.dart';
 import 'package:infosurvey/tree_node.dart';
 
 class ImportingProperties extends StatefulWidget {
-  const ImportingProperties({Key? key});
+  const ImportingProperties({super.key});
 
   @override
   State<ImportingProperties> createState() => _ImportingPropertiesState();

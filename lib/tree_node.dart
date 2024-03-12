@@ -55,10 +55,10 @@ class TreeModel {
       questionType: data['questionType'] ?? '',
       answerChoices: data['answerChoices'] ?? {},
       score: data['score'] ?? 0,
-      imagePosition: data['imagePosition'] ?? '',
-      imagePlace: data['imagePlace'] ?? '',
+      imagePosition: data['imagePosition'] ?? 'top',
+      imagePlace: data['imagePlace'] ?? 'center',
       imageHeight: data['imageHeight'] ?? 100,
-      imageWidth: data['imageWidth'] ?? 150,
+      imageWidth: data['imageWidth'] ?? 100,
       children: _parseChildren(data['answerChoices']),
     );
   }
