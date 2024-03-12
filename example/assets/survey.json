@@ -6,9 +6,9 @@
     "description": "Better giving the description",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "imagePosition": "top",
-    "imagePlace": "left",
-    "imageHeight": 100,
-    "imageWidth":100,
+    "imagePlace": "center",
+    "imageHeight": 200,
+    "imageWidth": 200,
     "questionType": "radio",
     "answerChoices": {
       "Male": [
@@ -20,7 +20,7 @@
           "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
           "imagePosition": "middle",
           "imagePlace": "right",
-          "questionType": "list",
+          "questionType": "radio",
           "score": 8,
           "answerChoices": {
             "Yes": [
@@ -55,7 +55,7 @@
           "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
           "imagePosition": "middle",
           "imagePlace": "right",
-          "questionType": "list",
+          "questionType": "radio",
           "answerChoices": {
             "Yes": [
               {
@@ -63,7 +63,7 @@
                 "isMandatory": false,
                 "question": "Are you taking medication?",
                 "description": null,
-                "questionType": "list",
+                "questionType": "radio",
                 "answerChoices": {
                   "Yes": [
                     {
@@ -138,6 +138,243 @@
         }
       ],
       "Other": null
+    }
+  },
+  {
+    "id": 2,
+    "isMandatory": false,
+    "question": "How fluent you are in spanish?",
+    "description": "description has given",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "middle",
+    "imagePlace": "right",
+    "imageHeight": 100,
+    "imageWidth": 200,
+    "questionType": "slider",
+    "score": 6,
+    "answerChoices": null
+  },
+  {
+    "id": 4,
+    "isMandatory": false,
+    "question": "How Many times do you eat?",
+    "questionType": "multipleChoices",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "middle",
+    "imagePlace": "center",
+    "answerChoices": {
+      "two": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 4
+        }
+      ],
+      "three": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "one": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "four": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": 401,
+    "isMandatory": false,
+    "question": "How many time you read?",
+    "questionType": "multipleChoices",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "middle",
+    "imagePlace": "center",
+    "answerChoices": {
+      "two": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 4
+        }
+      ],
+      "three": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "one": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "four": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": 901,
+    "isMandatory": false,
+    "question": "Are you available for break-fast ?",
+    "description": null,
+    "questionType": "radio",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7
+        }
+      ],
+      "No":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 902,
+    "isMandatory": false,
+    "question": "Are you available for lunch ?",
+    "description": null,
+    "questionType": "radio",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7
+        }
+      ],
+      "No":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 903,
+    "isMandatory": false,
+    "question": "Are you available for dinner ?",
+    "description": null,
+    "questionType": "radio",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7
+        }
+      ],
+      "No":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 501,
+    "isMandatory": false,
+    "question": "Which diet do you prefer?",
+    "questionType": "radio",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "bottom",
+    "imagePlace": "right",
+    "answerChoices": {
+      "Veg": [
+        {
+          "score": 10
+        }
+      ],
+      "Non-Veg": [
+        {
+          "score": 20
+        }
+      ],
+      "Other": [
+        {
+          "score": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": 601,
+    "isMandatory": false,
+    "question": "Diet preferring",
+    "questionType": "radio",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "bottom",
+    "imagePlace": "right",
+    "answerChoices": {
+      "Green-labels": [
+        {
+          "score": 10
+        }
+      ],
+      "Fruits": [
+        {
+          "score": 20
+        }
+      ],
+      "Other": [
+        {
+          "score": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "isMandatory": false,
+    "question": "Choose your profession?",
+    "questionType": "radio",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+    "imagePosition": "bottom",
+    "imagePlace": "right",
+    "answerChoices": {
+      "IT": [
+        {
+          "score": 8
+        }
+      ],
+      "Electrical": [
+        {
+          "score": 10
+        }
+      ],
+      "Mech": [
+        {
+          "score": 4
+        }
+      ]
     }
   },
   {
@@ -250,50 +487,7 @@
       ]
     }
   },
-  {
-    "id": 4,
-    "isMandatory": false,
-    "question": "How Many times do you eat?",
-    "questionType": "multipleChoices",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "middle",
-    "imagePlace": "center",
-    "answerChoices": {
-      "two": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 4
-        }
-      ],
-      "three": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 8
-        }
-      ],
-      "one": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 6
-        }
-      ],
-      "four": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 1
-        }
-      ]
-    }
-  },
+
   {
     "id": 5,
     "isMandatory": false,

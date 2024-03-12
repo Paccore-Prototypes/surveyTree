@@ -336,7 +336,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     pageviewTree!.nodes.removeAt(pageController.page!.toInt());
   }
 
+
   Widget buildRadioQuestion(TreeNode data, int pageIndex) {
+    String? selectedValue;
     ImagePosition imagePosition = ImagePosition.top;
     if (data.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -439,36 +441,37 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   selectedValue = answersMap[data.question]['answer'];
                 }
               }
-              return RadioListTile(
-                  title: Text(
-                    answer,
-                    style: widget.optionRadioStyle ??
-                        TextStyle(
-                            color: selectedValue == answer
-                                ? Colors.deepPurple
-                                : Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
-                  ),
-                  value: answer,
-                  activeColor: widget.activeRadioColor ?? Colors.deepPurple,
-                  groupValue:
-                      selectedValue?.isNotEmpty ?? false ? selectedValue : null,
-                  onChanged: (selectedAnswer) {
-                    setState(() {
-                      selectedValue = selectedAnswer;
-                      answer = selectedAnswer!;
-                    });
-                    if (isLast) {
-                      answersMap[data.question!] = {
-                        'id': data.id,
-                        'question-type': data.questionType,
-                        'score': data.answerChoices == null
-                            ? data.score
-                            : data.answerChoices[selectedValue][0]['score'],
-                        'answer': selectedValue
-                      };
-                      sumOfScoresData();
+              //final bool isSelected = selectedValue == answer;
+            //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
+                return RadioListTile(
+                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer?Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
+                    value: answer,
+                    activeColor: widget.activeRadioColor ?? Colors.deepPurple,
+                    groupValue: selectedValue?.isNotEmpty ?? false
+                        ? selectedValue
+                        : null,
+                  //  groupValue: selectedValue,
+                   // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
+                    onChanged: (selectedAnswer) {
+
+                      setState(() {
+                        selectedValue = selectedAnswer;
+                        answer = selectedAnswer!;
+                      });
+                      if(isLast){
+                        answersMap[data.question!]={
+                          'id':data.id,
+                          'question-type':data.questionType,
+                          'score':data.answerChoices == null?data.score:data.answerChoices[selectedValue][0]['score'],
+                          'answer':selectedValue
+                        };
+                        sumOfScoresData();
+
+                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            SnackBar(content: Text('Your Score Is $sumOfScores')));
+
+                        _showSubmitDialog();
+                      }else {
 
                       ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBar(
                           content: Text('Your Score Is $sumOfScores')));
@@ -1080,7 +1083,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         ValueListenableBuilder<double>(
           valueListenable: sliderValue,
           builder: (context, value, child) {
-            print('----------------------------------------sarada${value}');
             return Column(
               children: [
                 Slider(
@@ -1537,6 +1539,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
   Widget buildMultipleChoicesQuestion(
     TreeNode questionData,
   ) {
+    List<String> answers = [];
+
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -1624,7 +1628,15 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               : Container(),
           const SizedBox(height: 10),
           Column(
-            children: (questionData.answerChoices).keys.map<Widget>((answer) {
+
+            children: (questionData.answerChoices)
+                .keys
+                .map<Widget>((answer) {
+              if (questionData.answerChoices[answer] != null) {
+                if (answersMap.containsKey(questionData.question)) {
+                  answers = answersMap[questionData.question]['answer'];
+                }
+              }
               return CheckboxListTile(
                 title: Text(
                   answer,
@@ -1634,13 +1646,14 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                 ),
                 value: answers.contains(answer),
                 onChanged: (selected) {
-                  setState(() {
                     if (answers.contains(answer)) {
                       answers.remove(answer);
                     } else {
-                      answers.add(answer);
+                        answers.add(answer);
+                        setState(() {
+
+                        });
                     }
-                  });
                 },
               );
             }).toList(),
