@@ -5,8 +5,10 @@ import 'package:infosurvey/tree_node.dart';
 class ImageParser extends StatefulWidget {
    ImageParser({super.key,
     required this.data,
+    this.imagePaceHolder
 }) ;
   TreeNode data;
+  final String? imagePaceHolder;
 
   @override
   State<ImageParser> createState() => _ImageParserState();
@@ -32,6 +34,12 @@ class _ImageParserState extends State<ImageParser> {
               : imagePlace == ImagePlace.right
               ? Alignment.topRight
               : Alignment.topCenter,
-        placeholder: 'assets/images/placeholder1.png'),
+              placeholderErrorBuilder: (context, error, stackTrace) {
+                return Center(child: CircularProgressIndicator(),);
+              },
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Center(child: CircularProgressIndicator(),);
+              },
+        placeholder: widget.imagePaceHolder??''),
     );
   }}

@@ -13,6 +13,7 @@ class TreeNode {
   int? imageHeight;
   int? imageWidth;
   String? answerDescription;
+  String? inputType;
 
   TreeNode({
     required this.id,
@@ -27,8 +28,12 @@ class TreeNode {
     this.imagePosition,
     this.imagePlace,
     this.imageHeight,
+
     this.imageWidth,
     this.answerDescription
+
+    this.inputType,
+  
   });
 }
 
@@ -61,7 +66,11 @@ class TreeModel {
       imagePlace: data['imagePlace'] ?? 'center',
       imageHeight: data['imageHeight'] ?? 100,
       imageWidth: data['imageWidth'] ?? 100,
+
       answerDescription: data['answerDescription'] ?? '',
+
+      inputType: data['inputType']??'text',
+
       children: _parseChildren(data['answerChoices']),
     );
   }

@@ -29,6 +29,7 @@
                 "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
+                "inputType":"number",
                 "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
                 "imagePosition": "bottom",
                 "imagePlace": "right",

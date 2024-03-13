@@ -20,6 +20,7 @@
                 "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
+                "inputType":"number",
                 "answerChoices": null,
                 "score": 5
               }
