@@ -1462,7 +1462,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
   Widget buildMultipleChoicesQuestion(
     TreeNode questionData,
   ) {
-    List<String> answers = [];
+  //  List<String> answers = [];
 
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
