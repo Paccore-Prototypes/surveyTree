@@ -10,6 +10,8 @@ class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
       this.sliderQuestionStyle,
+        this.TextAlignment,
+
       this.radioQuestion,
       this.listTileQuestionStyle,
       this.checkBoxQuestionStyle,
@@ -58,6 +60,7 @@ class InfoSurvey extends StatefulWidget {
   Color? activeRadioColor;
   Color? activeRadioTextColor;
   Color? tileListColor;
+  CrossAxisAlignment? TextAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
 
@@ -76,6 +79,7 @@ class InfoSurvey extends StatefulWidget {
   Container? imageContainer;
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
+
   RoundedRectangleBorder? listTileShape;
   String? skipText;
 
@@ -167,6 +171,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     ImagePosition refEnum = ImagePosition.top;
     return WillPopScope(
       onWillPop: () async {
@@ -219,7 +224,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                 height: MediaQuery.of(context).size.height,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: PageView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
@@ -375,10 +380,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -418,7 +422,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             data.question ?? "",
             style: widget.radioQuestion ??
                 const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
           ),
+
+
+
           widget.customSizedBox ??
               const SizedBox(
                 height: 10,
@@ -727,7 +735,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       child: Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&
@@ -1053,7 +1061,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
       children: [
         const SizedBox(
           height: 10,
@@ -1347,7 +1355,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1596,7 +1604,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1873,7 +1881,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -2123,7 +2131,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         return widget.submitSurveyPopup ??
             AlertDialog(
               elevation: 0,
-              insetPadding: const EdgeInsets.only(top: 180, bottom: 180),
+              insetPadding: const EdgeInsets.only(top: 180, bottom: 170),
               title: const Text('Submit Survey?'),
               content: Column(
                 children: [
