@@ -10,6 +10,8 @@ class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
       this.sliderQuestionStyle,
+        this.TextAlignment,
+
       this.radioQuestion,
       this.listTileQuestionStyle,
       this.checkBoxQuestionStyle,
@@ -52,6 +54,7 @@ class InfoSurvey extends StatefulWidget {
   Color? activeRadioColor;
   Color? activeRadioTextColor;
   Color? tileListColor;
+  CrossAxisAlignment? TextAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
   String? buttonText;
@@ -64,6 +67,7 @@ class InfoSurvey extends StatefulWidget {
   Container? imageContainer;
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
+
   RoundedRectangleBorder? listTileShape;
 
   @override
@@ -155,6 +159,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     ImagePosition refEnum = ImagePosition.top;
     return WillPopScope(
       onWillPop: () async {
@@ -193,7 +198,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                 height: MediaQuery.of(context).size.height,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: PageView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
@@ -349,10 +354,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
-
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -389,7 +393,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             data.question ?? "",
             style: widget.radioQuestion ??
                 const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
           ),
+
+
+
           widget.customSizedBox ??
               const SizedBox(
                 height: 10,
@@ -671,7 +679,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
       child: Padding(
         padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&
@@ -964,7 +972,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
       children: [
         const SizedBox(
           height: 10,
@@ -1247,7 +1255,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1474,7 +1482,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1739,7 +1747,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1975,7 +1983,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         return widget.submitSurveyPopup ??
             AlertDialog(
               elevation: 0,
-              insetPadding: const EdgeInsets.only(top: 180, bottom: 180),
+              insetPadding: const EdgeInsets.only(top: 180, bottom: 170),
               title: const Text('Submit Survey?'),
               content: Column(
                 children: [
