@@ -26,16 +26,16 @@ class InfoSurvey extends StatefulWidget {
       this.tileListColor,
       this.textFieldQuestionStyle,
       this.buttonTextStyle,
-      this.buttonText,
-      this.buttonDecoration,
+     // this.buttonText,
+   //   this.buttonDecoration,
       this.submitSurveyPopup,
       this.surveyResult,
       required this.showScoreWidget,
       this.description,
-      this.customSkipButton,
+      this.customSkipStyle,
       this.imageContainer,
       this.customSizedBox,
-      this.imagePlace, this.listTileShape});
+      this.imagePlace, this.listTileShape,this.skipText});
 
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
@@ -54,17 +54,18 @@ class InfoSurvey extends StatefulWidget {
   Color? tileListColor;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
-  String? buttonText;
-  BoxDecoration? buttonDecoration;
+  //String? buttonText;
+ // BoxDecoration? buttonDecoration;
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
   bool showScoreWidget;
   TextStyle? description;
-  ElevatedButton? customSkipButton;
+  TextStyle? customSkipStyle;
   Container? imageContainer;
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
   RoundedRectangleBorder? listTileShape;
+  String? skipText;
 
   @override
   State<InfoSurvey> createState() => _InfoSurveyState();
@@ -502,8 +503,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 data.isMandatory == false && isLast == false
-                    ? widget.customSkipButton ??
-                        GestureDetector(
+                    ? GestureDetector(
                           onTap: () {
                             addTheFollowUpQuestion('',
                                 isNestedchoice: true,
@@ -536,10 +536,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                          child: const Center(
-                            child: Text(
-                              'Skip',
-                              style: TextStyle(
+                          child: Center(
+                            child:  Text(
+                              widget.skipText ?? 'Skip',
+                              style: widget.customSkipStyle ?? const TextStyle(
                                   color: Colors.blue,
                                   fontSize: 16,
                                   decoration: TextDecoration.underline,
@@ -549,7 +549,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           ),
                         )
                     : const SizedBox(),
-                widget.customButton ??
+
                     GestureDetector(
                       onTap: () {
                         if (isLast) {
@@ -615,7 +615,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           }
                         }
                       },
-                      child: Container(
+                      child: widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -655,8 +655,21 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
       ),
     );
   }
-
+  String answerDescription = '';
+  bool selected = false;
   Widget buildLIstQuestioins(TreeNode questionData) {
+    String answerdata='';
+    if(answersMap.containsKey(questionData.question)){
+      if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer']!=''){
+      answerdata=answersMap[questionData.question]['answer'];
+    }}
+    if(answersMap.containsKey(questionData.question)){
+      if(answersMap[questionData.question]['optionDescription']!=null) {
+        answerDescription =
+        answersMap[questionData.question]['optionDescription'];
+      }}else{
+      answerDescription='';
+    }
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -669,7 +682,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
       elevation: 0,
       color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -717,9 +730,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             const SizedBox(height: 10),
             Column(
               children: (questionData.answerChoices).keys.map<Widget>((answer) {
-                bool isSelected =
-                    answersMap.containsKey(questionData.question) &&
-                        answersMap[questionData.question]['answer'] == answer;
+                bool isSelected = answerdata == answer;
 
                 if (questionData.answerChoices[answer] == null) {
                   return ListTile(
@@ -735,6 +746,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         ? widget.tileListColor ?? Colors.blueGrey.shade200
                         : null,
                     onTap: () {
+                     // isSelected ? selected = true : false;
+
+                      setState(() {
+                        answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+                      });
                       addTheFollowUpQuestion('',
                           isNestedchoice: true,
                           question: questionData.question,
@@ -760,6 +776,17 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                       side: const BorderSide(color: Colors.transparent),
                     ),
                       onTap: () {
+                      //  isSelected ? selected = true : false;
+
+                        if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
+                          answerDescription = questionData
+                              .answerChoices[answer][0]['answerDescription'];
+                        }
+
+                        print('print the valie is -----------------------$selected');
+                        setState(() {
+
+                        });
                       addTheFollowUpQuestion(answer,
                           haveDescription:
                               questionData.description != null ? true : false,
@@ -770,7 +797,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                             'question-type': questionData.questionType,
                             'score': questionData.answerChoices[answer][0]
                                 ['score'],
-                            'answer': answer
+                            'answer': answer,
+                            'optionDescription' : answerDescription
                           });
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
@@ -779,18 +807,19 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   );
                 }
               }).toList(),
+
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 15,),
+            if(answerDescription.isNotEmpty)
+            Text(answerDescription),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   questionData.isMandatory == false && isLast == false
-                      ? widget.customSkipButton ??
-                          GestureDetector(
+                      ? GestureDetector(
                             onTap: () {
                               addTheFollowUpQuestion('',
                                   isNestedchoice: true,
@@ -823,10 +852,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                'Skip',
-                                style: TextStyle(
+                               widget.skipText ?? 'Skip',
+                                style: widget.customSkipStyle ?? const TextStyle(
                                     color: Colors.blue,
                                     fontSize: 16,
                                     decoration: TextDecoration.underline,
@@ -836,7 +865,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                             ),
                           )
                       : const SizedBox(),
-                  widget.customButton ??
+
                       GestureDetector(
                         onTap: () {
                           if (isLast) {
@@ -859,7 +888,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                             }
                           } else {
                             if (questionData.isMandatory == true) {
-                              if (answers.isEmpty) {
+                              if (answerdata.isEmpty) {
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
@@ -868,7 +897,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                 ));
                                 return;
                               }
-                              addTheFollowUpQuestion('',
+                              addTheFollowUpQuestion(answerdata,
                                   isNestedchoice: true,
                                   question: questionData.question,
                                   answeValue: {
@@ -877,7 +906,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                     'score': questionData.answerChoices == null
                                         ? 0
                                         : questionData.score,
-                                    'answer': ''
+                                    'answer': answerdata,
+                                    'optionDescription': answerDescription
                                   });
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
@@ -893,7 +923,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                     'score': questionData.answerChoices == null
                                         ? 0
                                         : questionData.score,
-                                    'answer': ''
+                                    'answer': answerdata,
+                                  'optionDescription': answerDescription
+
                                   });
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
@@ -902,7 +934,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                             }
                           }
                         },
-                        child: Container(
+                        child:  widget.customButton ?? Container(
                           width: isLast ? 150 : 120,
                           height: isLast ? 50 : 40,
                           decoration: BoxDecoration(
@@ -1050,8 +1082,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               questionData.isMandatory == false && isLast == false
-                  ? widget.customSkipButton ??
-                      GestureDetector(
+                  ? GestureDetector(
                         onTap: () {
                           addTheFollowUpQuestion('',
                               isNestedchoice: true,
@@ -1084,10 +1115,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Skip',
-                            style: TextStyle(
+                           widget.skipText ?? 'Skip',
+                            style: widget.customSkipStyle ?? const  TextStyle(
                                 color: Colors.blue,
                                 fontSize: 16,
                                 decoration: TextDecoration.underline,
@@ -1097,8 +1128,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         ),
                       )
                   : const SizedBox(),
-              widget.customButton ??
-
                   GestureDetector(
                     onTap: () {
                       String? ageGroup;
@@ -1191,10 +1220,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         );
                       }
                     },
-                    child: Container(
+                    child: widget.customButton ?? Container(
                       width: 120,
                       height: 40,
-                      decoration: widget.buttonDecoration ??
+                      decoration:
                           BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -1213,11 +1242,11 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                               )
                             ],
                           ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
-                          widget.buttonText ?? 'Next',
-                          style: widget.buttonTextStyle ??
-                              const TextStyle(
+                         'Next',
+                          style:
+                              TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -1320,8 +1349,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 questionData.isMandatory == false && isLast == false
-                    ? widget.customSkipButton ??
-                        GestureDetector(
+                    ? GestureDetector(
                           onTap: () {
                             addTheFollowUpQuestion('',
                                 isNestedchoice: true,
@@ -1354,10 +1382,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              'Skip',
-                              style: TextStyle(
+                            widget.skipText ??  'Skip',
+                              style: widget.customSkipStyle ?? const TextStyle(
                                   color: Colors.blue,
                                   fontSize: 16,
                                   decoration: TextDecoration.underline,
@@ -1367,7 +1395,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           ),
                         )
                     : const SizedBox(),
-                widget.customButton ??
+
                     GestureDetector(
                       onTap: () {
                         // Check if the question is mandatory
@@ -1418,7 +1446,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                               curve: Curves.easeInOut);
                         }
                       },
-                      child: Container(
+                      child: widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -1563,8 +1591,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 questionData.isMandatory == false && isLast == false
-                    ? widget.customSkipButton ??
-                        GestureDetector(
+                    ? GestureDetector(
                           onTap: () {
                             addTheFollowUpQuestion('',
                                 isNestedchoice: true,
@@ -1597,10 +1624,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              'Skip',
-                              style: TextStyle(
+                            widget.skipText ??  'Skip',
+                              style:  widget.customSkipStyle ?? const TextStyle(
                                   color: Colors.blue,
                                   fontSize: 16,
                                   decoration: TextDecoration.underline,
@@ -1610,7 +1637,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           ),
                         )
                     : const SizedBox(),
-                widget.customButton ??
+
                     GestureDetector(
                       onTap: () {
                         int score = 0;
@@ -1686,7 +1713,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         });
 
                       },
-                      child: Container(
+                      child: widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -1842,8 +1869,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 questionData.isMandatory == false && isLast == false
-                    ? widget.customSkipButton ??
-                        GestureDetector(
+                    ? GestureDetector(
                           onTap: () {
                             addTheFollowUpQuestion('',
                                 isNestedchoice: true,
@@ -1876,10 +1902,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                         )
                       ],
                     ),*/
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              'Skip',
-                              style: TextStyle(
+                             widget.skipText ?? 'Skip',
+                              style: widget.customSkipStyle ?? const TextStyle(
                                   color: Colors.blue,
                                   fontSize: 16,
                                   decoration: TextDecoration.underline,
@@ -1889,7 +1915,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           ),
                         )
                     : const SizedBox(),
-                widget.customButton ??
+
                     GestureDetector(
                       onTap: () {
                         if (isLast) {
@@ -1923,7 +1949,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                               curve: Curves.ease);
                         }
                       },
-                      child: Container(
+                      child:  widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(

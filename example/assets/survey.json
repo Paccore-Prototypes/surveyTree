@@ -253,11 +253,17 @@
     "answerChoices": {
       "Yes": [
         {
-          "score": 7
+          "score": 7,
+          "answerDescription": "Yes, I'm going to have the break-fast"
         }
       ],
       "No":[ {
-        "score": 7
+        "score": 7,
+        "answerDescription": "No, I'm fasting.............."
+      }],
+      "Yes but later":[ {
+        "score": 7,
+        "answerDescription": "Yes, but I will have later..."
       }]
     },
     "score": 6
