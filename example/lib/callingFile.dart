@@ -56,6 +56,10 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
+        isAppBarVisible: true,
+        imagePlaceHolder: 'assets/images/placeholder1.png',
+        onSurveyEnd: (healthscore,answermap){
+        },
         surveyResult: (healthScore, answersMap) {
           print('Health Score: $healthScore');
           print('Answers Map: $answersMap');

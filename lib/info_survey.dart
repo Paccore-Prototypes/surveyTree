@@ -35,6 +35,10 @@ class InfoSurvey extends StatefulWidget {
       this.customSkipButton,
       this.imageContainer,
       this.customSizedBox,
+      this.imagePlaceHolder,
+      this.appBarTitleWidget,
+      this.onSurveyEnd,
+      this.isAppBarVisible=true,
       this.imagePlace, this.listTileShape});
 
   TextStyle? sliderQuestionStyle;
@@ -54,11 +58,16 @@ class InfoSurvey extends StatefulWidget {
   Color? tileListColor;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
+  bool isAppBarVisible=true;
   String? buttonText;
   BoxDecoration? buttonDecoration;
+  Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
   bool showScoreWidget;
+  Widget? appBarTitleWidget;
+  String? imagePlaceHolder;
+
   TextStyle? description;
   ElevatedButton? customSkipButton;
   Container? imageContainer;
@@ -86,7 +95,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
   int sumOfScores = 0;
   bool isLoad = false;
   TreeModel? pageviewTree;
-
   final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
@@ -173,19 +181,33 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
       },
       child: Scaffold(
         key: _scafoldKey,
-        appBar: AppBar(
-          surfaceTintColor: Colors.greenAccent,
-          shadowColor: Colors.blueGrey,
-          elevation: 3,
-          title: const Text(
-            "Info Survey",
+        appBar:widget.isAppBarVisible? AppBar(
+          elevation: 0,
+
+          title: widget.appBarTitleWidget?? Text(
+           "Info Survey",
             style: TextStyle(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontFamily: "Roboto"),
           ),
-          backgroundColor: Colors.blue.shade800,
-        ),
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: (() {
+                      answers=[];
+        pageController.previousPage(
+            duration: const Duration(milliseconds: 500), curve: Curves.ease);
+        if (pageviewTree != null) {
+          isLast = false;
+          if (pageController.page?.toInt() == 0) {
+          } else {
+            removeTheNode();
+            setState(() {});
+          }}}
+
+            ),
+            
+           icon:Icon( Icons.arrow_back)),
+        ):null,
         body: isLoad
             ? const Center(child: CircularProgressIndicator())
             : Container(
@@ -360,7 +382,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
                   data.image != null &&
                   data.image!.isNotEmpty
-              ? ImageParser(data:data)
+              ? ImageParser(data:data,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
           // SizedBox(
           //   width: MediaQuery.of(context).size.width,
           //       child:
@@ -397,7 +422,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   data.image != null &&
                   data.image!.isNotEmpty
-              ? ImageParser(data:data)
+              ? ImageParser(data:data,
+              imagePaceHolder: widget.imagePlaceHolder,
+              )
               : Container(),
           imagePosition == ImagePosition.middle &&
               data.image != null &&
@@ -426,7 +453,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.bottom &&
                   data.image != null &&
                   data.image!.isNotEmpty
-              ? ImageParser(data:data)
+              ? ImageParser(data:data,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.bottom &&
               data.image != null &&
@@ -468,9 +498,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
                         ScaffoldMessenger.maybeOf(context)!.showSnackBar(
                             SnackBar(content: Text('Your Score Is $sumOfScores')));
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
 
-                        _showSubmitDialog();
-                      }
+}
+                      }else{
 
                       addTheFollowUpQuestion(answer,
                           isNestedchoice: true,
@@ -489,7 +523,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
-                  });
+                 
+             } });
               // }
             }).toList(),
           ),
@@ -561,7 +596,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                     content:
                                         Text('Your Score Is $sumOfScores')));
 
-                            _showSubmitDialog();
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
                           } else {
                             ScaffoldMessenger.maybeOf(context)!
                                 .showSnackBar(const SnackBar(
@@ -677,7 +717,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             imagePosition == ImagePosition.top &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? ImageParser(data:questionData)
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
                 : Container(),
             imagePosition == ImagePosition.top &&
                 questionData.image != null &&
@@ -693,7 +736,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             imagePosition == ImagePosition.middle &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? ImageParser(data:questionData)
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
                 : Container(),
             imagePosition == ImagePosition.middle &&
                 questionData.image != null &&
@@ -709,7 +755,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             imagePosition == ImagePosition.bottom &&
                     questionData.image != null &&
                     questionData.image!.isNotEmpty
-                ? ImageParser(data:questionData)
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
                 : Container(),
             imagePosition == ImagePosition.bottom &&
                 questionData.image != null &&
@@ -848,7 +897,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                       content:
                                           Text('Your Score Is $sumOfScores')));
 
-                              _showSubmitDialog();
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
                             } else {
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
@@ -950,7 +1004,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
 
     if(answersMap.containsKey(questionData.question)){
-      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']));
+      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
     }
 
     double sliderScore = 0;
@@ -972,7 +1026,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.top &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData)
+            ? ImageParser(data:questionData,
+                          imagePaceHolder: widget.imagePlaceHolder,
+
+            )
             : Container(),
         imagePosition == ImagePosition.top &&
             questionData.image != null &&
@@ -988,7 +1045,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.middle &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData)
+            ? ImageParser(data:questionData,
+                          imagePaceHolder: widget.imagePlaceHolder,
+
+            )
             : Container(),
         imagePosition == ImagePosition.middle &&
             questionData.image != null &&
@@ -1008,7 +1068,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         imagePosition == ImagePosition.bottom &&
                 questionData.image != null &&
                 questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData)
+            ? ImageParser(data:questionData,
+                          imagePaceHolder: widget.imagePlaceHolder,
+
+            )
             : Container(),
         imagePosition == ImagePosition.bottom &&
             questionData.image != null &&
@@ -1171,7 +1234,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           'question-type': questionData.questionType,
                           'answer': sliderValue.value.toStringAsFixed(0)
                         };
-                        _showSubmitDialog();
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
                       } else {
                         addTheFollowUpQuestion('',
                             isNestedchoice: true,
@@ -1255,7 +1323,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
               questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
@@ -1272,7 +1343,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.middle &&
               questionData.image != null &&
@@ -1290,7 +1364,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.bottom &&
               questionData.image != null &&
@@ -1299,8 +1376,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             height: 10,
           ),
           TextField(
+            keyboardType: questionData.inputType=='number'?TextInputType.number:TextInputType.text,
             decoration: const InputDecoration(
               labelText: 'Your Answer',
+              
             ),
             controller: textControllers[index],
             onChanged: (text) {
@@ -1400,7 +1479,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                               SnackBar(
                                   content: Text('Your Score Is $sumOfScores')));
 
-                          _showSubmitDialog();
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
 
                           //show Popup Dailog here
                         } else {
@@ -1471,6 +1555,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
         orElse: () => ImagePosition.top,
       );
     }
+               if (answersMap.containsKey(questionData.question)) {
+                if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty){
+                  answers = answersMap[questionData.question]['answer']??'';
+
+                }
+                }
+              
 
     return SingleChildScrollView(
       child: Column(
@@ -1482,7 +1573,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
@@ -1498,7 +1592,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.middle &&
               questionData.image != null &&
@@ -1517,7 +1614,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
@@ -1528,11 +1628,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             children: (questionData.answerChoices)
                 .keys
                 .map<Widget>((answer) {
-              if (questionData.answerChoices[answer] != null) {
-                if (answersMap.containsKey(questionData.question)) {
-                  answers = answersMap[questionData.question]['answer'];
-                }
-              }
               return CheckboxListTile(
                 title: Text(
                   answer,
@@ -1641,7 +1736,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                 SnackBar(
                                     content:
                                         Text('Your Score Is $sumOfScores')));
-                            _showSubmitDialog();
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
                           } else {
                             setState(() {
                               addTheFollowUpQuestion(answers.toString(),
@@ -1653,6 +1753,8 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                     'score': score,
                                     'answer': answers
                                   });
+                                                                                            answers=[];
+
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
@@ -1671,13 +1773,15 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                                   'score': score,
                                   'answer': answers
                                 });
+                                                          answers=[];
+
                             pageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeInOut,
                             );
                           });
                         }
-                        Future.delayed(Duration(seconds:1 )).then((value) {
+                        Future.delayed(Duration(milliseconds:800)).then((value) {
                           answers=[];
                           setState(() {
 
@@ -1747,7 +1851,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
@@ -1763,7 +1870,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.middle &&
               questionData.image != null &&
@@ -1783,7 +1893,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
                   questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData)
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
               : Container(),
           imagePosition == ImagePosition.bottom &&
               questionData.image != null &&
@@ -1905,7 +2018,13 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                           ScaffoldMessenger.maybeOf(context)!.showSnackBar(
                               SnackBar(
                                   content: Text('Your Score Is $sumOfScores')));
-                          _showSubmitDialog();
+                                  
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                              _showSubmitDialog();
+
+}
                         } else {
                           addTheFollowUpQuestion('',
                               isNestedchoice: true,
@@ -2012,8 +2131,6 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                   onPressed: () {
                     Navigator.of(context).pop();
                     widget.surveyResult!(sumOfScores, answersMap);
-                    print(
-                        '------------------------------------printing the all values are     ${widget.surveyResult}');
                     if (widget.showScoreWidget == true) {
                       Navigator.push(
                           context,
