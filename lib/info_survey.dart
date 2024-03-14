@@ -450,14 +450,22 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
               }
               //final bool isSelected = selectedValue == answer;
             //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
-                return RadioListTile(
-                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer?Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
-                    value: answer,
-                    activeColor: widget.activeRadioColor ?? Colors.deepPurple,
-                    groupValue: selectedValue?.isNotEmpty ?? false
-                        ? selectedValue
-                        : null,
-                  //  groupValue: selectedValue,
+              return RadioListTile(
+                title: Text(
+                  answer,
+                  style: TextStyle(
+                    color: selectedValue == answer
+                        ? widget.activeRadioColor ?? Colors.deepPurple
+                        : Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+                value: answer,
+                activeColor: widget.activeRadioColor ?? Colors.deepPurple,
+                groupValue: selectedValue?.isNotEmpty ?? false ? selectedValue : null,
+
+              //  groupValue: selectedValue,
                    // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
                     onChanged: (selectedAnswer) {
 
