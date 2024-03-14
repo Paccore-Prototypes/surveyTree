@@ -37,7 +37,8 @@ class InfoSurvey extends StatefulWidget {
       this.customSkipStyle,
       this.imageContainer,
       this.customSizedBox,
-
+      this.onListTaleTapnavigation=true,
+this.optionTapNavigation=true,
       this.imagePlaceHolder,
       this.appBarTitleWidget,
       this.onSurveyEnd,
@@ -56,6 +57,7 @@ class InfoSurvey extends StatefulWidget {
   TextStyle? optionListTileStyle;
   TextStyle? optionCheckBoxStyle;
   Color? activeColorSlider;
+  bool optionTapNavigation;
   Color? inactiveColorSlider;
   Color? activeRadioColor;
   Color? activeRadioTextColor;
@@ -79,6 +81,7 @@ class InfoSurvey extends StatefulWidget {
   Container? imageContainer;
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
+  bool onListTaleTapnavigation;
 
   RoundedRectangleBorder? listTileShape;
   String? skipText;
@@ -87,15 +90,15 @@ class InfoSurvey extends StatefulWidget {
   State<InfoSurvey> createState() => _InfoSurveyState();
 }
 
-class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
-  late AnimationController scaleController = AnimationController(
-      duration: const Duration(milliseconds: 2000), vsync: this);
-  late Animation<double> scaleAnimation =
-      CurvedAnimation(parent: scaleController, curve: Curves.elasticOut);
-  late AnimationController checkController = AnimationController(
-      duration: const Duration(milliseconds: 1000), vsync: this);
-  late Animation<double> checkAnimation =
-      CurvedAnimation(parent: checkController, curve: Curves.linear);
+class _InfoSurveyState extends State<InfoSurvey>  {
+  // late AnimationController scaleController = AnimationController(
+  //     duration: const Duration(milliseconds: 2000), vsync: this);
+  // late Animation<double> scaleAnimation =
+  //     CurvedAnimation(parent: scaleController, curve: Curves.elasticOut);
+  // late AnimationController checkController = AnimationController(
+  //     duration: const Duration(milliseconds: 1000), vsync: this);
+  // late Animation<double> checkAnimation =
+  //     CurvedAnimation(parent: checkController, curve: Curves.linear);
   int currentDataIndex = 0;
   int currentMainChildrenlistIndex = 0;
   bool isLast = false;
@@ -106,8 +109,10 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
   final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
-
+String answerdata='';
   List<Map<String, dynamic>>? jsonResult;
+
+  Map<String,dynamic>? listAnswer;
 
   Future<void> modelJson() async {
     setState(() {
@@ -138,12 +143,12 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     modelJson();
-    _controller = AnimationController(
-        vsync: this,
-        lowerBound: 0.5,
-        duration: const Duration(seconds: 3),
-        reverseDuration: const Duration(seconds: 3))
-      ..repeat();
+    // _controller = AnimationController(
+    //     vsync: this,
+    //     lowerBound: 0.5,
+    //     duration: const Duration(seconds: 3),
+    //     reverseDuration: const Duration(seconds: 3))
+    //   ..repeat();
   }
 
   TextEditingController nameController = TextEditingController();
@@ -169,13 +174,24 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     setState(() {});
   }
 
+@override
+  void dispose() {
+  // scaleController.dispose(); 
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     ImagePosition refEnum = ImagePosition.top;
     return WillPopScope(
       onWillPop: () async {
+        if(pageController.page?.toInt()==0){
+Navigator.pop(context);
+        }else{
         answers=[];
+        answerdata='';
         pageController.previousPage(
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
         if (pageviewTree != null) {
@@ -185,7 +201,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             removeTheNode();
             setState(() {});
           }
-        }
+        }}
         return false;
       },
       child: Scaffold(
@@ -202,6 +218,9 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: (() {
+              if(pageController.page?.toInt()==0){
+                Navigator.pop(context);
+              }else{
                       answers=[];
         pageController.previousPage(
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
@@ -212,7 +231,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
             removeTheNode();
             setState(() {});
           }}}
-
+            }
             ),
             
            icon:Icon( Icons.arrow_back)),
@@ -709,10 +728,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   String answerDescription = '';
   bool selected = false;
   Widget buildLIstQuestioins(TreeNode questionData) {
-    String answerdata='';
+    
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer']!=''){
+      if(answerdata==''){
       answerdata=answersMap[questionData.question]['answer'];
+
+      }
     }}
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['optionDescription']!=null) {
@@ -728,6 +750,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         orElse: () => ImagePosition.top,
       );
     }
+    bool isSelected;
 
     return Card(
       elevation: 0,
@@ -790,7 +813,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             const SizedBox(height: 10),
             Column(
               children: (questionData.answerChoices).keys.map<Widget>((answer) {
-                bool isSelected = answerdata == answer;
+                 isSelected = answerdata == answer;
 
                 if (questionData.answerChoices[answer] == null) {
                   return ListTile(
@@ -807,20 +830,30 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         : null,
                     onTap: () {
                      // isSelected ? selected = true : false;
-
                       setState(() {
                         answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
                       });
+if(widget.onListTaleTapnavigation){
+
                       addTheFollowUpQuestion('',
                           isNestedchoice: true,
                           question: questionData.question,
                           answeValue: {'score': 0});
+                          
+
+Future.delayed(Duration(seconds: 1)).then((value) {
+answerdata='';
+setState(() {
+  
+});
+} );
                       pageController.nextPage(
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
-                    },
+                    }},
                   );
+
                 } else {
                   return ListTile(
                     title:  Text(answer),
@@ -836,17 +869,18 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       side: const BorderSide(color: Colors.transparent),
                     ),
                       onTap: () {
+answerdata=answer;
                       //  isSelected ? selected = true : false;
-
                         if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
                           answerDescription = questionData
                               .answerChoices[answer][0]['answerDescription'];
                         }
 
-                        print('print the valie is -----------------------$selected');
                         setState(() {
 
                         });
+                        if(widget.onListTaleTapnavigation){
+
                       addTheFollowUpQuestion(answer,
                           haveDescription:
                               questionData.description != null ? true : false,
@@ -860,10 +894,17 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             'answer': answer,
                             'optionDescription' : answerDescription
                           });
+Future.delayed(Duration(seconds: 1)).then((value) {
+answerdata='';
+setState(() {
+  
+});
+} );
+
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
-                    },
+                    }},
                   );
                 }
               }).toList(),
@@ -889,6 +930,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
                               );
+Future.delayed(Duration(seconds: 1)).then((value) {
+answerdata='';
+setState(() {
+  
+});
+} );
+
                             },
                             /* child:
                   Container(
@@ -974,12 +1022,18 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     'answer': answerdata,
                                     'optionDescription': answerDescription
                                   });
+Future.delayed(Duration(seconds: 1)).then((value) {
+answerdata='';
+setState(() {
+  
+});
+} );
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
                               );
                             } else {
-                              addTheFollowUpQuestion('',
+                              addTheFollowUpQuestion(answerdata,
                                   isNestedchoice: true,
                                   question: questionData.question,
                                   answeValue: {
@@ -992,6 +1046,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   'optionDescription': answerDescription
 
                                   });
+Future.delayed(Duration(seconds: 1)).then((value) {
+answerdata='';
+setState(() {
+  
+});
+} );
+
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
@@ -1124,7 +1185,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           builder: (context, value, child) {
             return Column(
               children: [
-                Slider(
+  SliderTheme(
+              data: SliderThemeData(
+                  showValueIndicator: ShowValueIndicator.always),
+              child: 
+  Slider(
                   value: sliderValue.value,
                   divisions: 100,
                   onChanged: (double newValue) {
@@ -1135,14 +1200,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       widget.inactiveColorSlider ?? Colors.blueGrey.shade300,
                   activeColor: widget.activeColorSlider ?? Colors.blueGrey,
                   label: sliderValue.value.toStringAsFixed(0),
-                ),
-                Text(
-                  "Saved Value: ${sliderValue.value.toStringAsFixed(0)}",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple.shade400),
-                ),
+                )),
+                // Text(
+                //   "Saved Value: ${sliderValue.value.toStringAsFixed(0)}",
+                //   style: TextStyle(
+                //       fontSize: 16,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.deepPurple.shade400),
+                // ),
               ],
             );
           },
@@ -2146,13 +2211,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         color: Colors.transparent,
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.green, width: 12)),
-                    child: SizeTransition(
-                        sizeFactor: checkAnimation,
-                        axis: Axis.horizontal,
-                        axisAlignment: -1,
-                        child: Center(
-                            child: Icon(Icons.check,
-                                color: Colors.green, size: iconSize))),
+                    child: Center(
+                        child: Icon(Icons.check,
+                            color: Colors.green, size: iconSize)),
                   ),
                 ],
               ),
@@ -2204,7 +2265,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           content: Column(
             children: [
               const SizedBox(height: 30),
-              _buildBody(),
+            //  _buildBody(),
               const SizedBox(height: 30),
               Container(
                 height: 10,
@@ -2243,41 +2304,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     );
   }
 
-  late AnimationController _controller;
+ // late AnimationController _controller;
 
-  Widget _buildContainer(double radius) {
-    return Container(
-      width: radius,
-      height: radius,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.blue.withOpacity(1 - _controller.value),
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return AnimatedBuilder(
-      animation:
-          CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
-      builder: (context, child) {
-        return Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            _buildContainer(100 * _controller.value),
-            _buildContainer(150 * _controller.value),
-            _buildContainer(200 * _controller.value),
-            _buildContainer(200 * _controller.value),
-            _buildContainer(200 * _controller.value),
-            Align(
-                child: Text('$sumOfScores',
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold))),
-          ],
-        );
-      },
-    );
-  }
+  
 }

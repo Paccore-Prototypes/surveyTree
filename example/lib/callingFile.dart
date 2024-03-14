@@ -58,6 +58,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         showScoreWidget: true,
         questionContentAlignment: CrossAxisAlignment.center,
         isAppBarVisible: true,
+        onListTaleTapnavigation: false,
         imagePlaceHolder: 'assets/images/placeholder1.png',
         
 //         onSurveyEnd: (score,answermap){
