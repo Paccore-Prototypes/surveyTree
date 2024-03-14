@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
 import 'package:infosurvey/utils/imageparser.dart';
+import 'package:infosurvey/widgets/drop_down.dart';
 import '../answers.dart';
 import 'enum.dart';
 
@@ -11,7 +12,6 @@ class InfoSurvey extends StatefulWidget {
       {super.key,
       this.sliderQuestionStyle,
         this.questionContentAlignment,
-
       this.radioQuestion,
       this.listTileQuestionStyle,
       this.checkBoxQuestionStyle,
@@ -43,7 +43,10 @@ this.optionTapNavigation=true,
       this.appBarTitleWidget,
       this.onSurveyEnd,
       this.isAppBarVisible=true,
-      this.imagePlace, this.listTileShape,this.skipText});
+      this.imagePlace,
+        this.listTileShape,
+        this.skipText,
+      this.textFieldDecoration});
 
 
   TextStyle? sliderQuestionStyle;
@@ -51,7 +54,7 @@ this.optionTapNavigation=true,
   TextStyle? listTileQuestionStyle;
   TextStyle? checkBoxQuestionStyle;
   TextStyle? dateTimeQuestionStyle;
-  ElevatedButton? customButton;
+  Widget? customButton;
   TreeModel treeModel;
   TextStyle? optionRadioStyle;
   TextStyle? optionListTileStyle;
@@ -65,6 +68,7 @@ this.optionTapNavigation=true,
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
+  InputDecoration? textFieldDecoration;
 
   bool isAppBarVisible=true;
 
@@ -106,6 +110,7 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   int sumOfScores = 0;
   bool isLoad = false;
   TreeModel? pageviewTree;
+  TreeNode? node;
   final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
@@ -209,7 +214,7 @@ Navigator.pop(context);
         appBar:widget.isAppBarVisible? AppBar(
           elevation: 0,
 
-          title: widget.appBarTitleWidget?? Text(
+          title: widget.appBarTitleWidget?? const Text(
            "Info Survey",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -249,7 +254,7 @@ Navigator.pop(context);
                     controller: pageController,
                     itemCount: pageviewTree?.nodes.length ?? 0,
                     itemBuilder: (context, index) {
-                      return buildQuestion(pageviewTree!.nodes, index);
+                      return buildQuestion(pageviewTree!.nodes, index,);
                     },
                   ),
                 ),
@@ -259,7 +264,7 @@ Navigator.pop(context);
   }
 
 
-  Widget buildQuestion(List<TreeNode> data, int pageIndex) {
+  Widget buildQuestion(List<TreeNode> data, int pageIndex,) {
     String questionType = data[pageIndex].questionType;
     switch (questionType) {
       case "radio":
@@ -274,6 +279,28 @@ Navigator.pop(context);
         return buildLIstQuestioins(data[pageIndex]);
       case "text-field":
         return buildTextQuestion(data[pageIndex], pageIndex);
+      case "drop_down":
+        return DropDown(questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
+          print('-----------------------------------building the drop down$data');
+          if(callingBackData!=null){
+          addTheFollowUpQuestion(
+              data!.isEmpty || data==null ? '' : data!,
+              isNestedchoice: true,
+              question: callingBackData.question,
+              answeValue: {
+                'id': callingBackData.id,
+                'question-type': callingBackData.questionType,
+                'score': callingBackData.answerChoices == null
+                    ? 0
+                    : callingBackData.score,
+                'answer': data!.isEmpty || data==null ? '' : data!,
+
+              });
+          pageController.nextPage(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        }},);
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
     }
@@ -856,7 +883,7 @@ setState(() {
 
                 } else {
                   return ListTile(
-                    title:  Text(answer),
+                    title:  Center(child: Text(answer)),
                     // selectedTileColor: widget.tileListColor ?? Colors.green,
                     tileColor: isSelected
                         ? widget.tileListColor ?? Colors.blueGrey.shade200
@@ -938,28 +965,6 @@ setState(() {
 } );
 
                             },
-                            /* child:
-                  Container(
-                    width: 120,
-                    height:  40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                           Colors.blueGrey,
-                           Colors.blueGrey.shade200,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.shade50,
-                          offset: const Offset(5, 5),
-                          blurRadius:  10,
-                        )
-                      ],
-                    ),*/
                             child: Center(
                               child: Text(
                                widget.skipText ?? 'Skip',
@@ -1417,232 +1422,234 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          imagePosition == ImagePosition.top &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
-
-              )
-              : Container(),
-          imagePosition == ImagePosition.top &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-
-          Text(
-            questionData.question ?? "",
-            style: widget.textFieldQuestionStyle ??
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          imagePosition == ImagePosition.middle &&
-                  questionData.image != null &&
-                  questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
-
-              )
-              : Container(),
-          imagePosition == ImagePosition.middle &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-
-          questionData.description!.isNotEmpty
-              ? Text(
-                  questionData.description.toString(),
-                  style: widget.description ?? const TextStyle(fontSize: 12),
-                )
-              : const SizedBox(
-                  height: 0,
-                ),
-
-          imagePosition == ImagePosition.bottom &&
-                  questionData.image != null &&
-                  questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
-
-              )
-              : Container(),
-          imagePosition == ImagePosition.bottom &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-          const SizedBox(
-            height: 10,
-          ),
-          TextField(
-            keyboardType: questionData.inputType=='number'?TextInputType.number:TextInputType.text,
-            decoration: const InputDecoration(
-              labelText: 'Your Answer',
-              
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-            controller: textControllers[index],
-            onChanged: (text) {
-              text = nameController.text.trim();
-              //int score = int.parse(text);
-              //radioSelectedValues?.add(score);
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          // currentQuestionIndex == surveyData.length-1
-          //    widget.isLastButton ??
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                questionData.isMandatory == false && isLast == false
-                    ? GestureDetector(
-                          onTap: () {
-                            addTheFollowUpQuestion('',
-                                isNestedchoice: true,
-                                question: questionData.question,
-                                answeValue: {'score': 0});
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          /* child:
-                  Container(
-                    width: 120,
-                    height:  40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                           Colors.blueGrey,
-                           Colors.blueGrey.shade200,
+            imagePosition == ImagePosition.top &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
+                : Container(),
+            imagePosition == ImagePosition.top &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+
+            Text(
+              questionData.question ?? "",
+              style: widget.textFieldQuestionStyle ??
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            imagePosition == ImagePosition.middle &&
+                    questionData.image != null &&
+                    questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
+                : Container(),
+            imagePosition == ImagePosition.middle &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+
+            questionData.description!.isNotEmpty
+                ? Text(
+                    questionData.description.toString(),
+                    style: widget.description ?? const TextStyle(fontSize: 12),
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
+
+            imagePosition == ImagePosition.bottom &&
+                    questionData.image != null &&
+                    questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
+                : Container(),
+            imagePosition == ImagePosition.bottom &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+            const SizedBox(
+              height: 10,
+            ),
+            TextField(
+              keyboardType: questionData.inputType=='number'?TextInputType.number:TextInputType.text,
+              decoration: widget.textFieldDecoration ?? const InputDecoration(
+                labelText: 'Your Answer',
+                
+              ),
+              controller: textControllers[index],
+              onChanged: (text) {
+                text = nameController.text.trim();
+                //int score = int.parse(text);
+                //radioSelectedValues?.add(score);
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            // currentQuestionIndex == surveyData.length-1
+            //    widget.isLastButton ??
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  questionData.isMandatory == false && isLast == false
+                      ? GestureDetector(
+                            onTap: () {
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {'score': 0});
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            /* child:
+                    Container(
+                      width: 120,
+                      height:  40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                             Colors.blueGrey,
+                             Colors.blueGrey.shade200,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey.shade50,
+                            offset: const Offset(5, 5),
+                            blurRadius:  10,
+                          )
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.shade50,
-                          offset: const Offset(5, 5),
-                          blurRadius:  10,
-                        )
-                      ],
-                    ),*/
-                          child: Center(
-                            child: Text(
-                            widget.skipText ??  'Skip',
-                              style: widget.customSkipStyle ?? const TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.blue,
-                                  fontStyle: FontStyle.italic),
+                      ),*/
+                            child: Center(
+                              child: Text(
+                              widget.skipText ??  'Skip',
+                                style: widget.customSkipStyle ?? const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.blue,
+                                    fontStyle: FontStyle.italic),
+                              ),
                             ),
-                          ),
-                        )
-                    : const SizedBox(),
+                          )
+                      : const SizedBox(),
 
-                    GestureDetector(
-                      onTap: () {
-                        // Check if the question is mandatory
-                        if (questionData.isMandatory == true) {
-                          String textAnswer =
-                              textControllers[index]?.text ?? '';
-                          if (textAnswer.isEmpty) {
-                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                              const SnackBar(
-                                  content: Text('Please provide an answer')),
-                            );
-                            return; // Exit the onTap function to prevent further action
+                      GestureDetector(
+                        onTap: () {
+                          // Check if the question is mandatory
+                          if (questionData.isMandatory == true) {
+                            String textAnswer =
+                                textControllers[index]?.text ?? '';
+                            if (textAnswer.isEmpty) {
+                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please provide an answer')),
+                              );
+                              return; // Exit the onTap function to prevent further action
+                            }
                           }
-                        }
-                        String textAnswer = textControllers[index]?.text ?? '';
+                          String textAnswer = textControllers[index]?.text ?? '';
 
-                        if (isLast) {
-                          textControllers[index]?.text;
+                          if (isLast) {
+                            textControllers[index]?.text;
 
-                          answersMap[questionData.question] = {
-                            'id': questionData.id,
-                            'question-type': questionData.questionType,
-                            'score': questionData.score,
-                            'answer': textAnswer
-                          };
+                            answersMap[questionData.question] = {
+                              'id': questionData.id,
+                              'question-type': questionData.questionType,
+                              'score': questionData.score,
+                              'answer': textAnswer
+                            };
 
-                          sumOfScoresData();
+                            sumOfScoresData();
 
-                          ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                              SnackBar(
-                                  content: Text('Your Score Is $sumOfScores')));
+                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                SnackBar(
+                                    content: Text('Your Score Is $sumOfScores')));
 
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
 }else{
-                                              _showSubmitDialog();
+                                                _showSubmitDialog();
 
 }
 
-                          //show Popup Dailog here
-                        } else {
-                          addTheFollowUpQuestion(textAnswer,
-                              isNestedchoice: true,
-                              question: questionData.question,
-                              answeValue: {
-                                'id': questionData.id,
-                                'question-type': questionData.questionType,
-                                'score': questionData.score,
-                                'answer': textAnswer
-                              });
-                          pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut);
-                        }
-                      },
-                      child: widget.customButton ?? Container(
-                        width: isLast ? 150 : 120,
-                        height: isLast ? 50 : 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.teal,
-                              Colors.teal.shade300,
+                            //show Popup Dailog here
+                          } else {
+                            addTheFollowUpQuestion(textAnswer,
+                                isNestedchoice: true,
+                                question: questionData.question,
+                                answeValue: {
+                                  'id': questionData.id,
+                                  'question-type': questionData.questionType,
+                                  'score': questionData.score,
+                                  'answer': textAnswer
+                                });
+                            pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
+                          }
+                        },
+                        child: widget.customButton ?? Container(
+                          width: isLast ? 150 : 120,
+                          height: isLast ? 50 : 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal,
+                                Colors.teal.shade300,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
                             ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(5, 5),
-                              blurRadius: 10,
-                            )
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            isLast ? 'Submit Survey' : 'Next',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                          child: Center(
+                            child: Text(
+                              isLast ? 'Submit Survey' : 'Next',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

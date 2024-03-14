@@ -6,7 +6,7 @@
     "description": "Better giving the description",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "imagePosition": "top",
-    "imagePlace": "left",
+    "imagePlace": "right",
     "imageHeight": 200,
     "imageWidth": 200,
     "questionType": "radio",
@@ -156,6 +156,70 @@
     "answerChoices": null
   },
   {
+    "id": 901,
+    "isMandatory": false,
+    "question": "Are you available for break-fast ?",
+    "description": null,
+    "imageHeight": 200,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "drop_down",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7,
+          "answerDescription": "Yes, I'm going to have the break-fast"
+        }
+      ],
+      "No":[ {
+        "score": 7,
+        "answerDescription": "No, I'm fasting.............."
+      }],
+      "Yes but later":[ {
+        "score": 7,
+        "answerDescription": "Yes, but I will have later..."
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 902,
+    "isMandatory": false,
+    "question": "Are you available for lunch ?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7
+        }
+      ],
+      "No":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 903,
+    "isMandatory": false,
+    "question": "Are you available for dinner ?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "answerChoices": {
+      "Yes": [
+        {
+          "score": 7
+        }
+      ],
+      "No":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
     "id": 4,
     "isMandatory": false,
     "question": "How Many times do you eat?",
@@ -242,70 +306,6 @@
         }
       ]
     }
-  },
-  {
-    "id": 901,
-    "isMandatory": false,
-    "question": "Are you available for break-fast ?",
-    "description": null,
-    "imageHeight": 200,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
-    "answerChoices": {
-      "Yes": [
-        {
-          "score": 7,
-          "answerDescription": "Yes, I'm going to have the break-fast"
-        }
-      ],
-      "No":[ {
-        "score": 7,
-        "answerDescription": "No, I'm fasting.............."
-      }],
-      "Yes but later":[ {
-        "score": 7,
-        "answerDescription": "Yes, but I will have later..."
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 902,
-    "isMandatory": false,
-    "question": "Are you available for lunch ?",
-    "description": null,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
-    "answerChoices": {
-      "Yes": [
-        {
-          "score": 7
-        }
-      ],
-      "No":[ {
-        "score": 7
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 903,
-    "isMandatory": false,
-    "question": "Are you available for dinner ?",
-    "description": null,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
-    "answerChoices": {
-      "Yes": [
-        {
-          "score": 7
-        }
-      ],
-      "No":[ {
-        "score": 7
-      }]
-    },
-    "score": 6
   },
   {
     "id": 501,

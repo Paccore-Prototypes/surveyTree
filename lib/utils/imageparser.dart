@@ -40,6 +40,6 @@ class _ImageParserState extends State<ImageParser> {
               imageErrorBuilder: (context, error, stackTrace) {
                 return Center(child: CircularProgressIndicator(),);
               },
-        placeholder: widget.imagePaceHolder??''),
+        placeholder: widget.imagePaceHolder??'',placeholderCacheWidth: 200,placeholderCacheHeight: 200,),
     );
   }}
