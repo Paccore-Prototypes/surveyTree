@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:infosurvey/info_survey.dart';
@@ -60,12 +61,16 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         isAppBarVisible: true,
         imagePlaceHolder: 'assets/images/placeholder1.png',
         
-//         onSurveyEnd: (score,answermap){
-// print('the survey score was----- '+score.toString());
-//         },
-        surveyResult: (score, answersMap) {
+        onSurveyEnd: (score,answermap){
+          var jsonData=jsonEncode(answermap);
           print('Health Score: $score');
-          print('Answers Map: $answersMap');
+          print('Answers Map: $answermap');
+                   log('Json data was: $jsonData');
+
+
+        },
+        surveyResult: (score, answersMap) {
+ 
         },
       )
           : Container(),

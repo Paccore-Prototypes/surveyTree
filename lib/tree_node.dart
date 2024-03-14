@@ -1,10 +1,12 @@
+import 'package:infosurvey/enum.dart';
+
 class TreeNode {
   int id;
   bool isMandatory;
   String question;
   String? description;
   String? image;
-  String questionType;
+  WidgetType questionType; // Changed type to WidgetType
   Map<String, dynamic> answerChoices;
   List<TreeNode> children;
   int? score;
@@ -59,7 +61,7 @@ class TreeModel {
       question: data['question'] ?? '',
       description: data['description'] ?? '',
       image: data['image'] ?? '',
-      questionType: data['questionType'] ?? '',
+      questionType: _getWidgetType(data['questionType'] ?? ''),
       answerChoices: data['answerChoices'] ?? {},
       score: data['score'] ?? 0,
       imagePosition: data['imagePosition'] ?? 'top',
@@ -98,7 +100,7 @@ class TreeModel {
           question: key,
           description: key,
           image: '',
-          questionType: key, // Placeholder value for children without questionType
+          questionType: _getWidgetType(key), // Placeholder value for children without questionType
           imagePosition: key,
           imagePlace: key,
           imageHeight: 100,
@@ -112,4 +114,25 @@ class TreeModel {
 
     return children;
   }
+
+
+    static WidgetType _getWidgetType(String questionType) {
+    switch (questionType) {
+      case "radio":
+        return WidgetType.radio;
+      case "slider":
+        return WidgetType.slider;
+      case "multipleChoices":
+        return WidgetType.multipleChoices;
+      case "datetime":
+        return WidgetType.datetime;
+      case "list":
+        return WidgetType.list;
+      case "text":
+        return WidgetType.text;
+      default:
+        return WidgetType.none;
+    }
+  }
+
 }

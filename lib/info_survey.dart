@@ -241,19 +241,19 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
 
 
   Widget buildQuestion(List<TreeNode> data, int pageIndex) {
-    String questionType = data[pageIndex].questionType;
+    WidgetType questionType = data[pageIndex].questionType;
     switch (questionType) {
-      case "radio":
+      case WidgetType.radio:
         return buildRadioQuestion(data[pageIndex], pageIndex);
-      case "slider":
+      case WidgetType.slider:
         return buildSliderQuestion(data[pageIndex],);
-      case "multipleChoices":
+      case WidgetType.multipleChoices:
         return buildMultipleChoicesQuestion(data[pageIndex]);
-      case "datetime":
+      case WidgetType.datetime:
         return buildDateTimeQuestion(data[pageIndex]);
-      case "list":
+      case WidgetType.list:
         return buildLIstQuestioins(data[pageIndex]);
-      case "text-field":
+      case WidgetType.text:
         return buildTextQuestion(data[pageIndex], pageIndex);
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
@@ -324,7 +324,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
           widget.treeModel.nodes[currentQuestionIndex].answerChoices[answer]);
       node = model.nodes[0];
     }
-    if (node.questionType != "") {
+    if (node.questionType != "none") {
       pageviewTree!.nodes.add(node);
     } else {
       //Recursion Algorithm
@@ -502,7 +502,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
                       if(isLast){
                         answersMap[data.question!]={
                           'id':data.id,
-                          'question-type':data.questionType,
+                          'question-type':data.questionType.name.toString(),
                           'score':data.answerChoices == null?data.score:data.answerChoices[selectedValue][0]['score'],
                           'answer':selectedValue
                         };
@@ -525,7 +525,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           question: data.question,
                           answeValue: {
                             'id': data.id,
-                            'question-type': data.questionType,
+                            'question-type': data.questionType.name.toString(),
                             'score': data.answerChoices[selectedAnswer] != null
                                 ? data.answerChoices[selectedAnswer][0]['score']
                                 : 0,
@@ -637,7 +637,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 question: data.question,
                                 answeValue: {
                                   'id': data.id,
-                                  'question-type': data.questionType,
+                                  'question-type': data.questionType.name.toString(),
                                   'score': data.answerChoices == null
                                       ? 0
                                       : data.score,
@@ -653,7 +653,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 question: data.question,
                                 answeValue: {
                                   'id': data.id,
-                                  'question-type': data.questionType,
+                                  'question-type': data.questionType.name.toString(),
                                   'score': data.answerChoices == null
                                       ? 0
                                       : data.score,
@@ -854,7 +854,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           question: questionData.question,
                           answeValue: {
                             'id': questionData.id,
-                            'question-type': questionData.questionType,
+                            'question-type': questionData.questionType.name.toString(),
                             'score': questionData.answerChoices[answer][0]
                                 ['score'],
                             'answer': answer,
@@ -967,7 +967,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   question: questionData.question,
                                   answeValue: {
                                     'id': questionData.id,
-                                    'question-type': questionData.questionType,
+                                    'question-type': questionData.questionType.name.toString(),
                                     'score': questionData.answerChoices == null
                                         ? 0
                                         : questionData.score,
@@ -984,7 +984,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   question: questionData.question,
                                   answeValue: {
                                     'id': questionData.id,
-                                    'question-type': questionData.questionType,
+                                    'question-type': questionData.questionType.name.toString(),
                                     'score': questionData.answerChoices == null
                                         ? 0
                                         : questionData.score,
@@ -1271,7 +1271,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               ? 0
                               : questionData.score,
                           //  'score': sliderScore,
-                          'question-type': questionData.questionType,
+                          'question-type': questionData.questionType.name.toString(),
                           'answer': sliderValue.value.toStringAsFixed(0)
                         };
 if(widget.onSurveyEnd!=null){
@@ -1286,7 +1286,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             question: questionData.question,
                             answeValue: {
                               'id': questionData.id,
-                              'question-type': questionData.questionType,
+                              'question-type': questionData.questionType.name.toString(),
                               //  'score': sliderScore,
                               'score': questionData.answerChoices == null
                                   ? 0
@@ -1507,7 +1507,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                           answersMap[questionData.question] = {
                             'id': questionData.id,
-                            'question-type': questionData.questionType,
+                            'question-type': questionData.questionType.name.toString(),
                             'score': questionData.score,
                             'answer': textAnswer
                           };
@@ -1532,7 +1532,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               question: questionData.question,
                               answeValue: {
                                 'id': questionData.id,
-                                'question-type': questionData.questionType,
+                                'question-type': questionData.questionType.name.toString(),
                                 'score': questionData.score,
                                 'answer': textAnswer
                               });
@@ -1765,7 +1765,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           if (isLast) {
                             answersMap[questionData.question!] = {
                               'id': questionData.id,
-                              'question-type': questionData.questionType,
+                              'question-type': questionData.questionType.name.toString(),
                               'score': score,
                               'answer': answers
                             };
@@ -1787,7 +1787,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   question: questionData.question,
                                   answeValue: {
                                     'id': questionData.id,
-                                    'question-type': questionData.questionType,
+                                    'question-type': questionData.questionType.name.toString(),
                                     'score': score,
                                     'answer': answers
                                   });
@@ -1807,7 +1807,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 question: questionData.question,
                                 answeValue: {
                                   'id': questionData.id,
-                                  'question-type': questionData.questionType,
+                                  'question-type': questionData.questionType.name.toString(),
                                   'score': score,
                                   'answer': answers
                                 });
@@ -2045,7 +2045,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         if (isLast) {
                           answersMap[questionData.question] = {
                             'id': questionData.id,
-                            'question-type': questionData.questionType,
+                            'question-type': questionData.questionType.name.toString(),
                             'score': questionData.score,
                             'answer': selectedDate.toIso8601String()
                           };
@@ -2068,7 +2068,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               question: questionData.question,
                               answeValue: {
                                 'id': questionData.id,
-                                'question-type': questionData.questionType,
+                                'question-type': questionData.questionType.name.toString(),
                                 'score': questionData.answerChoices.isEmpty
                                     ? 0
                                     : questionData.score,
