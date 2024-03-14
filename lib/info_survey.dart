@@ -10,7 +10,7 @@ class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
       this.sliderQuestionStyle,
-        this.TextAlignment,
+        this.questionContentAlignment,
 
       this.radioQuestion,
       this.listTileQuestionStyle,
@@ -60,7 +60,7 @@ class InfoSurvey extends StatefulWidget {
   Color? activeRadioColor;
   Color? activeRadioTextColor;
   Color? tileListColor;
-  CrossAxisAlignment? TextAlignment;
+  CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
 
@@ -382,7 +382,7 @@ class _InfoSurveyState extends State<InfoSurvey> with TickerProviderStateMixin {
     }
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -735,7 +735,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       child: Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
-          crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&
@@ -1061,7 +1061,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return Column(
-      crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
       children: [
         const SizedBox(
           height: 10,
@@ -1355,7 +1355,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1604,7 +1604,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -1881,7 +1881,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment:   widget.TextAlignment ?? CrossAxisAlignment.center,
+        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 10,
@@ -2229,7 +2229,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   ),
                   child: Slider(
                     min: 0,
-                    max: 100,
+                    max: 200,
                     divisions: 10,
                     value: sumOfScores.toDouble(),
                     onChanged: (_) {},

@@ -56,12 +56,15 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
+        questionContentAlignment: CrossAxisAlignment.center,
         isAppBarVisible: true,
         imagePlaceHolder: 'assets/images/placeholder1.png',
-        onSurveyEnd: (healthscore,answermap){
-        },
-        surveyResult: (healthScore, answersMap) {
-          print('Health Score: $healthScore');
+        
+//         onSurveyEnd: (score,answermap){
+// print('the survey score was----- '+score.toString());
+//         },
+        surveyResult: (score, answersMap) {
+          print('Health Score: $score');
           print('Answers Map: $answersMap');
         },
       )

@@ -30,7 +30,7 @@ class TreeNode {
     this.imageHeight,
 
     this.imageWidth,
-    this.answerDescription
+    this.answerDescription,
 
     this.inputType,
   
