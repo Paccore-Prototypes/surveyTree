@@ -187,16 +187,21 @@
     "question": "Are you available for lunch ?",
     "description": null,
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
+    "questionType": "search_item",
     "answerChoices": {
-      "Yes": [
+      "Milk": [
         {
           "score": 7
         }
       ],
-      "No":[ {
+      "Curd":[ {
         "score": 7
-      }]
+      }],
+      "Butter_Milk": [
+        {
+          "score": 7
+        }
+      ]
     },
     "score": 6
   },
@@ -208,12 +213,20 @@
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "list",
     "answerChoices": {
-      "Yes": [
+      "Carrot": [
         {
           "score": 7
         }
       ],
-      "No":[ {
+      "Beetroot":[ {
+        "score": 7
+      }],
+      "Onion": [
+        {
+          "score": 7
+        }
+      ],
+      "Green_leaf":[ {
         "score": 7
       }]
     },

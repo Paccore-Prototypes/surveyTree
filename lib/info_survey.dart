@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
 import 'package:infosurvey/utils/imageparser.dart';
 import 'package:infosurvey/widgets/drop_down.dart';
+import 'package:infosurvey/widgets/search_item.dart';
 import '../answers.dart';
 import 'enum.dart';
 
@@ -48,7 +49,8 @@ this.optionTapNavigation=true,
         this.listTileShape,
         this.skipText,
       this.textFieldDecoration,
-      this.appBarBackgroundColor});
+      this.appBarBackgroundColor,
+      this.appBarIconThemeData});
 
 
   TextStyle? sliderQuestionStyle;
@@ -73,6 +75,7 @@ this.optionTapNavigation=true,
   TextStyle? buttonTextStyle;
   InputDecoration? textFieldDecoration;
 
+
   bool isAppBarVisible=true;
 
   Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
@@ -89,10 +92,10 @@ this.optionTapNavigation=true,
   SizedBox? customSizedBox;
   EdgeInsets? imagePlace;
   bool onListTaleTapnavigation;
-
   RoundedRectangleBorder? listTileShape;
   String? skipText;
   Color? appBarBackgroundColor;
+  IconThemeData? appBarIconThemeData;
 
   @override
   State<InfoSurvey> createState() => _InfoSurveyState();
@@ -216,6 +219,10 @@ Navigator.pop(context);
       child: Scaffold(
         key: _scafoldKey,
         appBar:widget.isAppBarVisible? AppBar(
+          iconTheme: widget.appBarIconThemeData ?? const IconThemeData(
+            color: Colors.black
+          ),
+          automaticallyImplyLeading: false,
           elevation: 0,
           title: widget.appBarTitleWidget?? const Text(
            "Info Survey",
@@ -241,7 +248,7 @@ Navigator.pop(context);
           }}}
             }
             ),
-            
+
            icon:Icon( Icons.arrow_back)),
         ):null,
         body: isLoad
@@ -304,6 +311,28 @@ Navigator.pop(context);
             curve: Curves.easeInOut,
           );
         }},);
+      case "search_item":
+        return SearchItem(questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
+          print('-----------------------------------building the drop down$data');
+          if(callingBackData!=null){
+            addTheFollowUpQuestion(
+                data!.isEmpty || data==null ? '' : data!,
+                isNestedchoice: true,
+                question: callingBackData.question,
+                answeValue: {
+                  'id': callingBackData.id,
+                  'question-type': callingBackData.questionType,
+                  'score': callingBackData.answerChoices == null
+                      ? 0
+                      : callingBackData.score,
+                  'answer': data!.isEmpty || data==null ? '' : data!,
+
+                });
+            pageController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }},);
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
     }
@@ -758,6 +787,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   }
   String answerDescription = '';
   bool selected = false;
+
   Widget buildLIstQuestioins(TreeNode questionData) {
     
     if(answersMap.containsKey(questionData.question)){
@@ -842,105 +872,105 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 questionData.image != null &&
                 questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             const SizedBox(height: 10),
-            Column(
-              children: (questionData.answerChoices).keys.map<Widget>((answer) {
-                 isSelected = answerdata == answer;
+           Column(
+                    children: (questionData.answerChoices).keys.map<Widget>((answer) {
+                      isSelected = answerdata == answer;
 
-                if (questionData.answerChoices[answer] == null) {
-                  return ListTile(
-                    shape: isSelected ? widget.listTileShape ??  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: Colors.black),
-                    ): RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: Colors.transparent),
-                    ),
-                    title:  Text(answer),
-                    tileColor: isSelected
-                        ? widget.tileListColor ?? Colors.blueGrey.shade200
-                        : null,
-                    onTap: () {
-                     // isSelected ? selected = true : false;
-                      setState(() {
-                        answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
-                      });
-if(widget.onListTaleTapnavigation){
+                      if (questionData.answerChoices[answer] == null) {
+                        return ListTile(
+                          shape: isSelected ? widget.listTileShape ??  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.black),
+                          ): RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.transparent),
+                          ),
+                          title:  Text(answer),
+                          tileColor: isSelected
+                              ? widget.tileListColor ?? Colors.blueGrey.shade200
+                              : null,
+                          onTap: () {
+                            // isSelected ? selected = true : false;
+                            setState(() {
+                              answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+                            });
+                            if(widget.onListTaleTapnavigation){
 
-                      addTheFollowUpQuestion('',
-                          isNestedchoice: true,
-                          question: questionData.question,
-                          answeValue: {'score': 0});
-                          
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {'score': 0});
 
-Future.delayed(Duration(seconds: 1)).then((value) {
-answerdata='';
-setState(() {
-  
-});
-} );
-                      pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.ease,
-                      );
-                    }},
-                  );
 
-                } else {
-                  return ListTile(
-                    title:  Center(child: Text(answer)),
-                    // selectedTileColor: widget.tileListColor ?? Colors.green,
-                    tileColor: isSelected
-                        ? widget.tileListColor ?? Colors.blueGrey.shade200
-                        : null,
-                    shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: Colors.black),
-                    ) : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: Colors.transparent),
-                    ),
-                      onTap: () {
-answerdata=answer;
-                      //  isSelected ? selected = true : false;
-                        if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
-                          answerDescription = questionData
-                              .answerChoices[answer][0]['answerDescription'];
-                        }
+                              Future.delayed(Duration(seconds: 1)).then((value) {
+                                answerdata='';
+                                setState(() {
 
-                        setState(() {
+                                });
+                              } );
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              );
+                            }},
+                        );
 
-                        });
-                        if(widget.onListTaleTapnavigation){
+                      } else {
+                        return ListTile(
+                          title:  Center(child: Text(answer)),
+                          // selectedTileColor: widget.tileListColor ?? Colors.green,
+                          tileColor: isSelected
+                              ? widget.tileListColor ?? Colors.blueGrey.shade200
+                              : null,
+                          shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.black),
+                          ) : RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.transparent),
+                          ),
+                          onTap: () {
+                            answerdata=answer;
+                            //  isSelected ? selected = true : false;
+                            if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
+                              answerDescription = questionData
+                                  .answerChoices[answer][0]['answerDescription'];
+                            }
 
-                      addTheFollowUpQuestion(answer,
-                          haveDescription:
-                              questionData.description != null ? true : false,
-                          isNestedchoice: true,
-                          question: questionData.question,
-                          answeValue: {
-                            'id': questionData.id,
-                            'question-type': questionData.questionType,
-                            'score': questionData.answerChoices[answer][0]
-                                ['score'],
-                            'answer': answer,
-                            'optionDescription' : answerDescription
-                          });
-Future.delayed(Duration(seconds: 1)).then((value) {
-answerdata='';
-setState(() {
-  
-});
-} );
+                            setState(() {
 
-                      pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    }},
-                  );
-                }
-              }).toList(),
+                            });
+                            if(widget.onListTaleTapnavigation){
 
-            ),
+                              addTheFollowUpQuestion(answer,
+                                  haveDescription:
+                                  questionData.description != null ? true : false,
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {
+                                    'id': questionData.id,
+                                    'question-type': questionData.questionType,
+                                    'score': questionData.answerChoices[answer][0]
+                                    ['score'],
+                                    'answer': answer,
+                                    'optionDescription' : answerDescription
+                                  });
+                              Future.delayed(Duration(seconds: 1)).then((value) {
+                                answerdata='';
+                                setState(() {
+
+                                });
+                              } );
+
+                              pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.ease);
+                            }},
+                        );
+                      }
+                    }).toList(),
+
+                  ),
             const SizedBox(height: 15,),
             if(answerDescription.isNotEmpty)
             Text(answerDescription),
