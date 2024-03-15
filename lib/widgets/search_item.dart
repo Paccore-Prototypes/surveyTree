@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
@@ -8,25 +5,24 @@ import 'package:infosurvey/info_survey.dart';
 import '../enum.dart';
 import '../utils/imageparser.dart';
 
-class DropDown extends StatefulWidget {
-  DropDown({Key? key, required this.questionData, required this.callBack})
+class SearchItem extends StatefulWidget {
+  SearchItem({Key? key, required this.questionData, required this.callBack})
       : super(key: key);
   final TreeNode questionData;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
-  State<DropDown> createState() => _DropDownState();
+  State<SearchItem> createState() => _SearchItemState();
 }
 
-class _DropDownState extends State<DropDown> {
+class _SearchItemState extends State<SearchItem> {
   PageController pageController = PageController();
   TreeNode? data;
   late TextEditingController _searchController;
-  late List<String> _filteredItems;
   String? dropdownValue;
   late FocusNode _focusNode;
   String currentItemReference = '';
-  String? selectedItem;
+  String selectedItem = '';
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _userHasTyped = false;
@@ -36,8 +32,6 @@ class _DropDownState extends State<DropDown> {
     super.initState();
     data = widget.questionData;
     _searchController = TextEditingController();
-    _filteredItems = widget.questionData.answerChoices.keys.toList();
-    dropdownValue = _filteredItems.isNotEmpty ? _filteredItems.first : null;
     _textEditingController.addListener(() {
       setState(() {
         _userHasTyped = _textEditingController.text.isNotEmpty;
@@ -52,8 +46,6 @@ class _DropDownState extends State<DropDown> {
     _focusNode.dispose();
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +86,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-             // imagePaceHolder: widget.imagePlaceHolder,
+           //   imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -104,7 +96,7 @@ class _DropDownState extends State<DropDown> {
             widget.questionData.description!.isNotEmpty
                 ? Text(
               widget.questionData.description.toString(),
-              style:// widget.description ??
+              style: // widget.description ??
                   const TextStyle(fontSize: 12),
             )
                 : const SizedBox(
@@ -114,7 +106,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-           //   imagePaceHolder: widget.imagePlaceHolder,
+            //  imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -125,40 +117,75 @@ class _DropDownState extends State<DropDown> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueGrey),
-                    borderRadius: BorderRadius.circular(12)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue,
-                      iconSize: 30,
-                      onChanged: (String? value) {
-                        setState(() {
-                          dropdownValue = value;
-                        });
-                      },
-                      items: _filteredItems.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: const InputDecoration.collapsed(
-                          hintText: ''
+              child: Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (!_userHasTyped && textEditingValue.text.isEmpty) {
+                    return options.take(4);
+                  } else if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  } else {
+                    return options.where((String option) {
+                      return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                    });
+                  }
+                },
+                onSelected: (String selection) {
+                  setState(() {
+                    selectedItem = selection;
+                    _userHasTyped = true;
+                  });
+                },
+                fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
+                  return TextField(
+                    controller: fieldTextEditingController,
+                    focusNode: fieldFocusNode,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blueGrey.shade100,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      hintText: 'Search',
+                    ),
+                  );
+                },
+                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      child: Container(
+                        width: 330,
+                        height: 210,
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade50,
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: ListView.builder(
+                          padding: EdgeInsets.all(10.0),
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final String option = options.elementAt(index);
+                            return GestureDetector(
+                              onTap: () {
+                                onSelected(option);
+                              },
+                              child: ListTile(
+                                title: Text(option),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
-
-
 
             const SizedBox(height: 10),
 
@@ -174,9 +201,7 @@ class _DropDownState extends State<DropDown> {
                   if (widget.questionData.isMandatory == false)
                     GestureDetector(
                       onTap: () {
-
                         widget.callBack!('', widget.questionData,true);
-
                       },
                       child: const Center(
                         child: Text(
@@ -196,7 +221,7 @@ class _DropDownState extends State<DropDown> {
                   GestureDetector(
                     onTap: () {
                       if (widget.questionData != null) {
-                        widget.callBack!(dropdownValue, widget.questionData,false);
+                        widget.callBack!(selectedItem, widget.questionData,false);
                       }
                     },
                     child: Container(
@@ -240,6 +265,8 @@ class _DropDownState extends State<DropDown> {
       ),
     );
   }
+
+
 }
 
 String answerDescription = '';
