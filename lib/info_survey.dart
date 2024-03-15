@@ -17,6 +17,7 @@ class InfoSurvey extends StatefulWidget {
       this.checkBoxQuestionStyle,
       this.dateTimeQuestionStyle,
       this.customButton,
+        this.customLastButton,
       required this.treeModel,
       this.optionRadioStyle,
       this.optionCheckBoxStyle,
@@ -46,7 +47,8 @@ this.optionTapNavigation=true,
       this.imagePlace,
         this.listTileShape,
         this.skipText,
-      this.textFieldDecoration});
+      this.textFieldDecoration,
+      this.appBarBackgroundColor});
 
 
   TextStyle? sliderQuestionStyle;
@@ -55,6 +57,7 @@ this.optionTapNavigation=true,
   TextStyle? checkBoxQuestionStyle;
   TextStyle? dateTimeQuestionStyle;
   Widget? customButton;
+  Widget? customLastButton;
   TreeModel treeModel;
   TextStyle? optionRadioStyle;
   TextStyle? optionListTileStyle;
@@ -89,6 +92,7 @@ this.optionTapNavigation=true,
 
   RoundedRectangleBorder? listTileShape;
   String? skipText;
+  Color? appBarBackgroundColor;
 
   @override
   State<InfoSurvey> createState() => _InfoSurveyState();
@@ -213,14 +217,13 @@ Navigator.pop(context);
         key: _scafoldKey,
         appBar:widget.isAppBarVisible? AppBar(
           elevation: 0,
-
           title: widget.appBarTitleWidget?? const Text(
            "Info Survey",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: "Roboto"),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: widget.appBarBackgroundColor ?? Colors.yellow,
           leading: IconButton(
             onPressed: (() {
               if(pageController.page?.toInt()==0){
@@ -712,7 +715,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           }
                         }
                       },
-                      child: widget.customButton ?? Container(
+                      child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                          :widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -1065,7 +1069,8 @@ setState(() {
                             }
                           }
                         },
-                        child:  widget.customButton ?? Container(
+                        child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                            : widget.customButton ?? Container(
                           width: isLast ? 150 : 120,
                           height: isLast ? 50 : 40,
                           decoration: BoxDecoration(
@@ -1369,7 +1374,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         );
                       }
                     },
-                    child: widget.customButton ?? Container(
+                    child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                        : widget.customButton ?? Container(
                       width: 120,
                       height: 40,
                       decoration:
@@ -1490,7 +1496,6 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               keyboardType: questionData.inputType=='number'?TextInputType.number:TextInputType.text,
               decoration: widget.textFieldDecoration ?? const InputDecoration(
                 labelText: 'Your Answer',
-                
               ),
               controller: textControllers[index],
               onChanged: (text) {
@@ -1612,7 +1617,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 curve: Curves.easeInOut);
                           }
                         },
-                        child: widget.customButton ?? Container(
+                        child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                            : widget.customButton ?? Container(
                           width: isLast ? 150 : 120,
                           height: isLast ? 50 : 40,
                           decoration: BoxDecoration(
@@ -1900,7 +1906,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         });
 
                       },
-                      child: widget.customButton ?? Container(
+                      child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                          :widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -2151,7 +2158,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               curve: Curves.ease);
                         }
                       },
-                      child:  widget.customButton ?? Container(
+                      child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                          : widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
