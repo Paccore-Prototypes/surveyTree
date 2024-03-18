@@ -11,6 +11,7 @@ import 'enum.dart';
 class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
+        this.radioTextColor,
       this.sliderQuestionStyle,
         this.questionContentAlignment,
       this.radioQuestion,
@@ -52,7 +53,7 @@ this.optionTapNavigation=true,
       this.appBarBackgroundColor,
       this.appBarIconThemeData});
 
-
+Color?radioTextColor;
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
   TextStyle? listTileQuestionStyle;
@@ -634,7 +635,7 @@ Navigator.pop(context);
               //final bool isSelected = selectedValue == answer;
             //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
                 return RadioListTile(
-                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer?Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
+                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
                     value: answer,
                     activeColor: widget.activeRadioColor ?? Colors.deepPurple,
                     groupValue: selectedValue?.isNotEmpty ?? false
@@ -657,8 +658,8 @@ Navigator.pop(context);
                         };
                         sumOfScoresData();
 
-                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                            SnackBar(content: Text('Your Score Is $sumOfScores')));
+                        // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                        //     SnackBar(content: Text('Your Score Is $sumOfScores')));
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
 }else{
@@ -751,10 +752,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           if (answersMap.containsKey(data.question)) {
                             sumOfScoresData();
 
-                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text('Your Score Is $sumOfScores')));
+                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            //     SnackBar(
+                            //         content:
+                            //             Text('Your Score Is $sumOfScores')));
 
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
@@ -1117,10 +1118,10 @@ setState(() {
 
                               sumOfScoresData();
 
-                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text('Your Score Is $sumOfScores')));
+                              // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                              //     SnackBar(
+                              //         content:
+                              //             Text('Your Score Is $sumOfScores')));
 
 
                               if(widget.onSurveyEnd!=null){
@@ -1275,7 +1276,7 @@ setState(() {
     );
   }
 
-  
+
   Widget buildSliderQuestion(TreeNode questionData) {
 
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
@@ -1361,7 +1362,7 @@ setState(() {
   SliderTheme(
               data: const SliderThemeData(
                   showValueIndicator: ShowValueIndicator.always),
-              child: 
+              child:
   Slider(
                   value: sliderValue.value,
                   divisions: 100,
@@ -1753,9 +1754,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                             sumOfScoresData();
 
-                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                                SnackBar(
-                                    content: Text('Your Score Is $sumOfScores')));
+                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            //     SnackBar(
+                            //         content: Text('Your Score Is $sumOfScores')));
 
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
@@ -2011,10 +2012,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               'answer': answers
                             };
                             sumOfScoresData();
-                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text('Your Score Is $sumOfScores')));
+                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            //     SnackBar(
+                            //         content:
+                            //             Text('Your Score Is $sumOfScores')));
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
 }else{
