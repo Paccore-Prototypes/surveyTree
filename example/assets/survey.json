@@ -212,6 +212,35 @@
     "description": null,
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "list",
+    "listGridType" : true,
+    "answerChoices": {
+      "Carrot": [
+        {
+          "score": 7
+        }
+      ],
+      "Beetroot":[ {
+        "score": 7
+      }],
+      "Onion": [
+        {
+          "score": 7
+        }
+      ],
+      "Green_leaf":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 904,
+    "isMandatory": false,
+    "question": "Types veg that you had ?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "listGridType" : true,
     "answerChoices": {
       "Carrot": [
         {
