@@ -106,7 +106,7 @@ class TreeModel {
           imagePlace: key,
           imageHeight: 100,
           imageWidth: 150,
-          answerDescription: '',
+          answerDescription: key,
           answerChoices: {},
           children: childNodes,
         ),

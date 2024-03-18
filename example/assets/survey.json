@@ -1,5 +1,5 @@
 [
-   {
+  {
     "id": 1,
     "isMandatory": false,
     "question": "What is your gender?",
@@ -148,7 +148,7 @@
     "description": "description has given",
     "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
     "imagePosition": "middle",
-    "imagePlace": "right",
+    "imagePlace": "center",
     "imageHeight": 100,
     "imageWidth": 200,
     "questionType": "slider",
@@ -156,35 +156,9 @@
     "answerChoices": null
   },
   {
-    "id": 901,
-    "isMandatory": false,
-    "question": "Are you available for break-fast ?",
-    "description": null,
-    "imageHeight": 200,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "drop_down",
-    "answerChoices": {
-      "Yes": [
-        {
-          "score": 7,
-          "answerDescription": "Yes, I'm going to have the break-fast"
-        }
-      ],
-      "No":[ {
-        "score": 7,
-        "answerDescription": "No, I'm fasting.............."
-      }],
-      "Yes but later":[ {
-        "score": 7,
-        "answerDescription": "Yes, but I will have later..."
-      }]
-    },
-    "score": 6
-  },
-  {
     "id": 902,
     "isMandatory": false,
-    "question": "Are you available for lunch ?",
+    "question": "Which item do you have post dinner ?",
     "description": null,
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "search_item",
@@ -201,6 +175,11 @@
         {
           "score": 7
         }
+      ],
+      "Lassi": [
+        {
+          "score": 7
+        }
       ]
     },
     "score": 6
@@ -208,10 +187,10 @@
   {
     "id": 903,
     "isMandatory": false,
-    "question": "Are you available for dinner ?",
+    "question": "What curry you want to have ?",
     "description": null,
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
+    "questionType": "drop_down",
     "listGridType" : true,
     "answerChoices": {
       "Carrot": [
@@ -262,6 +241,7 @@
     },
     "score": 6
   },
+
   {
     "id": 4,
     "isMandatory": false,
@@ -306,262 +286,64 @@
       ]
     }
   },
+
   {
-    "id": 401,
+    "id": 905,
     "isMandatory": false,
-    "question": "How many time you read?",
-    "questionType": "multipleChoices",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "middle",
-    "imagePlace": "center",
+    "question": "Types veg that you had as lunch ?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "listGridType" : false,
     "answerChoices": {
-      "two": [
+      "Carrot": [
         {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 4
+          "score": 7,
+          "answerDescription": "Yes, but I will have later..."
+
         }
       ],
-      "three": [
+      "Beetroot":[ {
+        "score": 7,
+        "answerDescription": "No, but I will have later..."
+
+      }],
+      "Onion": [
         {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 8
+          "score": 7
         }
       ],
-      "one": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 6
-        }
-      ],
-      "four": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 1
-        }
-      ]
-    }
-  },
-  {
-    "id": 501,
-    "isMandatory": false,
-    "question": "Which diet do you prefer?",
-    "questionType": "radio",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "bottom",
-    "imagePlace": "right",
-    "answerChoices": {
-      "Veg": [
-        {
-          "score": 10
-        }
-      ],
-      "Non-Veg": [
-        {
-          "score": 20
-        }
-      ],
-      "Other": [
-        {
-          "score": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": 601,
-    "isMandatory": false,
-    "question": "Diet preferring",
-    "questionType": "radio",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "bottom",
-    "imagePlace": "right",
-    "answerChoices": {
-      "Green-labels": [
-        {
-          "score": 10
-        }
-      ],
-      "Fruits": [
-        {
-          "score": 20
-        }
-      ],
-      "Other": [
-        {
-          "score": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": 5,
-    "isMandatory": false,
-    "question": "Choose your profession?",
-    "questionType": "radio",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "bottom",
-    "imagePlace": "right",
-    "answerChoices": {
-      "IT": [
-        {
-          "score": 8
-        }
-      ],
-      "Electrical": [
-        {
-          "score": 10
-        }
-      ],
-      "Mech": [
-        {
-          "score": 4
-        }
-      ]
-    }
-  },
-  {
-    "id": 2,
-    "isMandatory": false,
-    "question": "How old are you?",
-    "description": "description has given",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "middle",
-    "imagePlace": "right",
-    "imageHeight": 100,
-    "imageWidth": 200,
-    "questionType": "slider",
-    "score": 6,
-    "answerChoices": null
-  },
-  {
-    "id": 3,
-    "isMandatory": false,
-    "question": "Give your Blood Pressure?",
-    "questionType": "radio",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "bottom",
-    "imagePlace": "left",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "answerChoices": {
-      "between 80/70mmHg and 130/90mmHg.": [
-        {
-          "id": 301,
-          "isMandatory": true,
-          "question": "Is this your average BP of the year?",
-          "questionType": "radio",
-          "score": 2,
-          "answerChoices": {
-            "yes": [
-              {
-                "score": 10
-              }
-            ],
-            "no": [
-              {
-                "score": 7
-              }
-            ]
-          }
-        }
-      ],
-      "between 100/70mmHg and 90/100mmHg.": [
-        {
-          "id": 302,
-          "isMandatory": true,
-          "question": "Is this your average BP of the year?",
-          "questionType": "radio",
-          "score": 4,
-          "answerChoices": {
-            "yes": [
-              {
-                "score": 10
-              }
-            ],
-            "no": [
-              {
-                "score": 7
-              }
-            ]
-          }
-        }
-      ],
-      "between 90/60mmHg and 120/80mmHg.": [
-        {
-          "id": 303,
-          "isMandatory": true,
-          "question": "Is this your average BP of the year?",
-          "questionType": "radio",
-          "score": 6,
-          "answerChoices": {
-            "yes": [
-              {
-                "score": 10
-              }
-            ],
-            "no": [
-              {
-                "score": 7
-              }
-            ]
-          }
-        }
-      ],
-      "between 70/60mmHg and 110/80mmHg.": [
-        {
-          "id": 304,
-          "isMandatory": true,
-          "question": "Is this your average BP of the year?",
-          "questionType": "radio",
-          "score": 8,
-          "answerChoices": {
-            "yes": [
-              {
-                "score": 10
-              }
-            ],
-            "no": [
-              {
-                "score": 7
-              }
-            ]
-          }
-        }
-      ]
-    }
+      "Green_leaf":[ {
+        "score": 7
+      }]
+    },
+    "score": 6
   },
 
   {
-    "id": 5,
+    "id": 901,
     "isMandatory": false,
-    "question": "What diet do you prefer?",
-    "questionType": "radio",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
-    "imagePosition": "bottom",
-    "imagePlace": "right",
+    "question": "Are you available for break-fast ?",
+    "description": null,
+    "imageHeight": 200,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
     "answerChoices": {
-      "Veg": [
+      "Yes": [
         {
-          "score": 10
+          "score": 7,
+          "answerDescription": "Yes, I'm going to have the break-fast"
         }
       ],
-      "Non-Veg": [
-        {
-          "score": 20
-        }
-      ]
-    }
+      "No":[ {
+        "score": 7,
+        "answerDescription": "No, I'm fasting.............."
+      }],
+      "Yes but later":[ {
+        "score": 7,
+        "answerDescription": "Yes, but I will have later..."
+      }]
+    },
+    "score": 6
   }
 ]
