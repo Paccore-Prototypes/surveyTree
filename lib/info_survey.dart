@@ -969,6 +969,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 questionData.image != null &&
                 questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             const SizedBox(height: 10),
+
             questionData.listGridType == true ?
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -989,6 +990,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     children: (questionData.answerChoices).keys.map<Widget>((answer) {
                       return buildAnswerWidget(answer, questionData);
                     }).toList(),
+
 
                   ),
             const SizedBox(height: 15,),
