@@ -1,6 +1,4 @@
 
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
@@ -9,9 +7,17 @@ import '../enum.dart';
 import '../utils/imageparser.dart';
 
 class DropDown extends StatefulWidget {
-  DropDown({Key? key, required this.questionData, required this.callBack})
+  DropDown({Key? key, required this.questionData,
+    required this.callBack,
+    required this.isLast,
+    this.imagePlaceHolder,
+    this.dropDownQuestionStyle,this.description})
       : super(key: key);
   final TreeNode questionData;
+  bool isLast = false;
+  String? imagePlaceHolder;
+  TextStyle? dropDownQuestionStyle;
+  TextStyle? description;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
@@ -75,7 +81,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-            //  imagePaceHolder: widget.imagePlaceHolder,
+              imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -84,7 +90,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             Text(
               widget.questionData.question ?? "",
-              style:// widget.listTileQuestionStyle ??
+              style: widget.dropDownQuestionStyle ??
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -94,7 +100,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-             // imagePaceHolder: widget.imagePlaceHolder,
+              imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -104,7 +110,7 @@ class _DropDownState extends State<DropDown> {
             widget.questionData.description!.isNotEmpty
                 ? Text(
               widget.questionData.description.toString(),
-              style:// widget.description ??
+              style: widget.description ??
                   const TextStyle(fontSize: 12),
             )
                 : const SizedBox(
@@ -114,7 +120,7 @@ class _DropDownState extends State<DropDown> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-           //   imagePaceHolder: widget.imagePlaceHolder,
+              imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -135,7 +141,7 @@ class _DropDownState extends State<DropDown> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
-                    child: DropdownButtonFormField<String>(
+                    child: DropdownButtonFormField<String>(borderRadius: BorderRadius.circular(12),
                       value: dropdownValue,
                       iconSize: 30,
                       onChanged: (String? value) {
@@ -171,7 +177,7 @@ class _DropDownState extends State<DropDown> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (widget.questionData.isMandatory == false)
+                  if (widget.questionData.isMandatory == false && widget.isLast == false)
                     GestureDetector(
                       onTap: () {
 
@@ -195,6 +201,7 @@ class _DropDownState extends State<DropDown> {
                     const SizedBox(),
                   GestureDetector(
                     onTap: () {
+
                       if (widget.questionData != null) {
                         widget.callBack!(dropdownValue, widget.questionData,false);
                       }
@@ -220,10 +227,10 @@ class _DropDownState extends State<DropDown> {
                           )
                         ],
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          'Next',
-                          style: TextStyle(
+                         widget.isLast ? 'Submit': 'Next',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,

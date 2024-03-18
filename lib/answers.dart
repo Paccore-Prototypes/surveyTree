@@ -88,20 +88,23 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
                   String answerJson = const JsonEncoder.withIndent('  ').convert(answer);
                   return Card(
                     margin: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${index+1} . $question',
-                          style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          answerJson,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        // const Divider(), // Add a divider between questions
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${index+1} . $question',
+                            style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            answerJson,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          // const Divider(), // Add a divider between questions
+                        ],
+                      ),
                     ),
                   );
                 },

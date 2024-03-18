@@ -197,78 +197,83 @@ String answerdata='';
   Widget build(BuildContext context) {
 
     ImagePosition refEnum = ImagePosition.top;
-    return WillPopScope(
-      onWillPop: () async {
-        if(pageController.page?.toInt()==0){
+    return Theme(
+      data: ThemeData(textTheme: TextTheme(),
+        primaryColor: Colors.white
+      ),
+      child: WillPopScope(
+        onWillPop: () async {
+          if(pageController.page?.toInt()==0){
 Navigator.pop(context);
-        }else{
-        answers=[];
-        answerdata='';
-        pageController.previousPage(
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-        if (pageviewTree != null) {
-          isLast = false;
-          if (pageController.page?.toInt() == 0) {
-          } else {
-            removeTheNode();
-            setState(() {});
-          }
-        }}
-        return false;
-      },
-      child: Scaffold(
-        key: _scafoldKey,
-        appBar:widget.isAppBarVisible? AppBar(
-          iconTheme: widget.appBarIconThemeData ?? const IconThemeData(
-            color: Colors.black
-          ),
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          title: widget.appBarTitleWidget?? const Text(
-           "Info Survey",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: "Roboto"),
-          ),
-          backgroundColor: widget.appBarBackgroundColor ?? Colors.blue,
-          leading: IconButton(
-            onPressed: (() {
-              if(pageController.page?.toInt()==0){
-                Navigator.pop(context);
-              }else{
-                      answers=[];
-        pageController.previousPage(
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-        if (pageviewTree != null) {
-          isLast = false;
-          if (pageController.page?.toInt() == 0) {
-          } else {
-            removeTheNode();
-            setState(() {});
-          }}}
+          }else{
+          answers=[];
+          answerdata='';
+          pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease);
+          if (pageviewTree != null) {
+            isLast = false;
+            if (pageController.page?.toInt() == 0) {
+            } else {
+              removeTheNode();
+              setState(() {});
             }
+          }}
+          return false;
+        },
+        child: Scaffold(
+          key: _scafoldKey,
+          appBar:widget.isAppBarVisible? AppBar(
+            iconTheme: widget.appBarIconThemeData ?? const IconThemeData(
+              color: Colors.black
             ),
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            title: widget.appBarTitleWidget?? const Text(
+             "Info Survey",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Roboto"),
+            ),
+            backgroundColor: widget.appBarBackgroundColor ?? Colors.blue,
+            leading: IconButton(
+              onPressed: (() {
+                if(pageController.page?.toInt()==0){
+                  Navigator.pop(context);
+                }else{
+                        answers=[];
+          pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease);
+          if (pageviewTree != null) {
+            isLast = false;
+            if (pageController.page?.toInt() == 0) {
+            } else {
+              removeTheNode();
+              setState(() {});
+            }}}
+              }
+              ),
 
-           icon:Icon( Icons.arrow_back)),
-        ):null,
-        body: isLoad
-            ? const Center(child: CircularProgressIndicator())
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: PageView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    itemCount: pageviewTree?.nodes.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return buildQuestion(pageviewTree!.nodes, index,);
-                    },
+             icon:Icon( Icons.arrow_back)),
+          ):null,
+          body: isLoad
+              ? const Center(child: CircularProgressIndicator())
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: PageView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      itemCount: pageviewTree?.nodes.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return buildQuestion(pageviewTree!.nodes, index,);
+                      },
+                    ),
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }
@@ -290,31 +295,97 @@ Navigator.pop(context);
       case "text-field":
         return buildTextQuestion(data[pageIndex], pageIndex);
       case "drop_down":
-        return DropDown(questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
+        return DropDown(isLast: isLast,questionData: data[pageIndex],imagePlaceHolder: widget.imagePlaceHolder,callBack: (data,callingBackData,fromSkip,){
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
-          addTheFollowUpQuestion(
-              data!.isEmpty || data==null ? '' : data!,
-              isNestedchoice: true,
-              question: callingBackData.question,
-              answeValue: {
+            if (callingBackData.isMandatory == true) {
+              if (data!.isEmpty) {
+                ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                  const SnackBar(
+                      content: Text('Please provide an answer')),
+                );
+                return; // Exit the onTap function to prevent further action
+              }
+            }
+            if (isLast) {
+
+              answersMap[callingBackData.question] = {
                 'id': callingBackData.id,
                 'question-type': callingBackData.questionType,
-                'score': callingBackData.answerChoices == null
-                    ? 0
-                    : callingBackData.score,
-                'answer': data!.isEmpty || data==null ? '' : data!,
+                'score': callingBackData.score,
+                'answer': data
+              };
 
-              });
-          pageController.nextPage(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        }},);
+              sumOfScoresData();
+
+              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                  SnackBar(
+                      content: Text('Your Score Is $sumOfScores')));
+
+              if(widget.onSurveyEnd!=null){
+                widget.onSurveyEnd!(sumOfScores, answersMap);
+              }else{
+                _showSubmitDialog();
+
+              }
+
+              //show Popup Dialog here
+            } else {
+              addTheFollowUpQuestion(
+                  data!.isEmpty || data == null ? '' : data!,
+                  isNestedchoice: true,
+                  question: callingBackData.question,
+                  answeValue: {
+                    'id': callingBackData.id,
+                    'question-type': callingBackData.questionType,
+                    'score': callingBackData.answerChoices == null
+                        ? 0
+                        : callingBackData.score,
+                    'answer': data!.isEmpty || data == null ? '' : data!,
+
+                  });
+              pageController.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            }}},);
       case "search_item":
-        return SearchItem(questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
+        return SearchItem(isLast: isLast,questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
+            if (callingBackData.isMandatory == true) {
+              if (data!.isEmpty) {
+                ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                  const SnackBar(
+                      content: Text('Please provide an answer')),
+                );
+                return; // Exit the onTap function to prevent further action
+              }
+            }
+            if (isLast) {
+
+              answersMap[callingBackData.question] = {
+                'id': callingBackData.id,
+                'question-type': callingBackData.questionType,
+                'score': callingBackData.score,
+                'answer': data
+              };
+
+              sumOfScoresData();
+
+              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                  SnackBar(
+                      content: Text('Your Score Is $sumOfScores')));
+
+              if(widget.onSurveyEnd!=null){
+                widget.onSurveyEnd!(sumOfScores, answersMap);
+              }else{
+                _showSubmitDialog();
+
+              }
+
+              //show Popup Dailog here
+            } else {
             addTheFollowUpQuestion(
                 data!.isEmpty || data==null ? '' : data!,
                 isNestedchoice: true,
@@ -332,7 +403,7 @@ Navigator.pop(context);
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );
-          }},);
+          }}});
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
     }
@@ -799,16 +870,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           side: const BorderSide(color: Colors.black),
         ): RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.transparent),
+          side: BorderSide(color: Colors.blueGrey.shade200),
         ),
-        title:  Text(answer),
+        title:  Text(answer),contentPadding: EdgeInsets.all(12),
         tileColor: isSelected
             ? widget.tileListColor ?? Colors.blueGrey.shade200
-            : null,
+            : Colors.blueGrey.shade50,
         onTap: () {
-          // isSelected ? selected = true : false;
           setState(() {
             answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+            answerdata = answer;
           });
           if(widget.onListTaleTapnavigation){
 
@@ -832,56 +903,60 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       );
 
     } else {
-      return ListTile(
-        title:  Center(child: Text(answer)),
-        // selectedTileColor: widget.tileListColor ?? Colors.green,
-        tileColor: isSelected
-            ? widget.tileListColor ?? Colors.blueGrey.shade200
-            : null,
-        shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.black),
-        ) : RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.transparent),
-        ),
-        onTap: () {
-          answerdata=answer;
-          //  isSelected ? selected = true : false;
-          if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
-            answerDescription = questionData
-                .answerChoices[answer][0]['answerDescription'];
-          }
+      return Column(
+        children: [
+          const SizedBox(height: 8,),
+          ListTile(
+            title:  Center(child: Text(answer)),
+            // selectedTileColor: widget.tileListColor ?? Colors.green,
+            tileColor: isSelected
+                ? widget.tileListColor ?? Colors.blueGrey.shade300
+                : Colors.blueGrey.shade50,
+            shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: const BorderSide(color: Colors.black),
+            ) : RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Colors.blueGrey.shade200),
+            ),
+            onTap: () {
+              answerdata=answer;
+              if(questionData.answerChoices[answer][0]['answerDescription']!=null&&questionData.answerChoices[answer][0]['answerDescription']!='') {
+                answerDescription = questionData
+                    .answerChoices[answer][0]['answerDescription'];
+              }
 
-          setState(() {
-
-          });
-          if(widget.onListTaleTapnavigation){
-
-            addTheFollowUpQuestion(answer,
-                haveDescription:
-                questionData.description != null ? true : false,
-                isNestedchoice: true,
-                question: questionData.question,
-                answeValue: {
-                  'id': questionData.id,
-                  'question-type': questionData.questionType,
-                  'score': questionData.answerChoices[answer][0]
-                  ['score'],
-                  'answer': answer,
-                  'optionDescription' : answerDescription
-                });
-            Future.delayed(Duration(seconds: 1)).then((value) {
-              answerdata='';
               setState(() {
 
               });
-            } );
+              if(widget.onListTaleTapnavigation){
 
-            pageController.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.ease);
-          }},
+                addTheFollowUpQuestion(answer,
+                    haveDescription:
+                    questionData.description != null ? true : false,
+                    isNestedchoice: true,
+                    question: questionData.question,
+                    answeValue: {
+                      'id': questionData.id,
+                      'question-type': questionData.questionType,
+                      'score': questionData.answerChoices[answer][0]
+                      ['score'],
+                      'answer': answer,
+                      'optionDescription' : answerDescription
+                    });
+                Future.delayed(Duration(seconds: 1)).then((value) {
+                  answerdata='';
+                  setState(() {
+
+                  });
+                } );
+
+                pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease);
+              }},
+          ),
+        ],
       );
     }
   }
@@ -895,13 +970,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
       }
     }}
+
     if(answersMap.containsKey(questionData.question)){
-      if(answersMap[questionData.question]['optionDescription']!=null) {
-        answerDescription =
-        answersMap[questionData.question]['optionDescription'];
-      }}else{
-      answerDescription='';
-    }
+      if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
+        answerDescription = answersMap[questionData.question]['optionDescription'];
+      }}
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -985,8 +1058,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     buildAnswerWidget(answer, questionData)
                 ],
               ),
-            ):
-           Column(
+            )
+                : Column(
                     children: (questionData.answerChoices).keys.map<Widget>((answer) {
                       return buildAnswerWidget(answer, questionData);
                     }).toList(),
@@ -995,7 +1068,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   ),
             const SizedBox(height: 15,),
             if(answerDescription.isNotEmpty)
-            Text(answerDescription),
+
+            Text(answerDescription,style: TextStyle(color: Colors.black),),
+
             const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -1038,7 +1113,8 @@ setState(() {
                       GestureDetector(
                         onTap: () {
                           if (isLast) {
-                            if (answersMap.containsKey(questionData.question)) {
+                       //     if (answersMap.containsKey(questionData.question)) {
+
                               sumOfScoresData();
 
                               ScaffoldMessenger.maybeOf(context)!.showSnackBar(
@@ -1046,20 +1122,22 @@ setState(() {
                                       content:
                                           Text('Your Score Is $sumOfScores')));
 
-if(widget.onSurveyEnd!=null){
+
+                              if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
 }else{
                                               _showSubmitDialog();
 
 }
-                            } else {
+                        //    }
+ /*     else {
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
                                 content:
                                     Text('Please select at least one answer'),
                                 behavior: SnackBarBehavior.floating,
                               ));
-                            }
+                            }*/
                           } else {
                             if (questionData.isMandatory == true) {
                               if (answerdata.isEmpty) {
@@ -1121,40 +1199,73 @@ setState(() {
                             }
                           }
                         },
-                        child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
-                            : widget.customButton ?? Container(
-                          width: isLast ? 150 : 120,
-                          height: isLast ? 50 : 40,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal,
-                                Colors.teal.shade300,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
+                        child: isLast
+                          ? widget.customButton ??
+                              Container(
+                                width: 150,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.teal,
+                                      Colors.teal.shade300,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(5, 5),
+                                      blurRadius: 10,
+                                    )
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    isLast ? 'Submit Survey' : 'Next',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
                               )
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              isLast ? 'Submit Survey' : 'Next',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                          : widget.customLastButton ??
+                              Container(
+                                width: 120,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.teal,
+                                      Colors.teal.shade300,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(5, 5),
+                                      blurRadius: 10,
+                                    )
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Next',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              )),
                 ],
               ),
             ),
@@ -1248,7 +1359,7 @@ setState(() {
             return Column(
               children: [
   SliderTheme(
-              data: SliderThemeData(
+              data: const SliderThemeData(
                   showValueIndicator: ShowValueIndicator.always),
               child: 
   Slider(

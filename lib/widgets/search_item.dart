@@ -6,9 +6,13 @@ import '../enum.dart';
 import '../utils/imageparser.dart';
 
 class SearchItem extends StatefulWidget {
-  SearchItem({Key? key, required this.questionData, required this.callBack})
+  SearchItem({Key? key, required this.questionData, required this.callBack,required this.isLast})
       : super(key: key);
   final TreeNode questionData;
+  bool isLast = false;
+  String? imagePlaceHolder;
+  TextStyle? searchItemQuestionStyle;
+  TextStyle? description;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
@@ -67,7 +71,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-            //  imagePaceHolder: widget.imagePlaceHolder,
+              imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -76,7 +80,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
             Text(
               widget.questionData.question ?? "",
-              style:// widget.listTileQuestionStyle ??
+              style: widget.searchItemQuestionStyle ??
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -86,7 +90,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-           //   imagePaceHolder: widget.imagePlaceHolder,
+                imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -96,7 +100,7 @@ class _SearchItemState extends State<SearchItem> {
             widget.questionData.description!.isNotEmpty
                 ? Text(
               widget.questionData.description.toString(),
-              style: // widget.description ??
+              style:  widget.description ??
                   const TextStyle(fontSize: 12),
             )
                 : const SizedBox(
@@ -106,7 +110,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-            //  imagePaceHolder: widget.imagePlaceHolder,
+               imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -141,9 +145,9 @@ class _SearchItemState extends State<SearchItem> {
                     focusNode: fieldFocusNode,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.blueGrey.shade100,
+                      fillColor: Colors.blueGrey.shade50,
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blueGrey),
+                        borderSide: BorderSide(color: Colors.blueGrey.shade200),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       border: OutlineInputBorder(
@@ -198,7 +202,7 @@ class _SearchItemState extends State<SearchItem> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (widget.questionData.isMandatory == false)
+                  if (widget.questionData.isMandatory == false && widget.isLast == false)
                     GestureDetector(
                       onTap: () {
                         widget.callBack!('', widget.questionData,true);
@@ -245,10 +249,10 @@ class _SearchItemState extends State<SearchItem> {
                           )
                         ],
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          'Next',
-                          style: TextStyle(
+                          widget.isLast ? 'Submit':'Next',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
