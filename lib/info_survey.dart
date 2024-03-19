@@ -12,6 +12,9 @@ class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
         this.radioTextColor,
+        this.answerDescriptionStyle,
+        this.dateTimeButton,
+        this.activeCheckboxColor,
       this.sliderQuestionStyle,
         this.questionContentAlignment,
       this.radioQuestion,
@@ -52,8 +55,10 @@ this.optionTapNavigation=true,
       this.textFieldDecoration,
       this.appBarBackgroundColor,
       this.appBarIconThemeData});
-
+  Widget?dateTimeButton;
+  TextStyle?answerDescriptionStyle;
 Color?radioTextColor;
+Color?activeCheckboxColor;
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
   TextStyle? listTileQuestionStyle;
@@ -603,7 +608,7 @@ Navigator.pop(context);
           data.description!.isNotEmpty
               ? Text(
                   data.description.toString(),
-                  style: widget.description ?? const TextStyle(fontSize: 12),
+                  style: widget.description ?? const TextStyle(fontSize: 10),
                 )
               : const SizedBox(
                   height: 0,
@@ -1070,7 +1075,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             const SizedBox(height: 15,),
             if(answerDescription.isNotEmpty)
 
-            Text(answerDescription,style: TextStyle(color: Colors.black),),
+            Text(answerDescription,style: widget.answerDescriptionStyle?? TextStyle(color: Colors.red)),
+           // TextStyle(color: Colors.black),),
 
             const SizedBox(height: 20,),
             Padding(
@@ -1916,6 +1922,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 16),
                 ),
+                activeColor: widget.activeCheckboxColor ?? Colors.indigo,
                 value: answers.contains(answer),
                   onChanged: (bool? selected) {
                     setState(() {
@@ -1927,9 +1934,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         answers.remove(answer);
                       }
                     });
-                  } );
+                  },
+
+              );
             }).toList(),
           ),
+
           const SizedBox(
             height: 20,
           ),
@@ -2186,7 +2196,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
           GestureDetector(
             onTap: () => _selectDate(context),
-            child: Container(
+            child: widget.dateTimeButton??Container(
+
               width: 200,
               height: 40,
               decoration: BoxDecoration(
@@ -2195,6 +2206,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     Colors.teal,
                     Colors.teal.shade300,
                   ],
+
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -2210,12 +2222,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               child: const Center(
                 child: Text(
                   'Select Date/Time',
-                  style: TextStyle(
+
+                  style:TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+
               ),
             ),
           ),
