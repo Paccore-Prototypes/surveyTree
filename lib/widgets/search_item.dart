@@ -6,13 +6,24 @@ import '../enum.dart';
 import '../utils/imageparser.dart';
 
 class SearchItem extends StatefulWidget {
-  SearchItem({Key? key, required this.questionData, required this.callBack,required this.isLast})
+  SearchItem({Key? key, required this.questionData,
+    required this.callBack,required this.isLast,
+    this.description,this.searchItemQuestionStyle,
+    this.imagePlaceHolder,
+    this.customButton,
+    this.customLastButton,
+    this.skipText,
+    this.customSkipStyle})
       : super(key: key);
   final TreeNode questionData;
   bool isLast = false;
   String? imagePlaceHolder;
   TextStyle? searchItemQuestionStyle;
   TextStyle? description;
+  Widget? customButton;
+  Widget? customLastButton;
+  String? skipText;
+  TextStyle? customSkipStyle;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
@@ -62,209 +73,253 @@ class _SearchItemState extends State<SearchItem> {
     }
     final List<String> options = widget.questionData.answerChoices.keys.toList();
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10,),
-            imagePosition == ImagePosition.top &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
-              imagePaceHolder: widget.imagePlaceHolder,
-
-            )
-                : Container(),
-            imagePosition == ImagePosition.top &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            Text(
-              widget.questionData.question ?? "",
-              style: widget.searchItemQuestionStyle ??
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            imagePosition == ImagePosition.middle &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
+    return Theme(
+      data: ThemeData(
+        primaryColor: Colors.white
+      ),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 10,),
+              imagePosition == ImagePosition.top &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
                 imagePaceHolder: widget.imagePlaceHolder,
 
-            )
-                : Container(),
-            imagePosition == ImagePosition.middle &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            widget.questionData.description!.isNotEmpty
-                ? Text(
-              widget.questionData.description.toString(),
-              style:  widget.description ??
-                  const TextStyle(fontSize: 12),
-            )
-                : const SizedBox(
-              height: 0,
-            ),
-            imagePosition == ImagePosition.bottom &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
-               imagePaceHolder: widget.imagePlaceHolder,
-
-            )
-                : Container(),
-            imagePosition == ImagePosition.bottom &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            const SizedBox(height: 10),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Autocomplete<String>(
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (!_userHasTyped && textEditingValue.text.isEmpty) {
-                    return options.take(4);
-                  } else if (textEditingValue.text.isEmpty) {
-                    return const Iterable<String>.empty();
-                  } else {
-                    return options.where((String option) {
-                      return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                    });
-                  }
-                },
-                onSelected: (String selection) {
-                  setState(() {
-                    selectedItem = selection;
-                    _userHasTyped = true;
-                  });
-                },
-                fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
-                  return TextField(
-                    controller: fieldTextEditingController,
-                    focusNode: fieldFocusNode,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blueGrey.shade50,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blueGrey.shade200),
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      hintText: 'Search',
-                    ),
-                  );
-                },
-                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-                  return Align(
-                    alignment: Alignment.topLeft,
-                    child: Material(
-                      child: Container(
-                        width: 330,
-                        height: 210,
-                        decoration: BoxDecoration(
-                            color: Colors.blueGrey.shade50,
-                            borderRadius: BorderRadius.circular(12)
-                        ),
-                        child: ListView.builder(
-                          padding: EdgeInsets.all(10.0),
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final String option = options.elementAt(index);
-                            return GestureDetector(
-                              onTap: () {
-                                onSelected(option);
-                              },
-                              child: ListTile(
-                                title: Text(option),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  );
-                },
+              )
+                  : Container(),
+              imagePosition == ImagePosition.top &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              Text(
+                widget.questionData.question ?? "",
+                style: widget.searchItemQuestionStyle ??
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
+              const SizedBox(
+                height: 10,
+              ),
+              imagePosition == ImagePosition.middle &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
+                  imagePaceHolder: widget.imagePlaceHolder,
 
-            const SizedBox(height: 10),
+              )
+                  : Container(),
+              imagePosition == ImagePosition.middle &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              widget.questionData.description!.isNotEmpty
+                  ? Text(
+                widget.questionData.description.toString(),
+                style:  widget.description ??
+                    const TextStyle(fontSize: 12),
+              )
+                  : const SizedBox(
+                height: 0,
+              ),
+              imagePosition == ImagePosition.bottom &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
+                 imagePaceHolder: widget.imagePlaceHolder,
 
-            const SizedBox(height: 15,),
-            if (answerDescription.isNotEmpty)
-              Text(answerDescription),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (widget.questionData.isMandatory == false && widget.isLast == false)
+              )
+                  : Container(),
+              imagePosition == ImagePosition.bottom &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              const SizedBox(height: 10),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    if (!_userHasTyped && textEditingValue.text.isEmpty) {
+                      return options.take(4);
+                    } else if (textEditingValue.text.isEmpty) {
+                      return const Iterable<String>.empty();
+                    } else {
+                      return options.where((String option) {
+                        return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                      });
+                    }
+                  },
+                  onSelected: (String selection) {
+                    setState(() {
+                      selectedItem = selection;
+                      _userHasTyped = true;
+                    });
+                  },
+                  fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
+                    return TextField(
+                      controller: fieldTextEditingController,
+                      focusNode: fieldFocusNode,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blueGrey.shade50,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueGrey.shade200),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        hintText: 'Search',
+                      ),
+                    );
+                  },
+                  optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: Material(
+                        child: Container(
+                          width: 330,
+                          height: 210,
+                          decoration: BoxDecoration(
+                              color: Colors.blueGrey.shade50,
+                              borderRadius: BorderRadius.circular(12)
+                          ),
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(10.0),
+                            itemCount: options.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final String option = options.elementAt(index);
+                              return GestureDetector(
+                                onTap: () {
+                                  onSelected(option);
+                                },
+                                child: ListTile(
+                                  title: Text(option),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              const SizedBox(height: 15,),
+              if (answerDescription.isNotEmpty)
+                Text(answerDescription),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (widget.questionData.isMandatory == false && widget.isLast == false)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            FocusScope.of(context).unfocus();
+                          });
+                          widget.callBack!('', widget.questionData,true);
+                        },
+                        child: Center(
+                          child: Text(
+                          widget.skipText ??  'Skip',
+                            style: widget.customSkipStyle ?? const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(),
                     GestureDetector(
                       onTap: () {
-                        widget.callBack!('', widget.questionData,true);
+                        setState(() {
+                          FocusScope.of(context).unfocus();
+                        });
+                        if (widget.questionData != null) {
+                          widget.callBack!(selectedItem, widget.questionData,false);
+                        }
                       },
-                      child: const Center(
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                            fontStyle: FontStyle.italic,
+                      child: widget.isLast
+                          ? widget.customLastButton ??
+                          Container(
+                            width: 150,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Submit',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ) : widget.customButton ?? Container(
+                        height: 40,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                        ),
-                      ),
-                    )
-                  else
-                    const SizedBox(),
-                  GestureDetector(
-                    onTap: () {
-                      if (widget.questionData != null) {
-                        widget.callBack!(selectedItem, widget.questionData,false);
-                      }
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.teal,
-                            Colors.teal.shade300,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(5, 5),
-                            blurRadius: 10,
-                          )
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.isLast ? 'Submit':'Next',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                        child: Center(
+                          child: Text(
+                            widget.isLast ? 'Submit':'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
