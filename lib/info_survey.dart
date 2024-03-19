@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:infosurvey/tree_node.dart';
 import 'package:infosurvey/utils/imageparser.dart';
 import 'package:infosurvey/widgets/drop_down.dart';
@@ -51,7 +52,7 @@ this.optionTapNavigation=true,
         this.skipText,
       this.textFieldDecoration,
       this.appBarBackgroundColor,
-      this.appBarIconThemeData});
+      this.appBarIconThemeData,this.dropDownQuestionStyle});
 
 Color?radioTextColor;
   TextStyle? sliderQuestionStyle;
@@ -75,6 +76,9 @@ Color?radioTextColor;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
   InputDecoration? textFieldDecoration;
+  TextStyle? dropDownQuestionStyle;
+  TextStyle? searchItemQuestionStyle;
+
 
 
   bool isAppBarVisible=true;
@@ -154,7 +158,10 @@ String answerdata='';
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
+   // SystemChannels.textInput.invokeMethod('TextInput.hide');
+
     modelJson();
     // _controller = AnimationController(
     //     vsync: this,
@@ -296,7 +303,15 @@ Navigator.pop(context);
       case "text-field":
         return buildTextQuestion(data[pageIndex], pageIndex);
       case "drop_down":
-        return DropDown(isLast: isLast,questionData: data[pageIndex],imagePlaceHolder: widget.imagePlaceHolder,callBack: (data,callingBackData,fromSkip,){
+        return DropDown(dropDownQuestionStyle: widget.dropDownQuestionStyle,
+          descriptionStyle: widget.description,
+          skipText: widget.skipText,
+          customSkipStyle: widget.customSkipStyle,
+          customButton: widget.customButton,
+          customLastButton : widget.customLastButton,
+          isLast: isLast,questionData: data[pageIndex],
+          imagePlaceHolder: widget.imagePlaceHolder,
+          callBack: (data,callingBackData,fromSkip,){
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
             if (callingBackData.isMandatory == true) {
@@ -351,7 +366,15 @@ Navigator.pop(context);
               );
             }}},);
       case "search_item":
-        return SearchItem(isLast: isLast,questionData: data[pageIndex],callBack: (data,callingBackData,fromSkip){
+        return SearchItem(imagePlaceHolder: widget.imagePlaceHolder,
+            skipText: widget.skipText,
+            customSkipStyle: widget.customSkipStyle,
+            customButton: widget.customButton,
+            customLastButton : widget.customLastButton,
+            description: widget.description,
+            searchItemQuestionStyle: widget.searchItemQuestionStyle,
+            isLast: isLast,questionData: data[pageIndex],
+            callBack: (data,callingBackData,fromSkip){
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
             if (callingBackData.isMandatory == true) {
@@ -857,13 +880,15 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       ),
     );
   }
+
+
   String answerDescription = '';
-  bool selected = false;
 
 
   Widget buildAnswerWidget(String answer, TreeNode questionData) {
    bool isSelected = answerdata == answer;
 
+   String imageOption = questionData.answerChoices[answer][0]["imageOption"] ?? '';
     if (questionData.answerChoices[answer] == null) {
       return ListTile(
         shape: isSelected ? widget.listTileShape ??  RoundedRectangleBorder(
@@ -873,7 +898,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(color: Colors.blueGrey.shade200),
         ),
-        title:  Text(answer),contentPadding: EdgeInsets.all(12),
+        title:  Row(
+          children: [
+            imageOption.isNotEmpty ?
+            Image.network(imageOption):Container(),
+            Text(answer),
+          ],
+        ),contentPadding: EdgeInsets.all(12),
         tileColor: isSelected
             ? widget.tileListColor ?? Colors.blueGrey.shade200
             : Colors.blueGrey.shade50,
@@ -892,6 +923,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
             Future.delayed(Duration(seconds: 1)).then((value) {
               answerdata='';
+              answerDescription = '';
               setState(() {
 
               });
@@ -908,7 +940,15 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         children: [
           const SizedBox(height: 8,),
           ListTile(
-            title:  Center(child: Text(answer)),
+            title:  Center(child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                imageOption.isNotEmpty ?
+                Image.network(imageOption,width: 25,height: 25,):Container(),
+                const SizedBox(width: 10,),
+                Center(child: Text(answer)),
+              ],
+            )),
             // selectedTileColor: widget.tileListColor ?? Colors.green,
             tileColor: isSelected
                 ? widget.tileListColor ?? Colors.blueGrey.shade300
@@ -947,6 +987,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     });
                 Future.delayed(Duration(seconds: 1)).then((value) {
                   answerdata='';
+                  answerDescription = '';
+
                   setState(() {
 
                   });
@@ -963,7 +1005,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   }
 
     Widget buildLIstQuestioins(TreeNode questionData) {
-    
+
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer']!=''){
       if(answerdata==''){
@@ -972,10 +1014,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       }
     }}
 
-    if(answersMap.containsKey(questionData.question)){
-      if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
-        answerDescription = answersMap[questionData.question]['optionDescription'];
-      }}
+    // if(answersMap.containsKey(questionData.question)){
+    //   if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
+    //     answerDescription = answersMap[questionData.question]['optionDescription'];
+    //   }}
+
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -1068,9 +1111,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                   ),
             const SizedBox(height: 15,),
-            if(answerDescription.isNotEmpty)
-
-            Text(answerDescription,style: TextStyle(color: Colors.black),),
+            answerDescription.isNotEmpty ?
+            Text(answerDescription,style: TextStyle(color: Colors.black),) : Container(),
 
             const SizedBox(height: 20,),
             Padding(
@@ -1091,6 +1133,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               );
 Future.delayed(Duration(seconds: 1)).then((value) {
 answerdata='';
+answerDescription = '';
 setState(() {
   
 });
@@ -1114,7 +1157,7 @@ setState(() {
                       GestureDetector(
                         onTap: () {
                           if (isLast) {
-                       //     if (answersMap.containsKey(questionData.question)) {
+                          //  if (answersMap.containsKey(questionData.question)) {
 
                               sumOfScoresData();
 
@@ -1131,7 +1174,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
 }
                         //    }
- /*     else {
+     /* else {
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
                                 content:
@@ -1164,6 +1207,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   });
 Future.delayed(Duration(seconds: 1)).then((value) {
 answerdata='';
+answerDescription = '';
 setState(() {
   
 });
@@ -1188,6 +1232,7 @@ setState(() {
                                   });
 Future.delayed(Duration(seconds: 1)).then((value) {
 answerdata='';
+answerDescription = '';
 setState(() {
   
 });
@@ -1201,7 +1246,7 @@ setState(() {
                           }
                         },
                         child: isLast
-                          ? widget.customButton ??
+                          ? widget.customLastButton ??
                               Container(
                                 width: 150,
                                 height: 50,
@@ -1234,7 +1279,7 @@ setState(() {
                                   ),
                                 ),
                               )
-                          : widget.customLastButton ??
+                          : widget.customButton ??
                               Container(
                                 width: 120,
                                 height: 40,
@@ -1664,6 +1709,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               controller: textControllers[index],
               onChanged: (text) {
                 text = nameController.text.trim();
+
                 //int score = int.parse(text);
                 //radioSelectedValues?.add(score);
               },
@@ -1681,6 +1727,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   questionData.isMandatory == false && isLast == false
                       ? GestureDetector(
                             onTap: () {
+                              setState(() {
+                                FocusScope.of(context).unfocus();
+                              });
                               addTheFollowUpQuestion('',
                                   isNestedchoice: true,
                                   question: questionData.question,
@@ -1728,7 +1777,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                       GestureDetector(
                         onTap: () {
-                          // Check if the question is mandatory
+                          setState(() {
+                            FocusScope.of(context).unfocus();
+                          });
                           if (questionData.isMandatory == true) {
                             String textAnswer =
                                 textControllers[index]?.text ?? '';
