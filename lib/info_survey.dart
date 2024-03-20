@@ -13,6 +13,9 @@ class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
         this.radioTextColor,
+        this.answerDescriptionStyle,
+        this.dateTimeButton,
+        this.activeCheckboxColor,
       this.sliderQuestionStyle,
         this.questionContentAlignment,
       this.radioQuestion,
@@ -52,9 +55,13 @@ this.optionTapNavigation=true,
         this.skipText,
       this.textFieldDecoration,
       this.appBarBackgroundColor,
-      this.appBarIconThemeData,this.dropDownQuestionStyle});
+      this.appBarIconThemeData,
+        this.dropDownQuestionStyle});
 
+  Widget?dateTimeButton;
+  TextStyle?answerDescriptionStyle;
 Color?radioTextColor;
+Color?activeCheckboxColor;
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
   TextStyle? listTileQuestionStyle;
@@ -158,10 +165,7 @@ String answerdata='';
   @override
   void initState() {
     // TODO: implement initState
-
     super.initState();
-   // SystemChannels.textInput.invokeMethod('TextInput.hide');
-
     modelJson();
     // _controller = AnimationController(
     //     vsync: this,
@@ -1113,6 +1117,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             const SizedBox(height: 15,),
             answerDescription.isNotEmpty ?
             Text(answerDescription,style: TextStyle(color: Colors.black),) : Container(),
+            if(answerDescription.isNotEmpty)
+
+            Text(answerDescription,style: widget.answerDescriptionStyle?? TextStyle(color: Colors.red)),
+           // TextStyle(color: Colors.black),),
 
             const SizedBox(height: 20,),
             Padding(
@@ -1709,7 +1717,6 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               controller: textControllers[index],
               onChanged: (text) {
                 text = nameController.text.trim();
-
                 //int score = int.parse(text);
                 //radioSelectedValues?.add(score);
               },
@@ -1967,6 +1974,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 16),
                 ),
+                activeColor: widget.activeCheckboxColor ?? Colors.indigo,
                 value: answers.contains(answer),
                   onChanged: (bool? selected) {
                     setState(() {
@@ -2237,7 +2245,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
           GestureDetector(
             onTap: () => _selectDate(context),
-            child: Container(
+            child: widget.dateTimeButton??Container(
+
               width: 200,
               height: 40,
               decoration: BoxDecoration(
