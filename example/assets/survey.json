@@ -29,7 +29,7 @@
                 "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
-                "inputType":"number",
+                "inputType":"text",
                 "image": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
                 "imagePosition": "bottom",
                 "imagePlace": "right",
@@ -159,7 +159,7 @@
     "id": 902,
     "isMandatory": false,
     "question": "Which item do you have post dinner ?",
-    "description": null,
+    "description": "Here is the description",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "search_item",
     "answerChoices": {
@@ -188,7 +188,7 @@
     "id": 903,
     "isMandatory": false,
     "question": "What curry you want to have ?",
-    "description": null,
+    "description": "Adding the description",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "drop_down",
     "listGridType" : true,
@@ -224,19 +224,23 @@
     "answerChoices": {
       "Carrot": [
         {
-          "score": 7
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
         }
       ],
       "Beetroot":[ {
-        "score": 7
+        "score": 7,
+        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s"
       }],
       "Onion": [
         {
-          "score": 7
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
         }
       ],
       "Green_leaf":[ {
-        "score": 7
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
       }]
     },
     "score": 6
@@ -318,32 +322,8 @@
       }]
     },
     "score": 6
-  },
-
-  {
-    "id": 901,
-    "isMandatory": false,
-    "question": "Are you available for break-fast ?",
-    "description": null,
-    "imageHeight": 200,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
-    "answerChoices": {
-      "Yes": [
-        {
-          "score": 7,
-          "answerDescription": "Yes, I'm going to have the break-fast"
-        }
-      ],
-      "No":[ {
-        "score": 7,
-        "answerDescription": "No, I'm fasting.............."
-      }],
-      "Yes but later":[ {
-        "score": 7,
-        "answerDescription": "Yes, but I will have later..."
-      }]
-    },
-    "score": 6
   }
+
+
+
 ]

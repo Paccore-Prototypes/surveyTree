@@ -15,6 +15,7 @@ class TreeNode {
   String? answerDescription;
   String? inputType;
   bool? listGridType;
+  String? imageOption;
 
   TreeNode({
     required this.id,
@@ -34,7 +35,8 @@ class TreeNode {
     this.answerDescription,
 
     this.inputType,
-    this.listGridType
+    this.listGridType,
+    this.imageOption
   
   });
 }
@@ -68,7 +70,7 @@ class TreeModel {
       imagePlace: data['imagePlace'] ?? 'center',
       imageHeight: data['imageHeight'] ?? 100,
       imageWidth: data['imageWidth'] ?? 100,
-
+      imageOption: data['imageOption'] ?? '',
       answerDescription: data['answerDescription'] ?? '',
 
       inputType: data['inputType']??'text',
