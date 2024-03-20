@@ -216,7 +216,7 @@
   {
     "id": 904,
     "isMandatory": false,
-    "question": "Types veg that you had ?",
+    "question": "Types veg that you had lunch?",
     "description": null,
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "questionType": "list",
@@ -225,22 +225,147 @@
       "Carrot": [
         {
           "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have carrot..."
         }
       ],
       "Beetroot":[ {
         "score": 7,
-        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s"
+        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+        "answerDescription": "Will have beetroot."
+
       }],
       "Onion": [
         {
           "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have onion.."
+
         }
       ],
       "Green_leaf":[ {
         "score": 7,
-        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png"
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have green-leaf.."
+
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 90,
+    "isMandatory": false,
+    "question": "Types veg that you had dinner?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "listGridType" : false,
+    "answerChoices": {
+      "Carrot": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have carrot..."
+        }
+      ],
+      "Beetroot":[ {
+        "score": 7,
+        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+        "answerDescription": "Will have beetroot."
+
+      }],
+      "Onion": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have onion.."
+
+        }
+      ],
+      "Green_leaf":[ {
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have green-leaf.."
+
+      }]
+    },
+    "score": 6
+  },
+
+  {
+    "id": 908,
+    "isMandatory": false,
+    "question": "Types veg that you had snacks?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "listGridType" : true,
+    "answerChoices": {
+      "Carrot": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have carrot..."
+        }
+      ],
+      "Beetroot":[ {
+        "score": 7,
+        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+        "answerDescription": "Will have beetroot."
+
+      }],
+      "Onion": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have onion.."
+
+        }
+      ],
+      "Green_leaf":[ {
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have green-leaf.."
+
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 907,
+    "isMandatory": false,
+    "question": "Types veg that you had break-fast?",
+    "description": null,
+    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+    "questionType": "list",
+    "listGridType" : false,
+    "answerChoices": {
+      "Carrot": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have carrot..."
+        }
+      ],
+      "Beetroot":[ {
+        "score": 7,
+        "imageOption": "https://media.giphy.com/media/Thpjgi8fUZfQVYOcaY/giphy.gif?cid=790b761134wp92t5fhioav8eo29m3qd1afnf4v0lzrxt0q5c&ep=v1_gifs_search&rid=giphy.gif&ct=s",
+        "answerDescription": "Will have beetroot."
+
+      }],
+      "Onion": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have onion.."
+
+        }
+      ],
+      "Green_leaf":[ {
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have green-leaf.."
+
       }]
     },
     "score": 6
@@ -289,41 +414,5 @@
         }
       ]
     }
-  },
-
-  {
-    "id": 905,
-    "isMandatory": false,
-    "question": "Types veg that you had as lunch ?",
-    "description": null,
-    "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-    "questionType": "list",
-    "listGridType" : false,
-    "answerChoices": {
-      "Carrot": [
-        {
-          "score": 7,
-          "answerDescription": "Yes, but I will have later..."
-
-        }
-      ],
-      "Beetroot":[ {
-        "score": 7,
-        "answerDescription": "No, but I will have later..."
-
-      }],
-      "Onion": [
-        {
-          "score": 7
-        }
-      ],
-      "Green_leaf":[ {
-        "score": 7
-      }]
-    },
-    "score": 6
   }
-
-
-
 ]
