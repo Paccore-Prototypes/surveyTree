@@ -16,6 +16,7 @@ class TreeNode {
   String? inputType;
   bool? listGridType;
   String? imageOption;
+  bool? isMultiListSelects;
 
   TreeNode({
     required this.id,
@@ -36,7 +37,7 @@ class TreeNode {
 
     this.inputType,
     this.listGridType,
-    this.imageOption
+    this.imageOption,this.isMultiListSelects
   
   });
 }
@@ -72,7 +73,7 @@ class TreeModel {
       imageWidth: data['imageWidth'] ?? 100,
       imageOption: data['imageOption'] ?? '',
       answerDescription: data['answerDescription'] ?? '',
-
+      isMultiListSelects: data['isMultiListSelects'],
       inputType: data['inputType']??'text',
       listGridType: data['listGridType'] ?? false,
 
