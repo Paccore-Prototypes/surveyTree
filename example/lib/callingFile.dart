@@ -60,9 +60,9 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         isAppBarVisible: true,
         onListTaleTapnavigation: false,
         imagePlaceHolder: 'assets/images/placeholder1.png',
-//         onSurveyEnd: (score,answermap){
-// print('the survey score was----- '+score.toString());
-//         },
+        onSurveyEnd: (score,answermap){
+print('the survey score was----- '+score.toString());
+        },
         surveyResult: (score, answersMap) {
           print('Health Score: $score');
           print('Answers Map: $answersMap');
