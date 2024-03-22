@@ -93,7 +93,6 @@ Color?activeCheckboxColor;
 
   Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
 
-
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
   Function(HashMap<String, dynamic> answersMap, String? questionsData, int pageIndex,)?onPageChanged;
@@ -179,7 +178,7 @@ String answerdata='';
   }
 
   TextEditingController nameController = TextEditingController();
-  List<String> answers = [];
+   List<String> answers = [];
   String? selectedValue;
   List<Map<String, dynamic>> followUpQuestions = [];
   PageController pageController = PageController();
@@ -213,7 +212,7 @@ String answerdata='';
 
     ImagePosition refEnum = ImagePosition.top;
     return Theme(
-      data: ThemeData(textTheme: TextTheme(),
+      data: ThemeData(textTheme: const TextTheme(),
         primaryColor: Colors.white
       ),
       child: WillPopScope(
@@ -369,7 +368,7 @@ Navigator.pop(context);
               //show Popup Dialog here
             } else {
               addTheFollowUpQuestion(
-                  data!.isEmpty || data == null ? '' : data!,
+                  data!.isEmpty || data == null ? '' : data,
                   isNestedchoice: true,
                   question: callingBackData.question,
                   answeValue: {
@@ -378,7 +377,7 @@ Navigator.pop(context);
                     'score': callingBackData.answerChoices == null
                         ? 0
                         : callingBackData.score,
-                    'answer': data!.isEmpty || data == null ? '' : data!,
+                    'answer': data.isEmpty || data == null ? '' : data,
 
                   });
               pageController.nextPage(
@@ -731,10 +730,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
 
-             }
-                    //  print("PageIndex: $pageIndex");
 
-                    });
+
+             } });
 
               // }
             }).toList(),
@@ -943,72 +941,18 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   }
 
 
+
   String answerDescription = '';
 
 
   Widget buildAnswerWidget(String answer, TreeNode questionData) {
-   bool isSelected = answerdata == answer;
+    bool isSelected = answerdata == answer;
 
-   String imageOption = questionData.answerChoices[answer][0]["imageOption"] ?? '';
-    if (questionData.answerChoices[answer] == null) {
-      return ListTile(
-        shape: isSelected ? widget.listTileShape ??  RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.black),
-        ): RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.blueGrey.shade200),
-        ),
-        title:  Row(
-          children: [
-            imageOption.isNotEmpty ?
-            Image.network(imageOption):Container(),
-            Text(answer),
-          ],
-        ),contentPadding: EdgeInsets.all(12),
-        tileColor: isSelected
-            ? widget.tileListColor ?? Colors.blueGrey.shade200
-            : Colors.blueGrey.shade50,
-        onTap: () {
-          setState(() {
-            if (answerdata == answer) {
-              answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] : '';
-            } else {
-              answerDescription = questionData.answerChoices[answer][0]['answerDescription'] ?? '';
-              answerdata = answer;
-            }
-          });
-
-          if(widget.onListTaleTapnavigation){
-
-            addTheFollowUpQuestion('',
-                isNestedchoice: true,
-                question: questionData.question,
-                answeValue: {'score': 0});
-
-
-            Future.delayed(Duration(seconds: 1)).then((value) {
-              answerdata='';
-              answerDescription = '';
-              setState(() {
-
-              });
-            } );
-            pageController.nextPage(
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.ease,
-            );
-          }},
-      );
-
-    } else {
-      return Column(
-        children: [
-          const SizedBox(height: 8,),
-          SizedBox(
-            height: questionData.listGridType == true ? 100 : 60,
-            child: ListTile(
-              title:  Center(child: questionData.listGridType == true ? Column(
+    String imageOption = questionData.answerChoices[answer][0]["imageOption"] ??
+        '';
+    if (questionData.isMultiListSelects == true) {
+            return ListTile(
+              title: Center(child: questionData.listGridType == true ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1017,7 +961,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     imageOption,
                     width: 50,
                     height: 50,
-                  ):Container(),
+                  ) : Container(),
                   const SizedBox(width: 10,),
                   Center(child: Text(answer)),
                 ],
@@ -1030,7 +974,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     imageOption,
                     width: 25,
                     height: 25,
-                  ):Container(),
+                  ) : Container(),
                   const SizedBox(width: 10,),
                   Center(child: Text(answer)),
                 ],
@@ -1039,24 +983,158 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               tileColor: isSelected
                   ? widget.tileListColor ?? Colors.blueGrey.shade300
                   : Colors.blueGrey.shade50,
-              shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: const BorderSide(color: Colors.black),
-              ) : RoundedRectangleBorder(
+              shape: isSelected ? widget.listTileShape ??
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(color: Colors.black),
+                  ) : RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: BorderSide(color: Colors.blueGrey.shade200),
               ),
+             //  selected: answers.contains(answer),
+              selectedTileColor: widget.tileListColor ?? Colors.blueGrey.shade300,
               onTap: () {
                 setState(() {
-                  if (answerdata == answer) {
-                    answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] : answerDescription;
+                  if (answers.contains(answer)) {
+                    answers.remove(answer);
                   } else {
-                    answerDescription = questionData.answerChoices[answer][0]['answerDescription'] ?? '';
-                    answerdata = answer;
+                    answers.add(answer);
                   }
                 });
-                if(widget.onListTaleTapnavigation){
+              },
+            );
+    }else{
+    if (questionData.answerChoices[answer] == null) {
+      return ListTile(
+        shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: Colors.black),
+        ) : RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Colors.blueGrey.shade200),
+        ),
+        title: Row(
+          children: [
+            imageOption.isNotEmpty ?
+            Image.network(imageOption) : Container(),
+            Text(answer),
+          ],
+        ),
+        contentPadding: EdgeInsets.all(12),
+        tileColor: isSelected
+            ? widget.tileListColor ?? Colors.blueGrey.shade200
+            : Colors.blueGrey.shade50,
+        onTap: () {
 
+          setState(() {
+            if (answerdata == answer) {
+              answerDescription = answerDescription.isEmpty ? questionData
+                  .answerChoices[answer][0]['answerDescription'] : '';
+            } else {
+              answerDescription =
+                  questionData.answerChoices[answer][0]['answerDescription'] ??
+                      '';
+              answerdata = answer;
+            }
+          });
+
+
+          if (widget.onListTaleTapnavigation) {
+
+            addTheFollowUpQuestion('',
+                isNestedchoice: true,
+                question: questionData.question,
+                answeValue: {'score': 0});
+
+
+            Future.delayed(Duration(seconds: 1)).then((value) {
+              answerdata = '';
+              answerDescription = '';
+              setState(() {
+
+              });
+            });
+            pageController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.ease,
+            );
+          }
+        },
+      );
+    }
+    else {
+      return Column(
+        children: [
+          const SizedBox(height: 8,),
+          SizedBox(
+            height: questionData.listGridType == true ? 100 : 60,
+            child: ListTile(
+              title: Center(child: questionData.listGridType == true ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  imageOption.isNotEmpty ?
+                  Image.network(
+                    imageOption,
+                    width: 50,
+                    height: 50,
+                  ) : Container(),
+                  const SizedBox(width: 10,),
+                  Center(child: Text(answer)),
+                ],
+              ) : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  imageOption.isNotEmpty ?
+                  Image.network(
+                    imageOption,
+                    width: 25,
+                    height: 25,
+                  ) : Container(),
+                  const SizedBox(width: 10,),
+                  Center(child: Text(answer)),
+                ],
+              )),
+              // selectedTileColor: widget.tileListColor ?? Colors.green,
+              tileColor: isSelected
+                  ? widget.tileListColor ?? Colors.blueGrey.shade300
+                  : Colors.blueGrey.shade50,
+              selectedTileColor: widget.tileListColor ?? Colors.blueGrey.shade300,
+
+              shape: isSelected ? widget.listTileShape ??
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(color: Colors.black),
+                  ) : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(color: Colors.blueGrey.shade200),
+              ),
+              selected:  answers.contains(answer),
+              onTap: () {
+               // setState(() {
+               //    if (answerdata == answer) {
+               //      answerDescription = answerDescription.isEmpty ? questionData
+               //          .answerChoices[answer][0]['answerDescription'] : '';
+               //    } else {
+               //      answerDescription = questionData
+               //          .answerChoices[answer][0]['answerDescription'] ?? '';
+               //      answerdata = answer;
+               //    }
+               //  });
+
+                setState(() {
+
+                  if (!answers.contains(answer)) {
+                    answers.add(answer);
+                    answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] : '';
+                  } else {
+                    answers.remove(answer);
+                    answerDescription = '';
+                  }
+                });
+
+                if (widget.onListTaleTapnavigation) {
                   addTheFollowUpQuestion(answer,
                       haveDescription:
                       questionData.description != null ? true : false,
@@ -1068,103 +1146,57 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         'score': questionData.answerChoices[answer][0]
                         ['score'],
                         'answer': answer,
-                        'optionDescription' : answerDescription
+                        'optionDescription': answerDescription
                       });
                   Future.delayed(Duration(seconds: 1)).then((value) {
-                    answerdata='';
+                    answerdata = '';
                     answerDescription = '';
                     setState(() {
 
                     });
-                  } );
+                  });
 
                   pageController.nextPage(
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.ease);
-                }},
+                }
+              },
             ),
           ),
         ],
       );
     }
   }
+  }
 
-
-  // Widget buildAnswerWidget(String answer, TreeNode questionData) {
-  //   bool isSelected = answerdata == answer;
-  //   String imageOption = questionData.answerChoices[answer][0]["imageOption"] ?? '';
-  //
-  //   return ListTile(
-  //     shape: isSelected ? widget.listTileShape ?? RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(10),
-  //       side: const BorderSide(color: Colors.black),
-  //     ) : RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(10),
-  //       side: BorderSide(color: Colors.blueGrey.shade200),
-  //     ),
-  //     title: Row(
-  //       children: [
-  //         imageOption.isNotEmpty ? Image.network(imageOption) : Container(),
-  //         Text(answer),
-  //       ],
-  //     ),
-  //     contentPadding: EdgeInsets.all(12),
-  //     tileColor: isSelected
-  //         ? widget.tileListColor ?? Colors.blueGrey.shade200
-  //         : Colors.blueGrey.shade50,
-  //     onTap: () {
-  //       setState(() {
-  //         if (answerdata == answer) {
-  //           answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] : '';
-  //         } else {
-  //           answerDescription = questionData.answerChoices[answer][0]['answerDescription'] ?? '';
-  //           answerdata = answer;
-  //         }
-  //       });
-  //
-  //       if (widget.onListTaleTapnavigation) {
-  //         addTheFollowUpQuestion(answer,
-  //             haveDescription: questionData.description != null,
-  //             isNestedchoice: true,
-  //             question: questionData.question,
-  //             answeValue: {
-  //               'id': questionData.id,
-  //               'question-type': questionData.questionType,
-  //               'score': questionData.answerChoices[answer][0]['score'],
-  //               'answer': answer,
-  //               'optionDescription': answerDescription,
-  //             });
-  //
-  //         Future.delayed(Duration(seconds: 1)).then((value) {
-  //           answerdata = '';
-  //           answerDescription = '';
-  //           setState(() {});
-  //         });
-  //
-  //         pageController.nextPage(
-  //           duration: const Duration(milliseconds: 500),
-  //           curve: Curves.ease,
-  //         );
-  //       }
-  //     },
-  //   );
-  // }
 
   Widget buildLIstQuestioins(TreeNode questionData) {
+    Set<String> selectedAnswers = {};
 
+    if (answersMap.containsKey(questionData.question)) {
+      if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty){
+        answers = answersMap[questionData.question]['answer']??'';
+
+      }
+    }
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer']!=''){
-      if(answerdata==''){
-      answerdata=answersMap[questionData.question]['answer'];
-      }
+      //   if(answerdata==''){
+      //     answerdata=answersMap[questionData.question]['answer'] ?? '';
+      // }
+
     }}
 
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
        if(answerDescription==''){
-        answerDescription = answersMap[questionData.question]['optionDescription'];
-      }}
-      else{
+
+        answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
+      }else{
+         answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
+       }
+      }else{
+
         answerDescription = '';
       }
     }
@@ -1380,21 +1412,29 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                       'score': questionData.answerChoices == null
                                           ? 0
                                           : questionData.score,
-                                      'answer': answerdata,
+                                      'answer': answers,
                                       'optionDescription': answerDescription
                                     });
-Future.delayed(Duration(seconds: 1)).then((value) {
-answerdata='';
-answerDescription = '';
-setState(() {
 
-});
-} );
-                                pageController.nextPage(
+                               // answers=[];
+
+                                Future.delayed(Duration(seconds: 1))
+                                  .then((value) {
+                                answerdata = '';
+                                answerDescription = '';
+                                setState(() {});
+                              });
+                              pageController.nextPage(
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
+                                Future.delayed(Duration(milliseconds:200)).then((value) {
+                                  answers=[];
+                                  answerDescription = '';
+                                  setState(() {
 
+                                  });
+                                });
                               } else {
                                 addTheFollowUpQuestion(answerdata,
                                     isNestedchoice: true,
@@ -1405,23 +1445,31 @@ setState(() {
                                       'score': questionData.answerChoices == null
                                           ? 0
                                           : questionData.score,
-                                      'answer': answerdata,
+                                      'answer': answers,
                                     'optionDescription': answerDescription
 
                                     });
-Future.delayed(Duration(seconds: 1)).then((value) {
-answerdata='';
-answerDescription = '';
-setState(() {
 
-});
-} );
+                                Future.delayed(Duration(seconds: 1))
+                                  .then((value) {
+                                answerdata = '';
+                                answerDescription = '';
+                                setState(() {});
+                              });
 
-                                pageController.nextPage(
+                              pageController.nextPage(
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                }
+
+                                Future.delayed(Duration(milliseconds:200)).then((value) {
+                                  answers=[];
+                                  answerDescription = '';
+                                  setState(() {
+
+                                  });
+                                });
+
                               }
                             },
 
@@ -2198,6 +2246,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               questionData.image != null &&
               questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
           const SizedBox(height: 10),
+
           Column(
 
             children: (questionData.answerChoices)
@@ -2210,6 +2259,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 16),
                 ),
+
                 activeColor: widget.activeCheckboxColor ?? Colors.indigo,
                 value: answers.contains(answer),
                   onChanged: (bool? selected) {
@@ -2328,7 +2378,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     'score': score,
                                     'answer': answers
                                   });
-                                                                                            answers=[];
+                              answers=[];
 
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
