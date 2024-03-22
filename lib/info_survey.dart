@@ -39,6 +39,7 @@ class InfoSurvey extends StatefulWidget {
    //   this.buttonDecoration,
       this.submitSurveyPopup,
       this.surveyResult,
+        this.onPageChanged,
       required this.showScoreWidget,
       this.description,
       this.customSkipStyle,
@@ -91,9 +92,10 @@ Color?activeCheckboxColor;
   bool isAppBarVisible=true;
 
   Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
- // Function(int index, String questionData, HashMap<String, dynamic> answersMap) issue;
+
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
+  Function(HashMap<String, dynamic> answersMap, String? questionsData, int pageIndex,)?onPageChanged;
   bool showScoreWidget;
   Widget? appBarTitleWidget;
   String? imagePlaceHolder;
@@ -275,7 +277,21 @@ Navigator.pop(context);
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: PageView.builder(
+                      child: PageView.builder(
+                        onPageChanged: (page) {
+                          if (widget.onPageChanged != null) {
+                            Future.delayed(const Duration(milliseconds: 500), () {
+                              widget.onPageChanged!(
+                                  answersMap,
+                                  pageviewTree?.nodes[pageController.page!.toInt()].question,
+                                  page
+                              );
+                              print('-----------------------printing index with question data ${pageviewTree?.nodes[pageController.page!.toInt()].question}');
+                            });
+                          }
+                        },
+
+
                       physics: const NeverScrollableScrollPhysics(),
                       controller: pageController,
                       itemCount: pageviewTree?.nodes.length ?? 0,
@@ -656,6 +672,7 @@ Navigator.pop(context);
             children: (data.answerChoices).keys.map<Widget>((answer) {
               if (data.answerChoices[answer] != null) {
                 if (answersMap.containsKey(data.question)) {
+
                   selectedValue = answersMap[data.question]['answer'];
                 }
               }
@@ -713,9 +730,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
 
+
+
              } });
+
               // }
             }).toList(),
+
           ),
           const SizedBox(
             height: 20,
@@ -798,7 +819,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               behavior: SnackBarBehavior.floating,
                             ));
                           }
-                        } else {
+                        }else
+
+
+
                           if (data.isMandatory == true) {
                             if (answers.isEmpty) {
                               ScaffoldMessenger.maybeOf(context)!
@@ -841,10 +865,41 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               curve: Curves.easeInOut,
                             );
                           }
-                        }
+
                       },
-                      child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
-                          :widget.customButton ?? Container(
+                      child: isLast ? widget.customLastButton ?? Container(
+                            width: isLast ? 150 : 120,
+                            height: isLast ? 50 : 40,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                isLast ? 'Submit Survey' : 'Next',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                      :widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -982,7 +1037,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               answerdata = answer;
             }
           });
+
+
           if (widget.onListTaleTapnavigation) {
+
             addTheFollowUpQuestion('',
                 isNestedchoice: true,
                 question: questionData.question,
@@ -1132,15 +1190,20 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
        if(answerDescription==''){
+
         answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
       }else{
          answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
        }
       }else{
+
         answerDescription = '';
       }
     }
-
+// if(answersMap.containsKey(questionData.question)){
+    //   if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
+    //     answerDescription = answersMap[questionData.question]['optionDescription'];
+    //   }}
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -1254,6 +1317,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.ease,
                                 );
+
 Future.delayed(Duration(seconds: 1)).then((value) {
 answerdata='';
 answerDescription = '';
@@ -1327,6 +1391,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ));
                               }*/
                             }
+
                             else {
                               if (questionData.isMandatory == true) {
                                 if (answerdata.isEmpty) {
@@ -1350,6 +1415,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                       'answer': answers,
                                       'optionDescription': answerDescription
                                     });
+
                                // answers=[];
 
                                 Future.delayed(Duration(seconds: 1))
@@ -1383,7 +1449,6 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     'optionDescription': answerDescription
 
                                     });
-                               // answers=[];
 
                                 Future.delayed(Duration(seconds: 1))
                                   .then((value) {
@@ -1396,6 +1461,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
+
                                 Future.delayed(Duration(milliseconds:200)).then((value) {
                                   answers=[];
                                   answerDescription = '';
@@ -1403,9 +1469,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                                   });
                                 });
+
                               }
-                            }
-                          },
+                            },
+
                           child: isLast
                             ? widget.customLastButton ??
                                 Container(
@@ -1743,32 +1810,63 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut,
                         );
+
                       }
                     },
-                    child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
-                        : widget.customButton ?? Container(
-                      width: 120,
-                      height: 40,
-                      decoration:
-                          BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal,
-                                Colors.teal.shade300,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
-                              )
-                            ],
+                    child: isLast ? widget.customLastButton ?? Container(
+                      width: isLast ? 150 : 120,
+                      height: isLast ? 50 : 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.teal,
+                            Colors.teal.shade300,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          isLast ? 'Submit Survey' : 'Next',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                           ),
-                      child: const Center(
+                        ),
+                      ),
+                    )
+                        :widget.customButton ?? Container(
+                      width: isLast ? 150 : 120,
+                      height: isLast ? 50 : 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.teal,
+                            Colors.teal.shade300,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: Center(
                         child: Text(
                          'Next',
                           style:
@@ -1992,8 +2090,40 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut);
                           }
+
                         },
-                        child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                        child:  isLast ? widget.customLastButton ?? Container(
+                      width: isLast ? 150 : 120,
+                        height: isLast ? 50 : 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            isLast ? 'Submit Survey' : 'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      )
                             : widget.customButton ?? Container(
                           width: isLast ? 150 : 120,
                           height: isLast ? 50 : 40,
@@ -2293,6 +2423,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
                               );
+
                             });
                           }
                         }
@@ -2588,6 +2719,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         }
+
                       },
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           : widget.customButton ?? Container(
