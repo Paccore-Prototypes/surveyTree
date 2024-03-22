@@ -48,6 +48,7 @@ class InfoSurvey extends StatefulWidget {
 this.optionTapNavigation=true,
       this.imagePlaceHolder,
       this.appBarTitleWidget,
+        this.onPageChanged,
       this.onSurveyEnd,
       this.isAppBarVisible=true,
       this.imagePlace,
@@ -86,12 +87,9 @@ Color?activeCheckboxColor;
   TextStyle? dropDownQuestionStyle;
   TextStyle? searchItemQuestionStyle;
 
-
-
   bool isAppBarVisible=true;
-
+  Function(HashMap<String, dynamic> answersMap, TreeNode? questionsData, int pageIndex,)?onPageChanged;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
- // Function(int index, String questionData, HashMap<String, dynamic> answersMap) issue;
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
   bool showScoreWidget;
@@ -219,7 +217,8 @@ String answerdata='';
 Navigator.pop(context);
           }else{
           answers=[];
-          answerdata='';
+       //   answerdata='';
+          answerDescription = '';
           pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
           if (pageviewTree != null) {
@@ -276,6 +275,18 @@ Navigator.pop(context);
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: PageView.builder(
+                      onPageChanged: (page) {
+                        if (widget.onPageChanged != null) {
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            widget.onPageChanged!(
+                                answersMap,
+                                pageviewTree?.nodes[pageController.page!.toInt()],
+                                page
+                            );
+                            print('-----------------------printing index with question data ${pageviewTree?.nodes[pageController.page!.toInt()].question}');
+                          });
+                        }
+                      },
                       physics: const NeverScrollableScrollPhysics(),
                       controller: pageController,
                       itemCount: pageviewTree?.nodes.length ?? 0,
@@ -896,58 +907,107 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     String imageOption = questionData.answerChoices[answer][0]["imageOption"] ??
         '';
     if (questionData.isMultiListSelects == true) {
-            return ListTile(
-              title: Center(child: questionData.listGridType == true ? Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  imageOption.isNotEmpty ?
-                  Image.network(
-                    imageOption,
-                    width: 50,
-                    height: 50,
-                  ) : Container(),
-                  const SizedBox(width: 10,),
-                  Center(child: Text(answer)),
-                ],
-              ) : Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  imageOption.isNotEmpty ?
-                  Image.network(
-                    imageOption,
-                    width: 25,
-                    height: 25,
-                  ) : Container(),
-                  const SizedBox(width: 10,),
-                  Center(child: Text(answer)),
-                ],
-              )),
-              // selectedTileColor: widget.tileListColor ?? Colors.green,
-              tileColor: isSelected
-                  ? widget.tileListColor ?? Colors.blueGrey.shade300
-                  : Colors.blueGrey.shade50,
-              shape: isSelected ? widget.listTileShape ??
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Colors.black),
-                  ) : RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(color: Colors.blueGrey.shade200),
-              ),
-             //  selected: answers.contains(answer),
-              selectedTileColor: widget.tileListColor ?? Colors.blueGrey.shade300,
-              onTap: () {
-                setState(() {
-                  if (answers.contains(answer)) {
-                    answers.remove(answer);
-                  } else {
-                    answers.add(answer);
-                  }
-                });
-              },
-            );
+        return ListTile(
+  title: Center(child: questionData.listGridType == true ? Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      imageOption.isNotEmpty ?
+      Image.network(
+        imageOption,
+        width: 50,
+        height: 50,
+      ) : Container(),
+      const SizedBox(width: 10,),
+      Center(child: Text(answer)),
+    ],
+  ) : Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      imageOption.isNotEmpty ?
+      Image.network(
+        imageOption,
+        width: 25,
+        height: 25,
+      ) : Container(),
+      const SizedBox(width: 10,),
+      Center(child: Text(answer)),
+    ],
+  )),
+  // selectedTileColor: widget.tileListColor ?? Colors.green,
+  tileColor: isSelected
+      ? widget.tileListColor ?? Colors.blueGrey.shade300
+      : Colors.blueGrey.shade50,
+  selectedTileColor: widget.tileListColor ??
+      Colors.blueGrey.shade300,
+
+  shape: isSelected ? widget.listTileShape ??
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: Colors.black),
+      ) : RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+    side: BorderSide(color: Colors.blueGrey.shade200),
+  ),
+  selected: isSelected,
+  onTap: () {
+
+
+    setState(() {
+       if (answerdata == answer) {
+         answerDescription = answerDescription.isEmpty ? questionData
+             .answerChoices[answer][0]['answerDescription'] : '';
+       } else {
+         answerDescription = questionData
+             .answerChoices[answer][0]['answerDescription'] ?? '';
+         answerdata = answer;
+       }
+     });
+
+
+    // setState(() {
+    //   if (!answers.contains(answer)) {
+    //     answers.add(answer);
+    //     answerDescription = answerDescription.isEmpty
+    //         ? questionData
+    //         .answerChoices[answer][0]['answerDescription'] ?? ''
+    //         : '';
+    //   } else {
+    //     answers.remove(answer);
+    //
+    //     answerDescription = '';
+    //   }
+    // });
+
+    if (widget.onListTaleTapnavigation) {
+      addTheFollowUpQuestion(answer,
+          haveDescription:
+          questionData.description != null ? true : false,
+          isNestedchoice: true,
+          question: questionData.question,
+          answeValue: {
+            'id': questionData.id,
+            'question-type': questionData.questionType,
+            'score': questionData.answerChoices[answer][0]
+            ['score'],
+            'answer': answer,
+            'optionDescription': answerDescription
+          });
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        answerdata = '';
+        // answerDescription = '';
+        setState(() {
+
+        });
+      });
+
+      pageController.nextPage(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease);
+    }
+  },
+);
     }else{
     if (questionData.answerChoices[answer] == null) {
       return ListTile(
@@ -970,7 +1030,6 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             ? widget.tileListColor ?? Colors.blueGrey.shade200
             : Colors.blueGrey.shade50,
         onTap: () {
-
           setState(() {
             if (answerdata == answer) {
               answerDescription = answerDescription.isEmpty ? questionData
@@ -1042,7 +1101,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               tileColor: isSelected
                   ? widget.tileListColor ?? Colors.blueGrey.shade300
                   : Colors.blueGrey.shade50,
-              selectedTileColor: widget.tileListColor ?? Colors.blueGrey.shade300,
+              selectedTileColor: widget.tileListColor ??
+                  Colors.blueGrey.shade300,
 
               shape: isSelected ? widget.listTileShape ??
                   RoundedRectangleBorder(
@@ -1052,26 +1112,29 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 borderRadius: BorderRadius.circular(10),
                 side: BorderSide(color: Colors.blueGrey.shade200),
               ),
-              selected:  answers.contains(answer),
+              selected: answers.contains(answer),
               onTap: () {
-               // setState(() {
-               //    if (answerdata == answer) {
-               //      answerDescription = answerDescription.isEmpty ? questionData
-               //          .answerChoices[answer][0]['answerDescription'] : '';
-               //    } else {
-               //      answerDescription = questionData
-               //          .answerChoices[answer][0]['answerDescription'] ?? '';
-               //      answerdata = answer;
-               //    }
-               //  });
+                // setState(() {
+                //    if (answerdata == answer) {
+                //      answerDescription = answerDescription.isEmpty ? questionData
+                //          .answerChoices[answer][0]['answerDescription'] : '';
+                //    } else {
+                //      answerDescription = questionData
+                //          .answerChoices[answer][0]['answerDescription'] ?? '';
+                //      answerdata = answer;
+                //    }
+                //  });
 
                 setState(() {
-
                   if (!answers.contains(answer)) {
                     answers.add(answer);
-                    answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] : '';
+                    answerDescription = answerDescription.isEmpty
+                        ? questionData
+                        .answerChoices[answer][0]['answerDescription'] ?? ''
+                        : '';
                   } else {
                     answers.remove(answer);
+
                     answerDescription = '';
                   }
                 });
@@ -1092,7 +1155,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       });
                   Future.delayed(Duration(seconds: 1)).then((value) {
                     answerdata = '';
-                    answerDescription = '';
+                    // answerDescription = '';
                     setState(() {
 
                     });
@@ -1117,8 +1180,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     if (answersMap.containsKey(questionData.question)) {
       if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty){
-        answers = answersMap[questionData.question]['answer']??'';
-
+        answers = answersMap[questionData.question]['answer'] ??'';
       }
     }
     if(answersMap.containsKey(questionData.question)){
@@ -1126,20 +1188,17 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       //   if(answerdata==''){
       //     answerdata=answersMap[questionData.question]['answer'] ?? '';
       // }
-
     }}
 
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
-       if(answerDescription==''){
-        answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
-      }else{
-         answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
-       }
-      }else{
-        answerDescription = '';
+      answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
+
       }
     }
+
+
+
 
     ImagePosition imagePosition = ImagePosition.top;
     if (questionData.imagePosition != null) {
@@ -1329,7 +1388,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             }
                             else {
                               if (questionData.isMandatory == true) {
-                                if (answerdata.isEmpty) {
+                                if (answers.isEmpty) {
                                   ScaffoldMessenger.maybeOf(context)!
                                       .showSnackBar(const SnackBar(
                                     content:
@@ -1338,7 +1397,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   ));
                                   return;
                                 }
-                                addTheFollowUpQuestion(answerdata,
+                                addTheFollowUpQuestion(answers.length==1?answers[0]:answers.toString(),
                                     isNestedchoice: true,
                                     question: questionData.question,
                                     answeValue: {
@@ -1350,7 +1409,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                       'answer': answers,
                                       'optionDescription': answerDescription
                                     });
-                               // answers=[];
+                              //  answers=[];
 
                                 Future.delayed(Duration(seconds: 1))
                                   .then((value) {
@@ -1370,7 +1429,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   });
                                 });
                               } else {
-                                addTheFollowUpQuestion(answerdata,
+
+                                addTheFollowUpQuestion(answers.length==1?answers[0]:answers.toString(),
                                     isNestedchoice: true,
                                     question: questionData.question,
                                     answeValue: {
@@ -1384,19 +1444,19 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
                                     });
                                // answers=[];
-
-                                Future.delayed(Duration(seconds: 1))
-                                  .then((value) {
-                                answerdata = '';
-                                answerDescription = '';
-                                setState(() {});
-                              });
+                              //
+                              //   Future.delayed(Duration(seconds: 1))
+                              //     .then((value) {
+                              //   answerdata = '';
+                              //   answerDescription = '';
+                              //   setState(() {});
+                              // });
 
                               pageController.nextPage(
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(Duration(milliseconds:200)).then((value) {
+                                Future.delayed(Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerDescription = '';
                                   setState(() {
@@ -1745,8 +1805,39 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         );
                       }
                     },
-                    child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
-                        : widget.customButton ?? Container(
+                    child:isLast ? widget.customLastButton ?? Container(
+                          width: 120,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal,
+                                Colors.teal.shade300,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                    : widget.customButton ?? Container(
                       width: 120,
                       height: 40,
                       decoration:
@@ -1993,7 +2084,38 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 curve: Curves.easeInOut);
                           }
                         },
-                        child:isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
+                        child:isLast ? widget.customLastButton ?? Container(
+                          width: isLast ? 150 : 120,
+                          height: isLast ? 50 : 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal,
+                                Colors.teal.shade300,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              isLast ? 'Submit Survey' : 'Next',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
                             : widget.customButton ?? Container(
                           width: isLast ? 150 : 120,
                           height: isLast ? 50 : 40,
@@ -2048,13 +2170,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         orElse: () => ImagePosition.top,
       );
     }
-               if (answersMap.containsKey(questionData.question)) {
-                if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty){
-                  answers = answersMap[questionData.question]['answer']??'';
 
-                }
-                }
-
+    if (answersMap.containsKey(questionData.question)) {
+      if (answersMap[questionData.question]['answer'] != null &&
+          answersMap[questionData.question]['answer'].isNotEmpty) {
+        answers = answersMap[questionData.question]['answer'] ?? '';
+      }
+    }
 
     return SingleChildScrollView(
       child: Column(

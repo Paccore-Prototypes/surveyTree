@@ -60,12 +60,18 @@ class _ImportingPropertiesState extends State<ImportingProperties>
         isAppBarVisible: true,
         onListTaleTapnavigation: false,
         imagePlaceHolder: 'assets/images/placeholder1.png',
-        onSurveyEnd: (score,answermap){
-print('the survey score was----- '+score.toString());
-        },
+//         onSurveyEnd: (score,answermap){
+// print('the survey score was----- '+score.toString());
+//         },
         surveyResult: (score, answersMap) {
           print('Health Score: $score');
           print('Answers Map: $answersMap');
+        },
+        onPageChanged: (answerMap, questionData, index){
+          print('on page change called answerMap--- $answerMap');
+          print('on page change called question Id was---${questionData!.id.toString()}');
+          print('on page change called index---$index');
+
         },
       )
           : Container(),
