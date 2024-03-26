@@ -182,30 +182,30 @@
     "listGridType" : false,
     "isMultiListSelects" : true,
     "answerChoices": {
-      "Chicken": [
+      "Carrot": [
         {
           "score": 7,
           "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have chicken..."
+          "answerDescription": "Will have carrot..."
         }
       ],
-      "Mutton":[ {
+      "Beetroot":[ {
         "score": 7,
         "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-        "answerDescription": "Will have mutton."
+        "answerDescription": "Will have beetroot."
 
       }],
-      "Fish": [
+      "Potato": [
         {
           "score": 7,
           "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-          "answerDescription": "Will have Fish.."
+          "answerDescription": "Will have potato.."
         }
       ],
-      "Other":[ {
+      "Tomato":[ {
         "score": 7,
         "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-        "answerDescription": "Will have Non-veg item.."
+        "answerDescription": "Will have potato.."
 
       }]
     },
@@ -242,83 +242,6 @@
         }
       ],
       "Other":[ {
-        "score": 7,
-        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-        "answerDescription": "Will have Non-veg item.."
-
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 9002,
-    "isMandatory": false,
-    "question": "What veg-curry you want to have as Lunchhh.. ?",
-    "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
-    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-    "questionType": "list",
-    "listGridType" : false,
-    "isMultiListSelects" : true,
-    "answerChoices": {
-      "he": [
-        {
-          "score": 7,
-          "answerDescription": "Will have carrot."
-
-        }
-      ],
-      "ha":[ {
-        "score": 7,
-        "answerDescription": "Will have beetroot."
-
-      }],
-      "hi": [
-        {
-          "score": 7,
-          "answerDescription": "Will have onion."
-
-        }
-      ],
-      "hu":[ {
-
-        "score": 7,
-        "answerDescription": "Will have leafs."
-
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 9040,
-    "isMandatory": false,
-    "question": "Types of non-veg that you had......?",
-    "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
-    "image": "https://img.freepik.com/free-photo/realistic-heart-shape-with-city_23-2150827308.jpg?t=st=1711104825~exp=1711108425~hmac=2b890f2136c691396da160b2463cf50bf30d459e4810833e1f6a6009a7a61996&w=740",
-    "questionType": "list",
-    "listGridType" : true,
-    "isMultiListSelects" : true,
-    "answerChoices": {
-      "tik": [
-        {
-          "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have chicken..."
-        }
-      ],
-      "tok":[ {
-        "score": 7,
-        "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-        "answerDescription": "Will have mutton."
-
-      }],
-      "tuk": [
-        {
-          "score": 7,
-          "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-          "answerDescription": "Will have Fish.."
-        }
-      ],
-      "chu_chu":[ {
         "score": 7,
         "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
         "answerDescription": "Will have Non-veg item.."
