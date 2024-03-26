@@ -73,7 +73,7 @@ class TreeModel {
       imageWidth: data['imageWidth'] ?? 100,
       imageOption: data['imageOption'] ?? '',
       answerDescription: data['answerDescription'] ?? '',
-      isMultiListSelects: data['isMultiListSelects'],
+      isMultiListSelects: data['isMultiListSelects'] ?? false,
       inputType: data['inputType']??'text',
       listGridType: data['listGridType'] ?? false,
 

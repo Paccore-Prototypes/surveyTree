@@ -52,7 +52,10 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       body: isLoad
           ? const CircularProgressIndicator()
           : model != null
-          ? InfoSurvey(
+          ? Center(
+            child: Container(
+              color: Colors.white,
+              child: InfoSurvey(
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
@@ -64,16 +67,18 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 // print('the survey score was----- '+score.toString());
 //         },
         surveyResult: (score, answersMap) {
-          print('Health Score: $score');
-          print('Answers Map: $answersMap');
+              print('Health Score: $score');
+              print('Answers Map: $answersMap');
         },
         onPageChanged: (answerMap, questionData, index){
-          print('on page change called answerMap--- $answerMap');
-          print('on page change called question Id was---${questionData!.id.toString()}');
-          print('on page change called index---$index');
+              print('on page change called answerMap--- $answerMap');
+              print('on page change called question Id was---${questionData!.id.toString()}');
+              print('on page change called index---$index');
 
         },
-      )
+      ),
+            ),
+          )
           : Container(),
     );
   }
