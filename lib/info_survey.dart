@@ -57,7 +57,9 @@ this.optionTapNavigation=true,
       this.textFieldDecoration,
       this.appBarBackgroundColor,
       this.appBarIconThemeData,
-        this.dropDownQuestionStyle});
+        this.dropDownQuestionStyle,
+        this.optionImageHeight,
+        this.optionImageWidth});
 
   Widget?dateTimeButton;
   TextStyle?answerDescriptionStyle;
@@ -86,6 +88,9 @@ Color?activeCheckboxColor;
   InputDecoration? textFieldDecoration;
   TextStyle? dropDownQuestionStyle;
   TextStyle? searchItemQuestionStyle;
+  double? optionImageHeight;
+  double? optionImageWidth;
+
 
   bool isAppBarVisible=true;
   Function(HashMap<String, dynamic> answersMap, TreeNode? questionsData, int pageIndex,)?onPageChanged;
@@ -131,7 +136,6 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
-String answerdata='';
   List<Map<String, dynamic>>? jsonResult;
 
   Map<String,dynamic>? listAnswer;
@@ -217,7 +221,7 @@ String answerdata='';
 Navigator.pop(context);
           }else{
           answers=[];
-       //   answerdata='';
+          answerdata='';
           answerDescription = '';
           pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
@@ -231,47 +235,12 @@ Navigator.pop(context);
           }}
           return false;
         },
-        child: Scaffold(
-          key: _scafoldKey,
-          appBar:widget.isAppBarVisible? AppBar(
-            iconTheme: widget.appBarIconThemeData ?? const IconThemeData(
-              color: Colors.white
-            ),
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            title: widget.appBarTitleWidget?? const Text(
-             "Info Survey",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Roboto"),
-            ),
-            backgroundColor: widget.appBarBackgroundColor ?? Colors.blue,
-            leading: IconButton(
-              onPressed: (() {
-                if(pageController.page?.toInt()==0){
-                  Navigator.pop(context);
-                }else{
-                        answers=[];
-          pageController.previousPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease);
-          if (pageviewTree != null) {
-            isLast = false;
-            if (pageController.page?.toInt() == 0) {
-            } else {
-              removeTheNode();
-              setState(() {});
-            }}}
-              }
-              ),
-
-             icon:Icon( Icons.arrow_back)),
-          ):null,
-          body: isLoad
+        child:  isLoad
               ? const Center(child: CircularProgressIndicator())
-              : Container(
+              : SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.white,
+                //  color: Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: PageView.builder(
@@ -296,7 +265,6 @@ Navigator.pop(context);
                     ),
                   ),
                 ),
-        ),
       ),
     );
   }
@@ -379,7 +347,9 @@ Navigator.pop(context);
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
               );
-            }}},);
+            }}
+
+          },);
       case "search_item":
         return SearchItem(imagePlaceHolder: widget.imagePlaceHolder,
             skipText: widget.skipText,
@@ -390,6 +360,7 @@ Navigator.pop(context);
             searchItemQuestionStyle: widget.searchItemQuestionStyle,
             isLast: isLast,questionData: data[pageIndex],
             callBack: (data,callingBackData,fromSkip){
+
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
             if (callingBackData.isMandatory == true) {
@@ -425,8 +396,8 @@ Navigator.pop(context);
 
               //show Popup Dailog here
             } else {
-            addTheFollowUpQuestion(
-                data!.isEmpty || data==null ? '' : data!,
+            addTheFollowUpQuestion('',
+              //  data!.isEmpty || data==null ? '' : data!,
                 isNestedchoice: true,
                 question: callingBackData.question,
                 answeValue: {
@@ -438,11 +409,21 @@ Navigator.pop(context);
                   'answer': data!.isEmpty || data==null ? '' : data!,
 
                 });
+            answers=[];
+
             pageController.nextPage(
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );
-          }}});
+          }}
+
+          // if (answersMap.containsKey(callingBackData.question)) {
+          //   if (answersMap[callingBackData.question]['answer'] != null && answersMap[callingBackData.question]['answer'].isNotEmpty) {
+          //     answers = data!;
+          //   }
+          // }
+
+        });
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
     }
@@ -899,24 +880,29 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
 
   String answerDescription = '';
+  String answerdata='';
 
 
   Widget buildAnswerWidget(String answer, TreeNode questionData) {
+
     bool isSelected = answerdata == answer;
 
     String imageOption = questionData.answerChoices[answer][0]["imageOption"] ??
         '';
-    if (questionData.isMultiListSelects == true) {
-        return ListTile(
+    if (questionData.isMultiListSelects == false) {
+        return Column(
+          children: [
+            SizedBox(height: 12,),
+            ListTile(
   title: Center(child: questionData.listGridType == true ? Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       imageOption.isNotEmpty ?
       Image.network(
-        imageOption,
-        width: 50,
-        height: 50,
+            imageOption,
+             width: widget.optionImageWidth ?? 50,
+            height: widget.optionImageHeight ?? 50,
       ) : Container(),
       const SizedBox(width: 10,),
       Center(child: Text(answer)),
@@ -927,9 +913,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     children: [
       imageOption.isNotEmpty ?
       Image.network(
-        imageOption,
-        width: 25,
-        height: 25,
+            imageOption,
+            width: 25,
+            height: 25,
       ) : Container(),
       const SizedBox(width: 10,),
       Center(child: Text(answer)),
@@ -944,8 +930,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
   shape: isSelected ? widget.listTileShape ??
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: const BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: Colors.black),
       ) : RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(10),
     side: BorderSide(color: Colors.blueGrey.shade200),
@@ -953,15 +939,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   selected: isSelected,
   onTap: () {
 
-
     setState(() {
-       if (answerdata == answer) {
-         answerDescription = answerDescription.isEmpty ? questionData
-             .answerChoices[answer][0]['answerDescription'] : '';
+       if (answerdata != answer) {
+             answerdata = answer;
+             answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
        } else {
-         answerDescription = questionData
-             .answerChoices[answer][0]['answerDescription'] ?? '';
-         answerdata = answer;
+             answerdata = '';
+             answerDescription = '';
        }
      });
 
@@ -982,32 +966,34 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     if (widget.onListTaleTapnavigation) {
       addTheFollowUpQuestion(answer,
-          haveDescription:
-          questionData.description != null ? true : false,
-          isNestedchoice: true,
-          question: questionData.question,
-          answeValue: {
-            'id': questionData.id,
-            'question-type': questionData.questionType,
-            'score': questionData.answerChoices[answer][0]
-            ['score'],
-            'answer': answer,
-            'optionDescription': answerDescription
-          });
+              haveDescription:
+              questionData.description != null ? true : false,
+              isNestedchoice: true,
+              question: questionData.question,
+              answeValue: {
+                'id': questionData.id,
+                'question-type': questionData.questionType,
+                'score': questionData.answerChoices[answer][0]
+                ['score'],
+                'answer': answerdata,
+                'optionDescription': answerDescription
+              });
       Future.delayed(Duration(seconds: 1)).then((value) {
-        answerdata = '';
-        // answerDescription = '';
-        setState(() {
+            answerdata = '';
+             answerDescription = '';
+            setState(() {
 
-        });
+            });
       });
 
       pageController.nextPage(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease);
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.ease);
     }
   },
-);
+),
+          ],
+        );
     }else{
     if (questionData.answerChoices[answer] == null) {
       return ListTile(
@@ -1032,8 +1018,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         onTap: () {
           setState(() {
             if (answerdata == answer) {
-              answerDescription = answerDescription.isEmpty ? questionData
-                  .answerChoices[answer][0]['answerDescription'] : '';
+              // answerDescription = answerDescription.isEmpty ? questionData
+              //     .answerChoices[answer][0]['answerDescription'] : '';
             } else {
               answerDescription =
                   questionData.answerChoices[answer][0]['answerDescription'] ??
@@ -1114,24 +1100,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               ),
               selected: answers.contains(answer),
               onTap: () {
-                // setState(() {
-                //    if (answerdata == answer) {
-                //      answerDescription = answerDescription.isEmpty ? questionData
-                //          .answerChoices[answer][0]['answerDescription'] : '';
-                //    } else {
-                //      answerDescription = questionData
-                //          .answerChoices[answer][0]['answerDescription'] ?? '';
-                //      answerdata = answer;
-                //    }
-                //  });
 
                 setState(() {
                   if (!answers.contains(answer)) {
                     answers.add(answer);
-                    answerDescription = answerDescription.isEmpty
-                        ? questionData
-                        .answerChoices[answer][0]['answerDescription'] ?? ''
-                        : '';
+                    // answerDescription = answerDescription.isEmpty ? questionData.answerChoices[answer][0]['answerDescription'] ?? ''
+                    //     : '';
                   } else {
                     answers.remove(answer);
 
@@ -1155,7 +1129,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       });
                   Future.delayed(Duration(seconds: 1)).then((value) {
                     answerdata = '';
-                    // answerDescription = '';
+                     answerDescription = '';
                     setState(() {
 
                     });
@@ -1179,21 +1153,22 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     Set<String> selectedAnswers = {};
 
     if (answersMap.containsKey(questionData.question)) {
-      if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty){
-        answers = answersMap[questionData.question]['answer'] ??'';
+      if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty) {
+        if (questionData.isMultiListSelects == true) {
+          answers = answersMap[questionData.question]['answer'] ?? '';
+        } else {
+          if (answerdata == '') {
+            answerdata = answersMap[questionData.question]['answer'] ?? '';
+          }
+        }
       }
     }
-    if(answersMap.containsKey(questionData.question)){
-      if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer']!=''){
-      //   if(answerdata==''){
-      //     answerdata=answersMap[questionData.question]['answer'] ?? '';
-      // }
-    }}
 
     if(answersMap.containsKey(questionData.question)){
       if(answersMap[questionData.question]['optionDescription']!=null && answersMap[questionData.question]['optionDescription']!='') {
-      answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
-
+        if(answerDescription == ''){
+          answerDescription = answersMap[questionData.question]['optionDescription'] ?? '';
+        }
       }
     }
 
@@ -1347,7 +1322,7 @@ setState(() {
                                         'score': questionData.answerChoices == null
                                             ? 0
                                             : questionData.score,
-                                        'answer': answerdata,
+                                        'answer': questionData.isMultiListSelects==true? answers:answerdata,
                                         'optionDescription': answerDescription
                                       };
                                 sumOfScoresData();
@@ -1406,15 +1381,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                       'score': questionData.answerChoices == null
                                           ? 0
                                           : questionData.score,
-                                      'answer': answers,
+                                    //  'answer':answers,
+                                      'answer': questionData.isMultiListSelects==true? answers:answerdata,
                                       'optionDescription': answerDescription
                                     });
                               //  answers=[];
 
                                 Future.delayed(Duration(seconds: 1))
                                   .then((value) {
-                                answerdata = '';
-                                answerDescription = '';
+                              //  answerdata = '';
+                               // answerDescription = '';
                                 setState(() {});
                               });
                               pageController.nextPage(
@@ -1423,6 +1399,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 );
                                 Future.delayed(Duration(milliseconds:200)).then((value) {
                                   answers=[];
+                                  answerdata = '';
                                   answerDescription = '';
                                   setState(() {
 
@@ -1439,7 +1416,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                       'score': questionData.answerChoices == null
                                           ? 0
                                           : questionData.score,
-                                      'answer': answers,
+                                   //   'answer':answers,
+                                      'answer': questionData.isMultiListSelects==true? answers ?? '':answerdata ?? '',
                                     'optionDescription': answerDescription
 
                                     });
@@ -1459,7 +1437,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 Future.delayed(Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerDescription = '';
-                                  setState(() {
+                                  answerdata = '';
+                                      setState(() {
 
                                   });
                                 });

@@ -24,7 +24,7 @@ class SearchItem extends StatefulWidget {
   Widget? customLastButton;
   String? skipText;
   TextStyle? customSkipStyle;
-  final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
+  final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
   State<SearchItem> createState() => _SearchItemState();
@@ -37,7 +37,7 @@ class _SearchItemState extends State<SearchItem> {
   String? dropdownValue;
   late FocusNode _focusNode;
   String currentItemReference = '';
-  String selectedItem = '';
+  List<String> selectedItem = [];
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _userHasTyped = false;
@@ -64,6 +64,7 @@ class _SearchItemState extends State<SearchItem> {
 
   @override
   Widget build(BuildContext context) {
+
     ImagePosition imagePosition = ImagePosition.top;
     if (widget.questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(
@@ -150,7 +151,8 @@ class _SearchItemState extends State<SearchItem> {
                   },
                   onSelected: (String selection) {
                     setState(() {
-                      selectedItem = selection;
+                      selectedItem.add(selection);
+                    //  selectedItem = selection;
                       _userHasTyped = true;
                     });
                   },
@@ -166,10 +168,10 @@ class _SearchItemState extends State<SearchItem> {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        hintText: 'Search',
+                        hintText: 'Search..',
                       ),
                     );
                   },
@@ -179,22 +181,35 @@ class _SearchItemState extends State<SearchItem> {
                       child: Material(
                         child: Container(
                           width: 330,
-                          height: 210,
+                          height: options.length * 60.0,
                           decoration: BoxDecoration(
                               color: Colors.blueGrey.shade50,
                               borderRadius: BorderRadius.circular(12)
                           ),
                           child: ListView.builder(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             itemCount: options.length,
                             itemBuilder: (BuildContext context, int index) {
                               final String option = options.elementAt(index);
+                              final bool isSelected = selectedItem.contains(option); // Check if the option is selected
                               return GestureDetector(
                                 onTap: () {
-                                  onSelected(option);
+                                  setState(() {
+                                    if (isSelected) {
+                                      selectedItem.remove(option); // If already selected, remove it
+                                    } else {
+                                      selectedItem.add(option); // If not selected, add it
+                                    }
+                                  });
                                 },
                                 child: ListTile(
-                                  title: Text(option),
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(option),
+                                      Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank) // Show different icon based on selection
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -207,6 +222,32 @@ class _SearchItemState extends State<SearchItem> {
               ),
 
               const SizedBox(height: 10),
+            //  IngredientChip(items: [selectedItem.toString()],),
+              const SizedBox(height: 10),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: selectedItem.length,
+              //   itemBuilder: (BuildContext context, int index) {
+                  Row(children: List.generate(selectedItem.length,
+                          (index) => Row(
+                            children: [
+                              SizedBox(width: 10,),
+                              Container(
+               //     width: selectedItem.length*40,
+                    margin: const EdgeInsets.only(),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.blueGrey.shade100,
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Text(selectedItem[index]),
+                  ),
+                            ],
+                          )),),
+              //  },
+              //),
+              const SizedBox(height: 15),
+
 
               const SizedBox(height: 15,),
               if (answerDescription.isNotEmpty)
@@ -223,7 +264,7 @@ class _SearchItemState extends State<SearchItem> {
                           setState(() {
                             FocusScope.of(context).unfocus();
                           });
-                          widget.callBack!('', widget.questionData,true);
+                          widget.callBack!([], widget.questionData,true);
                         },
                         child: Center(
                           child: Text(
@@ -324,8 +365,36 @@ class _SearchItemState extends State<SearchItem> {
       ),
     );
   }
-
-
 }
 
 String answerDescription = '';
+
+class IngredientChip extends StatelessWidget {
+  final List<String> items;
+
+  const IngredientChip({
+    Key? key,
+    required this.items,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Row(
+        children: List.generate(
+          items.length,
+              (index) => Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: const Color(0xffC9DADC).withOpacity(0.35),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Text(items[index]),
+          ),
+        ),
+      ),
+    );
+  }
+}
