@@ -31,7 +31,7 @@ class InfoSurvey extends StatefulWidget {
       this.activeColorSlider,
       this.inactiveColorSlider,
       this.activeRadioColor,
-      this.activeRadioTextColor,
+      // this.activeRadioTextColor,
       this.tileListColor,
       this.textFieldQuestionStyle,
       this.buttonTextStyle,
@@ -42,21 +42,21 @@ class InfoSurvey extends StatefulWidget {
       required this.showScoreWidget,
       this.description,
       this.customSkipStyle,
-      this.imageContainer,
-      this.customSizedBox,
+      // this.imageContainer,
+      //this.customSizedBox,
       this.onListTaleTapnavigation=true,
 this.optionTapNavigation=true,
       this.imagePlaceHolder,
-      this.appBarTitleWidget,
+   //   this.appBarTitleWidget,
         this.onPageChanged,
       this.onSurveyEnd,
-      this.isAppBarVisible=true,
-      this.imagePlace,
+    //  this.isAppBarVisible=true,
+      // this.imagePlace,
         this.listTileShape,
         this.skipText,
       this.textFieldDecoration,
-      this.appBarBackgroundColor,
-      this.appBarIconThemeData,
+  //    this.appBarBackgroundColor,
+    //  this.appBarIconThemeData,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth});
@@ -80,7 +80,7 @@ Color?activeCheckboxColor;
   bool optionTapNavigation;
   Color? inactiveColorSlider;
   Color? activeRadioColor;
-  Color? activeRadioTextColor;
+  // Color? activeRadioTextColor;
   Color? tileListColor;
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
@@ -92,25 +92,25 @@ Color?activeCheckboxColor;
   double? optionImageWidth;
 
 
-  bool isAppBarVisible=true;
+ // bool isAppBarVisible=true;
   Function(HashMap<String, dynamic> answersMap, TreeNode? questionsData, int pageIndex,)?onPageChanged;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? onSurveyEnd;
   AlertDialog? submitSurveyPopup;
   Function(int healthScore, HashMap<String, dynamic> answersMap)? surveyResult;
   bool showScoreWidget;
-  Widget? appBarTitleWidget;
+ // Widget? appBarTitleWidget;
   String? imagePlaceHolder;
 
   TextStyle? description;
   TextStyle? customSkipStyle;
-  Container? imageContainer;
-  SizedBox? customSizedBox;
-  EdgeInsets? imagePlace;
+  // Container? imageContainer;
+//  SizedBox? customSizedBox;
+  // EdgeInsets? imagePlace;
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
-  Color? appBarBackgroundColor;
-  IconThemeData? appBarIconThemeData;
+//  Color? appBarBackgroundColor;
+  //IconThemeData? appBarIconThemeData;
 
   @override
   State<InfoSurvey> createState() => _InfoSurveyState();
@@ -134,6 +134,7 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   TreeModel? pageviewTree;
   TreeNode? node;
   final GlobalKey _scafoldKey = GlobalKey<ScaffoldState>();
+  Function(HashMap<String, dynamic>)? answerMap;
   HashMap<String, dynamic> answersMap = HashMap();
   Map<int, TextEditingController> textControllers = {};
   List<Map<String, dynamic>>? jsonResult;
@@ -212,8 +213,8 @@ class _InfoSurveyState extends State<InfoSurvey>  {
 
     ImagePosition refEnum = ImagePosition.top;
     return Theme(
-      data: ThemeData(textTheme: const TextTheme(),
-        primaryColor: Colors.white
+      data: ThemeData(
+        primaryColor: Colors.transparent
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -238,8 +239,8 @@ Navigator.pop(context);
         child:  isLoad
               ? const Center(child: CircularProgressIndicator())
               : SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+               //   width: MediaQuery.of(context).size.width,
+                 // height: MediaQuery.of(context).size.height,
                 //  color: Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -287,7 +288,7 @@ Navigator.pop(context);
         return buildTextQuestion(data[pageIndex], pageIndex);
       case "drop_down":
         return DropDown(dropDownQuestionStyle: widget.dropDownQuestionStyle,
-          descriptionStyle: widget.description,
+          descriptionStyle: widget.description,answerMap: answersMap,
           skipText: widget.skipText,
           customSkipStyle: widget.customSkipStyle,
           customButton: widget.customButton,
@@ -423,7 +424,9 @@ Navigator.pop(context);
           //   }
           // }
 
-        });
+        },answerMap: answersMap
+
+          ,);
       default:
         return buildTextQuestion(data[pageIndex], pageIndex);
     }
@@ -593,10 +596,6 @@ Navigator.pop(context);
                 const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 
           ),
-
-
-
-          widget.customSizedBox ??
               const SizedBox(
                 height: 10,
               ),
@@ -627,7 +626,7 @@ Navigator.pop(context);
               : const SizedBox(
                   height: 0,
                 ),
-          widget.customSizedBox ??
+          // widget.customSizedBox ??
               const SizedBox(
                 height: 10,
               ),
@@ -942,10 +941,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     setState(() {
        if (answerdata != answer) {
              answerdata = answer;
-             answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+             if(questionData.answerChoices[answer][0]['answerDescription']!=null){
+               answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+             }
        } else {
-             answerdata = '';
-             answerDescription = '';
+         //    answerdata = '';
+          //   answerDescription = '';
        }
      });
 
