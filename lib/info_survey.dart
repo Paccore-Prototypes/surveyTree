@@ -82,6 +82,8 @@ Color?activeCheckboxColor;
   Color? activeRadioColor;
   Color? activeRadioTextColor;
   Color? tileListColor;
+
+
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
@@ -268,8 +270,6 @@ Navigator.pop(context);
       ),
     );
   }
-
-
   Widget buildQuestion(List<TreeNode> data, int pageIndex,) {
     String questionType = data[pageIndex].questionType;
     switch (questionType) {
@@ -353,6 +353,7 @@ Navigator.pop(context);
       case "search_item":
         return SearchItem(imagePlaceHolder: widget.imagePlaceHolder,
             skipText: widget.skipText,
+            questionContentAlignment: widget.questionContentAlignment,
             customSkipStyle: widget.customSkipStyle,
             customButton: widget.customButton,
             customLastButton : widget.customLastButton,
@@ -552,9 +553,11 @@ Navigator.pop(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+
         children: [
-          const SizedBox(
-            height: 10,
+        //  SizedBox(height: 10,),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
           ),
           imagePosition == ImagePosition.top &&
                   data.image != null &&
@@ -586,7 +589,7 @@ Navigator.pop(context);
           //     : const SizedBox(),
           imagePosition == ImagePosition.top &&
               data.image != null &&
-              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01): SizedBox(height: MediaQuery.of(context).size.height),
           Text(
             data.question ?? "",
             style: widget.radioQuestion ??
@@ -597,9 +600,7 @@ Navigator.pop(context);
 
 
           widget.customSizedBox ??
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height*0.01,),
           imagePosition == ImagePosition.middle &&
                   data.image != null &&
                   data.image!.isNotEmpty
@@ -609,7 +610,7 @@ Navigator.pop(context);
               : Container(),
           imagePosition == ImagePosition.middle &&
               data.image != null &&
-              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
 
           // imagePosition == ImagePosition.middle &&
           //         data.image != null &&
@@ -641,76 +642,69 @@ Navigator.pop(context);
               : Container(),
           imagePosition == ImagePosition.bottom &&
               data.image != null &&
-              data.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-         const SizedBox(height: 10,),
+              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+          SizedBox(height:MediaQuery.of(context).size.height*0.01),
 
-          Column(
-            children: (data.answerChoices).keys.map<Widget>((answer) {
-              if (data.answerChoices[answer] != null) {
-                if (answersMap.containsKey(data.question)) {
-                  selectedValue = answersMap[data.question]['answer'];
-                }
-              }
-              //final bool isSelected = selectedValue == answer;
-            //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
-                return RadioListTile(
-                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
-                    value: answer,
-                    activeColor: widget.activeRadioColor ?? Colors.deepPurple,
-                    groupValue: selectedValue?.isNotEmpty ?? false
-                        ? selectedValue
-                        : null,
-                  //  groupValue: selectedValue,
-                   // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
-                    onChanged: (selectedAnswer) {
-
-                      setState(() {
-                        selectedValue = selectedAnswer;
-                        answer = selectedAnswer!;
-                      });
-                      if(isLast){
-                        answersMap[data.question!]={
-                          'id':data.id,
-                          'question-type':data.questionType,
-                          'score':data.answerChoices == null?data.score:data.answerChoices[selectedValue][0]['score'],
-                          'answer':selectedValue
-                        };
-                        sumOfScoresData();
-
-                        // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                        //     SnackBar(content: Text('Your Score Is $sumOfScores')));
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                              _showSubmitDialog();
-
-}
-                      }else{
-
-                      addTheFollowUpQuestion(answer,
-                          isNestedchoice: true,
-                          haveDescription:
-                              data.description != null ? true : false,
-                          question: data.question,
-                          answeValue: {
-                            'id': data.id,
-                            'question-type': data.questionType,
-                            'score': data.answerChoices[selectedAnswer] != null
-                                ? data.answerChoices[selectedAnswer][0]['score']
-                                : 0,
-                            'answer': selectedAnswer
-                          });
-
-                      pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-
-             } });
-              // }
-            }).toList(),
+    Column(
+     // crossAxisAlignment:  CrossAxisAlignment.end,
+    children: (data.answerChoices).keys.map<Widget>((answer) {
+    if (data.answerChoices[answer] != null) {
+    if (answersMap.containsKey(data.question)) {
+    selectedValue = answersMap[data.question]['answer'];
+    }
+    }
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.45,
+      child: RadioListTile(
+      title: Text(
+      answer,
+      style: widget.optionRadioStyle ??
+      TextStyle(color: selectedValue == answer ? widget.radioTextColor ?? Colors.deepPurple : Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+      ),
+      value: answer,
+      activeColor: widget.activeRadioColor ?? Colors.deepPurple,
+      groupValue: selectedValue?.isNotEmpty ?? false ? selectedValue : null,
+      onChanged: (selectedAnswer) {
+      setState(() {
+      selectedValue = selectedAnswer;
+      answer = selectedAnswer!;
+      });
+      if (isLast) {
+      answersMap[data.question!] = {
+      'id': data.id,
+      'question-type': data.questionType,
+      'score': data.answerChoices == null ? data.score : data.answerChoices[selectedValue][0]['score'],
+      'answer': selectedValue
+      };
+      sumOfScoresData();
+      if (widget.onSurveyEnd != null) {
+      widget.onSurveyEnd!(sumOfScores, answersMap);
+      } else {
+      _showSubmitDialog();
+      }
+      } else {
+      addTheFollowUpQuestion(answer,
+      isNestedchoice: true,
+      haveDescription: data.description != null ? true : false,
+      question: data.question,
+      answeValue: {
+      'id': data.id,
+      'question-type': data.questionType,
+      'score': data.answerChoices[selectedAnswer] != null ? data.answerChoices[selectedAnswer][0]['score'] : 0,
+      'answer': selectedAnswer
+      });
+      pageController.nextPage(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease
+      );
+      }
+      },
+      ),
+    );
+    }).toList(),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.01
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -837,8 +831,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       },
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           :widget.customButton ?? Container(
-                        width: isLast ? 150 : 120,
-                        height: isLast ? 50 : 40,
+                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
+                        height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -892,7 +886,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     if (questionData.isMultiListSelects == false) {
         return Column(
           children: [
-            SizedBox(height: 12,),
+            SizedBox(height: MediaQuery.of(context).size.height*0.01),
             ListTile(
   title: Center(child: questionData.listGridType == true ? Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -901,10 +895,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       imageOption.isNotEmpty ?
       Image.network(
             imageOption,
-             width: widget.optionImageWidth ?? 50,
-            height: widget.optionImageHeight ?? 50,
+             width: widget.optionImageWidth ?? 0.15,
+            height: widget.optionImageHeight ?? 0.15,
       ) : Container(),
-      const SizedBox(width: 10,),
+       SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
     ],
   ) : Row(
@@ -917,7 +911,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             width: 25,
             height: 25,
       ) : Container(),
-      const SizedBox(width: 10,),
+       SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
     ],
   )),
@@ -1052,7 +1046,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     else {
       return Column(
         children: [
-          const SizedBox(height: 8,),
+           SizedBox(height: MediaQuery.of(context).size.height*0.01,),
           SizedBox(
             height: questionData.listGridType == true ? 100 : 60,
             child: ListTile(
@@ -1063,10 +1057,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: 50,
-                    height: 50,
+                    width: MediaQuery.of(context).size.width*0.05,
+                    height: MediaQuery.of(context).size.height*0.05,
                   ) : Container(),
-                  const SizedBox(width: 10,),
+                   SizedBox(width: MediaQuery.of(context).size.width*0.01,),
                   Center(child: Text(answer)),
                 ],
               ) : Row(
@@ -1076,10 +1070,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: 25,
-                    height: 25,
+                    width: MediaQuery.of(context).size.width*0.05,
+                    height:MediaQuery.of(context).size.height*0.05,
                   ) : Container(),
-                  const SizedBox(width: 10,),
+                   SizedBox(width: MediaQuery.of(context).size.width*0.01),
                   Center(child: Text(answer)),
                 ],
               )),
@@ -1192,7 +1186,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           child: Column(
             crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 10,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.01),
               imagePosition == ImagePosition.top &&
                       questionData.image != null &&
                       questionData.image!.isNotEmpty
@@ -1203,14 +1197,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   : Container(),
               imagePosition == ImagePosition.top &&
                   questionData.image != null &&
-                  questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                  questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01):SizedBox(height: 0,),
               Text(
                 questionData.question ?? "",
                 style: widget.listTileQuestionStyle ??
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: MediaQuery.of(context).size.height*0.01,
               ),
               imagePosition == ImagePosition.middle &&
                       questionData.image != null &&
@@ -1222,7 +1216,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   : Container(),
               imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
-                  questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                  questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0),
               questionData.description!.isNotEmpty
                   ? Text(
                       questionData.description.toString(),
@@ -1241,16 +1235,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   : Container(),
               imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
-                  questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-              const SizedBox(height: 10),
+                  questionData.image!.isNotEmpty ?  SizedBox(height:MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
               questionData.listGridType == true ?
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(1.0),
                 child: GridView.count(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  mainAxisSpacing: 31,
                    childAspectRatio: 3/2.2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -1266,12 +1260,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       }).toList(),
                     ),
 
-              const SizedBox(height: 20,),
+              SizedBox(height:MediaQuery.of(context).size.height*0.01,),
 
               answerDescription.isNotEmpty ?
               Text(answerDescription,style: widget.answerDescriptionStyle ?? const TextStyle(),) : Container(),
 
-              const SizedBox(height: 20,),
+              SizedBox(height: MediaQuery.of(context).size.height*0.2),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
@@ -1448,8 +1442,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           child: isLast
                             ? widget.customLastButton ??
                                 Container(
-                                  width: 150,
-                                  height: 50,
+                                  width:MediaQuery.of(context).size.width*0.34,
+                                  height: MediaQuery.of(context).size.height*0.05,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
@@ -1481,8 +1475,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 )
                             : widget.customButton ??
                                 Container(
-                                  width: 120,
-                                  height: 40,
+                                  width: MediaQuery.of(context).size.width*0.34,
+                                  height: MediaQuery.of(context).size.height*0.05,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
@@ -1542,10 +1536,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return Column(
-      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.end,
       children: [
-        const SizedBox(
-          height: 10,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.01,
         ),
         imagePosition == ImagePosition.top &&
                 questionData.image != null &&
@@ -1557,14 +1551,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             : Container(),
         imagePosition == ImagePosition.top &&
             questionData.image != null &&
-            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+            questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
         Text(
           questionData.question ?? "",
           style: widget.sliderQuestionStyle ??
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          height: 10,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.01,
         ),
         imagePosition == ImagePosition.middle &&
                 questionData.image != null &&
@@ -1576,7 +1570,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             : Container(),
         imagePosition == ImagePosition.middle &&
             questionData.image != null &&
-            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+            questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0),
 
         questionData.description!.isNotEmpty
             ? Text(
@@ -1586,8 +1580,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             : const SizedBox(
                 height: 0,
               ),
-        const SizedBox(
-          height: 12,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.01,
         ),
         imagePosition == ImagePosition.bottom &&
                 questionData.image != null &&
@@ -1599,7 +1593,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             : Container(),
         imagePosition == ImagePosition.bottom &&
             questionData.image != null &&
-            questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+            questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
         ValueListenableBuilder<double>(
           valueListenable: sliderValue,
           builder: (context, value, child) {
@@ -1632,8 +1626,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             );
           },
         ),
-        const SizedBox(
-          height: 25,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.25,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -1785,8 +1779,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       }
                     },
                     child:isLast ? widget.customLastButton ?? Container(
-                          width: 120,
-                          height: 40,
+                          width: MediaQuery.of(context).size.height*0.12,
+                          height: MediaQuery.of(context).size.height*0.4,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -1817,8 +1811,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           ),
                         )
                     : widget.customButton ?? Container(
-                      width: 120,
-                      height: 40,
+                      width: MediaQuery.of(context).size.width*0.34,
+                      height: MediaQuery.of(context).size.height*0.05,
                       decoration:
                           BoxDecoration(
                             gradient: LinearGradient(
@@ -1875,8 +1869,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         child: Column(
           crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 10,
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01
             ),
             imagePosition == ImagePosition.top &&
                 questionData.image != null &&
@@ -1888,15 +1882,15 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 : Container(),
             imagePosition == ImagePosition.top &&
                 questionData.image != null &&
-                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
 
             Text(
               questionData.question ?? "",
               style: widget.textFieldQuestionStyle ??
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 10,
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01,
             ),
             imagePosition == ImagePosition.middle &&
                     questionData.image != null &&
@@ -1908,7 +1902,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 : Container(),
             imagePosition == ImagePosition.middle &&
                 questionData.image != null &&
-                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
 
             questionData.description!.isNotEmpty
                 ? Text(
@@ -1929,9 +1923,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 : Container(),
             imagePosition == ImagePosition.bottom &&
                 questionData.image != null &&
-                questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            const SizedBox(
-              height: 10,
+                questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01
             ),
             TextField(
               keyboardType: questionData.inputType=='number'?TextInputType.number:TextInputType.text,
@@ -1945,8 +1939,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 //radioSelectedValues?.add(score);
               },
             ),
-            const SizedBox(
-              height: 20,
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01,
             ),
             // currentQuestionIndex == surveyData.length-1
             //    widget.isLastButton ??
@@ -2161,8 +2155,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       child: Column(
         crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01
           ),
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
@@ -2174,14 +2168,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
           Text(
             questionData.question ?? "",
             style: widget.checkBoxQuestionStyle ??
                 const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height:MediaQuery.of(context).size.height*0.01
           ),
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
@@ -2193,7 +2187,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.middle &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
           questionData.description!.isNotEmpty
               ? Text(
                   questionData.description.toString(),
@@ -2202,8 +2196,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : const SizedBox(
                   height: 0,
                 ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
           ),
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
@@ -2215,8 +2209,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-          const SizedBox(height: 10),
+              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+          SizedBox(height:MediaQuery.of(context).size.height*0.01),
 
           Column(
 
@@ -2246,8 +2240,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   } );
             }).toList(),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height:MediaQuery.of(context).size.height*0.01
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -2439,8 +2433,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             ),
                           )
                       :widget.customButton ?? Container(
-                        width: isLast ? 150 : 120,
-                        height: isLast ? 50 : 40,
+                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
+                        height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -2493,8 +2487,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       child: Column(
         crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01
           ),
           imagePosition == ImagePosition.top &&
                   questionData.image != null &&
@@ -2506,14 +2500,14 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.top &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
           Text(
             questionData.question ?? "",
             style: widget.dateTimeQuestionStyle ??
                 const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.01
           ),
           imagePosition == ImagePosition.middle &&
                   questionData.image != null &&
@@ -2525,7 +2519,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.middle &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
           questionData.description!.isNotEmpty
               ? Text(
                   questionData.description.toString(),
@@ -2535,8 +2529,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   height: 0,
                 ),
 
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01
           ),
           imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
@@ -2548,15 +2542,15 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.bottom &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
           const SizedBox(height: 10),
 
           GestureDetector(
             onTap: () => _selectDate(context),
             child: widget.dateTimeButton??Container(
 
-              width: 200,
-              height: 40,
+              width: MediaQuery.of(context).size.width*0.2,
+              height: MediaQuery.of(context).size.height*0.05,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -2587,7 +2581,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.of(context).size.height*0.2),
           Text(
             '$selectedDate',
             //  '00:00:00',
@@ -2596,7 +2590,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple.shade400),
           ),
-          const SizedBox(height: 15),
+           SizedBox(height: MediaQuery.of(context).size.height*0.15),
           //   widget.isLastButton ??
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -2692,8 +2686,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       },
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           : widget.customButton ?? Container(
-                        width: isLast ? 150 : 120,
-                        height: isLast ? 50 : 40,
+                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
+                        height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -2743,13 +2737,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         return widget.submitSurveyPopup ??
             AlertDialog(
               elevation: 0,
-              insetPadding: const EdgeInsets.only(top: 180, bottom: 170),
+               insetPadding : EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.25, // Adjust these factors as needed
+        bottom: MediaQuery.of(context).size.height * 0.23, // Adjust these factors as needed
+        ),
               title: const Text('Submit Survey?'),
               content: Column(
                 children: [
                   const Text('Do you want to submit the survey?'),
-                  const SizedBox(
-                    height: 40,
+                   SizedBox(
+                    height: MediaQuery.of(context).size.height*0.03,
                   ),
                   Container(
                     height: circleSize,
@@ -2757,7 +2754,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.green, width: 12)),
+                        border: Border.all(color: Colors.green, width: MediaQuery.of(context).size.width*0.01)),
                     child: Center(
                         child: Icon(Icons.check,
                             color: Colors.green, size: iconSize)),
@@ -2811,11 +2808,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           elevation: 0,
           content: Column(
             children: [
-              const SizedBox(height: 30),
+               SizedBox(height: MediaQuery.of(context).size.height*0.3),
             //  _buildBody(),
-              const SizedBox(height: 30),
+               SizedBox(height: MediaQuery.of(context).size.height*0.3),
               Container(
-                height: 10,
+                height: MediaQuery.of(context).size.height*0.01,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [

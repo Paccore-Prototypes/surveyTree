@@ -13,6 +13,7 @@ class SearchItem extends StatefulWidget {
     this.customButton,
     this.customLastButton,
     this.skipText,
+    this.questionContentAlignment,
     this.customSkipStyle})
       : super(key: key);
   final TreeNode questionData;
@@ -23,6 +24,7 @@ class SearchItem extends StatefulWidget {
   Widget? customButton;
   Widget? customLastButton;
   String? skipText;
+  CrossAxisAlignment?questionContentAlignment;
   TextStyle? customSkipStyle;
   final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
@@ -81,6 +83,7 @@ class _SearchItemState extends State<SearchItem> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10,),
               imagePosition == ImagePosition.top &&
@@ -93,14 +96,14 @@ class _SearchItemState extends State<SearchItem> {
                   : Container(),
               imagePosition == ImagePosition.top &&
                   widget.questionData.image != null &&
-                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                  widget.questionData.image!.isNotEmpty ?  SizedBox(height:  MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
               Text(
                 widget.questionData.question ?? "",
                 style: widget.searchItemQuestionStyle ??
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                  height: MediaQuery.of(context).size.height*0.01
               ),
               imagePosition == ImagePosition.middle &&
                   widget.questionData.image != null &&
@@ -132,8 +135,8 @@ class _SearchItemState extends State<SearchItem> {
                   : Container(),
               imagePosition == ImagePosition.bottom &&
                   widget.questionData.image != null &&
-                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-              const SizedBox(height: 10),
+                  widget.questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -231,7 +234,7 @@ class _SearchItemState extends State<SearchItem> {
                   Row(children: List.generate(selectedItem.length,
                           (index) => Row(
                             children: [
-                              SizedBox(width: 10,),
+                              SizedBox(width:  MediaQuery.of(context).size.width*0.1),
                               Container(
                //     width: selectedItem.length*40,
                     margin: const EdgeInsets.only(),
@@ -246,13 +249,13 @@ class _SearchItemState extends State<SearchItem> {
                           )),),
               //  },
               //),
-              const SizedBox(height: 15),
+               SizedBox(height: MediaQuery.of(context).size.height*0.15),
 
 
-              const SizedBox(height: 15,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.15,),
               if (answerDescription.isNotEmpty)
                 Text(answerDescription),
-              const SizedBox(height: 20,),
+              SizedBox(height: MediaQuery.of(context).size.height*0.1),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
@@ -293,8 +296,8 @@ class _SearchItemState extends State<SearchItem> {
                       child: widget.isLast
                           ? widget.customLastButton ??
                           Container(
-                            width: 150,
-                            height: 50,
+                            width:  MediaQuery.of(context).size.width*0.2,
+                            height: MediaQuery.of(context).size.height*0.04,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
@@ -324,8 +327,8 @@ class _SearchItemState extends State<SearchItem> {
                               ),
                             ),
                           ) : widget.customButton ?? Container(
-                        height: 40,
-                        width: 120,
+                        height:  MediaQuery.of(context).size.height*0.04,
+                        width:  MediaQuery.of(context).size.width*0.3,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
