@@ -1,5 +1,216 @@
 [
 
+
+
+  {
+    "id": 903,
+    "isMandatory": false,
+    "question": "Which item you want to have ?",
+    "description": "The follow items are emulsion or colloid of butterfat globules within a water-based fluid that contains dissolved carbohydrates and protein aggregates with minerals.",
+    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+    "questionType": "search_item",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "listGridType" : true,
+    "answerChoices": {
+      "Milk": null,
+      "Curd":[ {
+        "score": 7
+      }],
+      "Butter-Milk": [
+        {
+          "score": 7
+        }
+      ],
+      "Other":[ {
+
+        "score": 7
+      }],
+      "Badam_Milk": [
+        {
+          "score": 7
+        }
+      ]
+    },
+    "score": 6
+  },
+
+
+
+  {
+    "id": 904,
+    "isMandatory": false,
+    "question": "Types of non-veg that you had lunch?",
+    "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
+    "image": "https://img.freepik.com/free-photo/realistic-heart-shape-with-city_23-2150827308.jpg?t=st=1711104825~exp=1711108425~hmac=2b890f2136c691396da160b2463cf50bf30d459e4810833e1f6a6009a7a61996&w=740",
+    "questionType": "radio",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "listGridType" : true,
+    "isMultiListSelects" : false,
+    "answerChoices": {
+      "Chicken": [
+        {
+          "score": 7,
+          "id": 9040,
+          "isMandatory": false,
+          "question": "Non-veg types are..?",
+          "questionType": "radio",
+          "isMultiListSelects" : true,
+          "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have chicken...",
+          "answerChoices": {
+            "Chicken": [
+              {
+                "score": 7,
+                "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+                "answerDescription": "Will have chicken..."
+              }
+            ],
+            "Mutton":[ {
+              "score": 7,
+              "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+              "answerDescription": "Will have mutton."
+
+            }],
+            "Fish": [
+              {
+                "score": 7,
+                "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+                "answerDescription": "Will have Fish.."
+              }
+            ],
+            "Other":[ {
+              "score": 7,
+              "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+              "answerDescription": "Will have Non-veg item.."
+
+            }]
+          }
+        }
+      ],
+      "Mutton":[ {
+        "score": 7,
+        "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+        "answerDescription": "Will have mutton."
+
+      }],
+      "Fish": [
+        {
+          "score": 7,
+          "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+          "answerDescription": "Will have Fish.."
+        }
+      ],
+      "Other":[ {
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have Non-veg item.."
+
+      }]
+    },
+    "score": 6
+  },
+
+  {
+    "id": 90,
+    "isMandatory": false,
+    "question": "Types item that you had dinner?",
+    "description": "The most important cereal crop in the developing world and is the staple food of over half the world's population",
+    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
+    "questionType": "drop_down",
+    "listGridType" : false,
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "answerChoices": {
+      "Rice": [
+        {
+          "score": 7,
+          "imageOption": "https://img.freepik.com/free-vector/watercolor-pilaf-illustration_23-2149444767.jpg?w=740&t=st=1711107010~exp=1711107610~hmac=62f5fe61ead18dfd26821e7f9264d60597822582215493fdbae7ec9de526bc4d",
+          "answerDescription": "Will have rice."
+
+        }
+      ],
+      "Biryani":[ {
+        "score": 7,
+        "imageOption": "https://img.freepik.com/free-vector/watercolor-pilaf-illustration_23-2149444767.jpg?w=740&t=st=1711107010~exp=1711107610~hmac=62f5fe61ead18dfd26821e7f9264d60597822582215493fdbae7ec9de526bc4d",
+        "answerDescription": "Will have biryani."
+
+      }],
+      "Roties": [
+        {
+          "score": 7,
+          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+          "answerDescription": "Will have roties.."
+
+        }
+      ],
+      "Other":[ {
+        "score": 7,
+        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
+        "answerDescription": "Will have other.."
+
+      }]
+    },
+    "score": 6
+  },
+  {
+    "id": 2,
+    "isMandatory": false,
+    "question": "How fluent you are in spanish?",
+    "description": "Language is a structured system of communication that consists of grammar and vocabulary",
+    "image": "https://img.freepik.com/free-vector/translator-concept-illustration_114360-6334.jpg?w=740&t=st=1711106890~exp=1711107490~hmac=81da96b4cdc1851164f83fda9f7ae4e130c20866ce09cac7ce6273074986bcdc",
+    "imagePosition": "middle",
+    "imagePlace": "center",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "questionType": "slider",
+    "score": 6,
+    "answerChoices": null
+  },
+
+  {
+    "id": 402,
+    "isMandatory": false,
+    "question": "How Many times do you eat per day?",
+    "questionType": "multipleChoices",
+    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
+    "image": "https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imagePosition": "middle",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "imagePlace": "center",
+    "answerChoices": {
+      "two":  null,
+      "three": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "one": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "four": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
+
+
   {
     "id": 1,
     "isMandatory": false,
@@ -159,191 +370,9 @@
           "score": 4
         }
       ],
-      "Other": null
-    }
-  },
-
-  {
-    "id": 903,
-    "isMandatory": false,
-    "question": "Which item you want to have ?",
-    "description": "The follow items are emulsion or colloid of butterfat globules within a water-based fluid that contains dissolved carbohydrates and protein aggregates with minerals.",
-    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-    "questionType": "search_item",
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "listGridType" : true,
-    "answerChoices": {
-      "Milk": [
-        {
-          "score": 7
-        }
-      ],
-      "Curd":[ {
-        "score": 7
-      }],
-      "Butter-Milk": [
-        {
-          "score": 7
-        }
-      ],
-      "Other":[ {
-
-        "score": 7
-      }],
-      "Badam_Milk": [
-        {
-          "score": 7
-        }
-      ]
-    },
-    "score": 6
-  },
-
-
-  {
-    "id": 904,
-    "isMandatory": false,
-    "question": "Types of non-veg that you had lunch?",
-    "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
-    "image": "https://img.freepik.com/free-photo/realistic-heart-shape-with-city_23-2150827308.jpg?t=st=1711104825~exp=1711108425~hmac=2b890f2136c691396da160b2463cf50bf30d459e4810833e1f6a6009a7a61996&w=740",
-    "questionType": "list",
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "listGridType" : true,
-    "isMultiListSelects" : false,
-    "answerChoices": {
-      "Chicken": [
-        {
-          "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have chicken..."
-        }
-      ],
-      "Mutton":[ {
-        "score": 7,
-        "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-        "answerDescription": "Will have mutton."
-
-      }],
-      "Fish": [
-        {
-          "score": 7,
-          "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-          "answerDescription": "Will have Fish.."
-        }
-      ],
-      "Other":[ {
-        "score": 7,
-        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-        "answerDescription": "Will have Non-veg item.."
-
+      "Other": [{
+        "score": 2
       }]
-    },
-    "score": 6
-  },
-
-  {
-    "id": 90,
-    "isMandatory": false,
-    "question": "Types item that you had dinner?",
-    "description": "The most important cereal crop in the developing world and is the staple food of over half the world's population",
-    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-    "questionType": "drop_down",
-    "listGridType" : false,
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "answerChoices": {
-      "Rice": [
-        {
-          "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have rice..."
-        }
-      ],
-      "Biryani":[ {
-        "score": 7,
-        "imageOption": "https://img.freepik.com/free-vector/watercolor-pilaf-illustration_23-2149444767.jpg?w=740&t=st=1711107010~exp=1711107610~hmac=62f5fe61ead18dfd26821e7f9264d60597822582215493fdbae7ec9de526bc4d",
-        "answerDescription": "Will have biryani."
-
-      }],
-      "Roties": [
-        {
-          "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have roties.."
-
-        }
-      ],
-      "Other":[ {
-        "score": 7,
-        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-        "answerDescription": "Will have other.."
-
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 2,
-    "isMandatory": false,
-    "question": "How fluent you are in spanish?",
-    "description": "Language is a structured system of communication that consists of grammar and vocabulary",
-    "image": "https://img.freepik.com/free-vector/translator-concept-illustration_114360-6334.jpg?w=740&t=st=1711106890~exp=1711107490~hmac=81da96b4cdc1851164f83fda9f7ae4e130c20866ce09cac7ce6273074986bcdc",
-    "imagePosition": "middle",
-    "imagePlace": "center",
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "questionType": "slider",
-    "score": 6,
-    "answerChoices": null
-  },
-
-  {
-    "id": 40,
-    "isMandatory": true,
-    "question": "How Many times do you eat?",
-    "questionType": "multipleChoices",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
-    "imagePosition": "middle",
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "imagePlace": "center",
-    "answerChoices": {
-      "two": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 4
-        }
-      ],
-      "three": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 8
-        }
-      ],
-      "one": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 6
-        }
-      ],
-      "four": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 1
-        }
-      ]
     }
   }
-
 ]

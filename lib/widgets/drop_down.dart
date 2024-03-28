@@ -1,7 +1,6 @@
 
 import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
 import 'package:infosurvey/info_survey.dart';
@@ -78,7 +77,9 @@ class _DropDownState extends State<DropDown> {
 
     if(widget.answerMap!.containsKey(widget.questionData.question)){
       if(widget.answerMap?[widget.questionData.question]['answer']!=null && widget.answerMap?[widget.questionData.question]['answer']!=''){
-        dropdownValue = widget.answerMap?[widget.questionData.question]['answer'] ?? '';
+        if(widget.questionData.isMandatory==true || widget.questionData.isMandatory == false){
+          dropdownValue = widget.answerMap?[widget.questionData.question]['answer'] ?? '';
+        }
       }
     }
 
@@ -283,10 +284,10 @@ class _DropDownState extends State<DropDown> {
                             )
                           ],
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
-                           widget.isLast ? 'Submit': 'Next',
-                            style: const TextStyle(
+                          'Next',
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w500,

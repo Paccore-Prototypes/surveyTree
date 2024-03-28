@@ -66,7 +66,7 @@ class TreeModel {
       image: data['image'] ?? '',
       questionType: data['questionType'] ?? '',
       answerChoices: data['answerChoices'] ?? {},
-      score: data['score'] ?? 0,
+      score: data['score'] ?? 1,
       imagePosition: data['imagePosition'] ?? 'top',
       imagePlace: data['imagePlace'] ?? 'center',
       imageHeight: data['imageHeight'] ?? 1,
@@ -103,6 +103,7 @@ class TreeModel {
           isMandatory: false, // Placeholder value for children without isMandatory
           question: key,
           description: key,
+          score: 1,
           image: '',
           questionType: key, // Placeholder value for children without questionType
           imagePosition: key,

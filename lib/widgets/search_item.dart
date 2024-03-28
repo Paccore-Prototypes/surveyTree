@@ -76,17 +76,6 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
   }
 }
 
-// if (widget.answerMap.containsKey(questionData.question)) {
-//   if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty) {
-//     if (questionData.isMultiListSelects == true) {
-//       answers = answersMap[questionData.question]['answer'] ?? '';
-//     } else {
-//       if (answerdata == '') {
-//         answerdata = answersMap[questionData.question]['answer'] ?? '';
-//       }
-//     }
-//   }
-// }
 
     ImagePosition imagePosition = ImagePosition.top;
     if (widget.questionData.imagePosition != null) {

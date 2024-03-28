@@ -370,7 +370,7 @@ Navigator.pop(context);
                   const SnackBar(
                       content: Text('Please provide an answer')),
                 );
-                return; // Exit the onTap function to prevent further action
+                return;
               }
             }
             if (isLast) {
@@ -397,8 +397,8 @@ Navigator.pop(context);
 
               //show Popup Dailog here
             } else {
-            addTheFollowUpQuestion('',
-              //  data!.isEmpty || data==null ? '' : data!,
+            addTheFollowUpQuestion(
+                data.toString()!.isEmpty || data.toString()==null ? '' : data.toString()!,
                 isNestedchoice: true,
                 question: callingBackData.question,
                 answeValue: {
@@ -408,7 +408,6 @@ Navigator.pop(context);
                       ? 0
                       : callingBackData.score,
                   'answer': data!.isEmpty || data==null ? '' : data!,
-
                 });
             answers=[];
 
@@ -645,7 +644,7 @@ Navigator.pop(context);
 
           Column(
             children: (data.answerChoices).keys.map<Widget>((answer) {
-              if (data.answerChoices[answer] != null) {
+              if (data.answerChoices[answer] != null && data.answerChoices[answer]!='') {
                 if (answersMap.containsKey(data.question)) {
                   selectedValue = answersMap[data.question]['answer'];
                 }
@@ -653,7 +652,9 @@ Navigator.pop(context);
               //final bool isSelected = selectedValue == answer;
             //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
                 return RadioListTile(
-                    title:  Text(answer,style: widget.optionRadioStyle ?? TextStyle( color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
+                    title:  Text(answer,style: widget.optionRadioStyle ??
+                        TextStyle(
+                            color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
                     value: answer,
                     activeColor: widget.activeRadioColor ?? Colors.deepPurple,
                     groupValue: selectedValue?.isNotEmpty ?? false
@@ -671,8 +672,8 @@ Navigator.pop(context);
                         answersMap[data.question!]={
                           'id':data.id,
                           'question-type':data.questionType,
-                          'score':data.answerChoices == null?data.score:data.answerChoices[selectedValue][0]['score'],
-                          'answer':selectedValue
+                          'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue]!=null?data.answerChoices[selectedValue][0]['score']:0,
+                          'answer':selectedAnswer
                         };
                         sumOfScoresData();
 
@@ -685,8 +686,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
 }
                       }else{
-
-                      addTheFollowUpQuestion(answer,
+               addTheFollowUpQuestion(answer,
                           isNestedchoice: true,
                           haveDescription:
                               data.description != null ? true : false,
@@ -697,14 +697,23 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             'score': data.answerChoices[selectedAnswer] != null
                                 ? data.answerChoices[selectedAnswer][0]['score']
                                 : 0,
-                            'answer': selectedAnswer
+                            'answer':answer
                           });
+
+
+               // answersMap[data.question!]={
+               //   'id':data.id,
+               //   'question-type':data.questionType,
+               //   'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
+               //   'answer':selectedAnswer
+               // };
 
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.ease);
 
-             } });
+             }
+                    });
               // }
             }).toList(),
           ),
@@ -809,7 +818,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   'score': data.answerChoices == null
                                       ? 0
                                       : data.score,
-                                  'answer': ''
+                                  'answer': selectedValue
                                 });
                             pageController.nextPage(
                               duration: const Duration(milliseconds: 500),
@@ -825,7 +834,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   'score': data.answerChoices == null
                                       ? 0
                                       : data.score,
-                                  'answer': ''
+                                  'answer': selectedValue
                                 });
                             pageController.nextPage(
                               duration: const Duration(milliseconds: 500),
@@ -834,8 +843,39 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           }
                         }
                       },
-                      child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
-                          :widget.customButton ?? Container(
+                      child: isLast ? widget.customLastButton ?? Container(
+                            width: isLast ? 150 : 120,
+                            height: isLast ? 50 : 40,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Submit',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                      :widget.customButton ?? Container(
                         width: isLast ? 150 : 120,
                         height: isLast ? 50 : 40,
                         decoration: BoxDecoration(
@@ -886,12 +926,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     bool isSelected = answerdata == answer;
 
-    String imageOption = questionData.answerChoices[answer][0]["imageOption"] ??
-        '';
+    String imageOption = questionData.answerChoices[answer][0]["imageOption"] ?? '';
     if (questionData.isMultiListSelects == false) {
         return Column(
           children: [
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
             ListTile(
   title: Center(child: questionData.listGridType == true ? Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1373,7 +1412,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   ));
                                   return;
                                 }
-                                addTheFollowUpQuestion(answers.length==1?answers[0]:answers.toString(),
+                                addTheFollowUpQuestion( questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
                                     isNestedchoice: true,
                                     question: questionData.question,
                                     answeValue: {
@@ -1388,7 +1427,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     });
                               //  answers=[];
 
-                                Future.delayed(Duration(seconds: 1))
+                                Future.delayed(const Duration(seconds: 1))
                                   .then((value) {
                               //  answerdata = '';
                                // answerDescription = '';
@@ -1398,7 +1437,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(Duration(milliseconds:200)).then((value) {
+                                Future.delayed(const Duration(milliseconds:200)).then((value) {
                                   answers=[];
                                   answerdata = '';
                                   answerDescription = '';
@@ -1408,7 +1447,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 });
                               } else {
 
-                                addTheFollowUpQuestion(answers.length==1?answers[0]:answers.toString(),
+                                addTheFollowUpQuestion( questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
                                     isNestedchoice: true,
                                     question: questionData.question,
                                     answeValue: {
@@ -2314,13 +2353,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                         'Please select at least one option')));
                             return;
                           }
-                          for (int i = 0; i < answers.length; i++) {
-                            if (questionData.answerChoices != null) {
-                              score = score +
-                                  questionData.answerChoices[answers[i]][0]
-                                      ['score'] as int;
-                            }
-                          }
+                          // for (int i = 0; i < answers.length; i++) {
+                          //   if (questionData.answerChoices != null) {
+                          //     score = score +
+                          //         questionData.answerChoices[answers[i]][0]
+                          //             ['score'] as int;
+                          //   }
+                          // }
                           if (isLast) {
                             answersMap[questionData.question] = {
                               'id': questionData.id,
