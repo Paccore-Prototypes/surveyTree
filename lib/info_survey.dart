@@ -82,6 +82,8 @@ Color?activeCheckboxColor;
   Color? activeRadioColor;
   // Color? activeRadioTextColor;
   Color? tileListColor;
+
+
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
@@ -269,8 +271,6 @@ Navigator.pop(context);
       ),
     );
   }
-
-
   Widget buildQuestion(List<TreeNode> data, int pageIndex,) {
     String questionType = data[pageIndex].questionType;
     switch (questionType) {
@@ -556,6 +556,7 @@ Navigator.pop(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+
         children: [
           const SizedBox(
             height: 10,
@@ -598,10 +599,9 @@ Navigator.pop(context);
 
           ),
 
-
-
-          widget.customSizedBox ??
-              SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+              const SizedBox(
+                height: 10,
+              ),
           imagePosition == ImagePosition.middle &&
                   data.image != null &&
                   data.image!.isNotEmpty
@@ -896,8 +896,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       imageOption.isNotEmpty ?
       Image.network(
             imageOption,
-             width: widget.optionImageWidth ?? 50,
-            height: widget.optionImageHeight ?? 50,
+             width: widget.optionImageWidth ?? 0.15,
+            height: widget.optionImageHeight ?? 0.15,
       ) : Container(),
        SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
@@ -1539,7 +1539,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return Column(
-      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.end,
       children: [
          SizedBox(
           height: MediaQuery.of(context).size.height*0.01,
@@ -2740,7 +2740,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         return widget.submitSurveyPopup ??
             AlertDialog(
               elevation: 0,
-              insetPadding: const EdgeInsets.only(top: 180, bottom: 170),
+               insetPadding : EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.25, // Adjust these factors as needed
+        bottom: MediaQuery.of(context).size.height * 0.23, // Adjust these factors as needed
+        ),
               title: const Text('Submit Survey?'),
               content: Column(
                 children: [
@@ -2754,7 +2757,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.green, width: 12)),
+                        border: Border.all(color: Colors.green, width: MediaQuery.of(context).size.width*0.01)),
                     child: Center(
                         child: Icon(Icons.check,
                             color: Colors.green, size: iconSize)),

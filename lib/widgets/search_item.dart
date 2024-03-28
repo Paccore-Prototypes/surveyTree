@@ -67,6 +67,7 @@ class _SearchItemState extends State<SearchItem> {
 
   @override
   Widget build(BuildContext context) {
+
 print('-------------------having the answersmap data ${widget.answerMap}');
 
 
@@ -107,6 +108,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
               imagePaceHolder: widget.imagePlaceHolder,
+
 
             )
                 : Container(),
@@ -242,6 +244,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
 
             const SizedBox(height: 10),
           //  IngredientChip(items: [selectedItem.toString()],),
+
             const SizedBox(height: 10),
             // ListView.builder(
             //   shrinkWrap: true,
@@ -290,7 +293,10 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                       },
                       child: Center(
                         child: Text(
+
+
                         widget.skipText ??  'Skip',
+
                           style: widget.customSkipStyle ?? const TextStyle(
                             color: Colors.blue,
                             fontSize: 16,
@@ -383,7 +389,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
             ),
           ],
         ),
-
+      ),
     );
   }
 }
