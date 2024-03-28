@@ -1,4 +1,6 @@
 
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infosurvey/tree_node.dart';
@@ -17,7 +19,7 @@ class DropDown extends StatefulWidget {
     this.customButton,
     this.customLastButton,
     this.skipText,
-    this.customSkipStyle})
+    this.customSkipStyle,this.answerMap})
       : super(key: key);
   final TreeNode questionData;
   bool isLast = false;
@@ -29,6 +31,7 @@ class DropDown extends StatefulWidget {
   String? skipText;
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
+  HashMap<String, dynamic>? answerMap;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
 
   @override
@@ -43,7 +46,6 @@ class _DropDownState extends State<DropDown> {
   String? dropdownValue;
   late FocusNode _focusNode;
   String currentItemReference = '';
-  String? selectedItem;
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _userHasTyped = false;
@@ -74,6 +76,14 @@ class _DropDownState extends State<DropDown> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    if(widget.answerMap!.containsKey(widget.questionData.question)){
+      if(widget.answerMap?[widget.questionData.question]['answer']!=null && widget.answerMap?[widget.questionData.question]['answer']!=''){
+        dropdownValue = widget.answerMap?[widget.questionData.question]['answer'] ?? '';
+      }
+    }
+
     ImagePosition imagePosition = ImagePosition.top;
     if (widget.questionData.imagePosition != null) {
       imagePosition = ImagePosition.values.firstWhere(

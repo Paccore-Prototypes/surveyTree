@@ -67,14 +67,14 @@ class _SearchItemState extends State<SearchItem> {
 
   @override
   Widget build(BuildContext context) {
-    print('-------------------having the answersmap data ${widget.answerMap}');
+print('-------------------having the answersmap data ${widget.answerMap}');
 
 
-    if(widget.answerMap!.containsKey(widget.questionData.question)){
-      if(widget.answerMap?[widget.questionData.question]['answer']!=null && widget.answerMap?[widget.questionData.question]['answer']!=''){
-        selectedItem = widget.answerMap?[widget.questionData.question]['answer'] ?? '';
-      }
-    }
+if(widget.answerMap!.containsKey(widget.questionData.question)){
+  if(widget.answerMap?[widget.questionData.question]['answer']!=null && widget.answerMap?[widget.questionData.question]['answer']!=''){
+    selectedItem = widget.answerMap?[widget.questionData.question]['answer'] ?? '';
+  }
+}
 
 // if (widget.answerMap.containsKey(questionData.question)) {
 //   if(answersMap[questionData.question]['answer']!=null&&answersMap[questionData.question]['answer'].isNotEmpty) {
@@ -125,7 +125,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-              imagePaceHolder: widget.imagePlaceHolder,
+                imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -145,7 +145,7 @@ class _SearchItemState extends State<SearchItem> {
                 widget.questionData.image != null &&
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
-              imagePaceHolder: widget.imagePlaceHolder,
+               imagePaceHolder: widget.imagePlaceHolder,
 
             )
                 : Container(),
@@ -169,7 +169,7 @@ class _SearchItemState extends State<SearchItem> {
               onSelected: (String selection) {
                 setState(() {
                   selectedItem.add(selection);
-                  //  selectedItem = selection;
+                //  selectedItem = selection;
                   _userHasTyped = true;
                 });
               },
@@ -220,17 +220,17 @@ class _SearchItemState extends State<SearchItem> {
                           },
 
                           //  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                          child: Material(
-                            child: ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(option,),
-                                  Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank)
-                                ],
+                            child: Material(
+                              child: ListTile(
+                                title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(option,),
+                                      Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank)
+                                    ],
+                                  ),
                               ),
                             ),
-                          ),
 
                         );
                       },
@@ -241,7 +241,7 @@ class _SearchItemState extends State<SearchItem> {
             ),
 
             const SizedBox(height: 10),
-            //  IngredientChip(items: [selectedItem.toString()],),
+          //  IngredientChip(items: [selectedItem.toString()],),
             const SizedBox(height: 10),
             // ListView.builder(
             //   shrinkWrap: true,
@@ -290,7 +290,7 @@ class _SearchItemState extends State<SearchItem> {
                       },
                       child: Center(
                         child: Text(
-                          widget.skipText ??  'Skip',
+                        widget.skipText ??  'Skip',
                           style: widget.customSkipStyle ?? const TextStyle(
                             color: Colors.blue,
                             fontSize: 16,
@@ -383,7 +383,7 @@ class _SearchItemState extends State<SearchItem> {
             ),
           ],
         ),
-      ),
+
     );
   }
 }

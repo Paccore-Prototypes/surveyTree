@@ -28,7 +28,8 @@ class _ImageParserState extends State<ImageParser> {
       width: MediaQuery.of(context).size.width,
       child: FadeInImage.assetNetwork(
         image: widget.data.image!,
-          height: widget.data.imageHeight?.toDouble(),
+          height: MediaQuery.sizeOf(context).height/1000*widget.data.imageHeight!.toDouble(),
+        width: MediaQuery.sizeOf(context).width/1000*widget.data.imageWidth!.toDouble(),
           alignment: imagePlace == ImagePlace.left
               ? Alignment.topLeft
               : imagePlace == ImagePlace.right
