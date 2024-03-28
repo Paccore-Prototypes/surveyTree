@@ -4,12 +4,12 @@
     "id": 1,
     "isMandatory": false,
     "question": "What is your gender?",
-    "description": "Better giving the description",
+    "description": "Gender refers to the characteristics of women, men, girls and boys that are socially constructed.",
     "image": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
     "imagePosition": "top",
-    "imagePlace": "right",
-    "imageHeight": 200,
-    "imageWidth": 200,
+    "imagePlace": "center",
+    "imageHeight": 100,
+    "imageWidth": 100,
     "questionType": "radio",
     "answerChoices": {
       "Male": [
@@ -21,6 +21,8 @@
           "image": "https://img.freepik.com/free-vector/cigarette-dark-smoke_1284-35568.jpg?t=st=1711105101~exp=1711108701~hmac=632f37c15777c7a6c738e2cdd56c80e463fd84bf6b6e112a8273e8f071fd75a5&w=740",
           "imagePosition": "middle",
           "imagePlace": "right",
+          "imageHeight": 150,
+          "imageWidth": 150,
           "questionType": "list",
           "score": 8,
           "answerChoices": {
@@ -30,10 +32,13 @@
                 "isMandatory": true,
                 "question": "How many times do you smoke per day?",
                 "questionType": "text",
+                "answerDescription": "Smoking is injures to health...",
                 "inputType":"text",
                 "image": "https://img.freepik.com/free-vector/watercolour-smoke-background_91008-447.jpg?w=900&t=st=1711106816~exp=1711107416~hmac=d354d5f4cf78fd0b1aecd93f447b507f173ef318686404d4210dc90c080d67b3",
                 "imagePosition": "bottom",
                 "imagePlace": "right",
+                "imageHeight": 150,
+                "imageWidth": 150,
                 "answerChoices": null,
                 "score": 5
               }
@@ -41,6 +46,7 @@
             "No": [
               {
                 "question": "",
+                "answerDescription": "Smoking is injures to...",
                 "answerChoices": null,
                 "score": 4
               }
@@ -56,6 +62,8 @@
           "description": "giving the description",
           "image": "https://img.freepik.com/free-vector/baby-birth-concept-illustration_114360-8159.jpg?w=740&t=st=1711106976~exp=1711107576~hmac=3dcdda818ab96ed24dbbf399172c2a37866519f9d3e145ed44456effddeb0d8f",
           "imagePosition": "middle",
+          "imageHeight": 150,
+          "imageWidth": 150,
           "imagePlace": "center",
           "questionType": "list",
           "answerChoices": {
@@ -65,12 +73,16 @@
                 "isMandatory": false,
                 "question": "Are you taking medication?",
                 "description": null,
+                "imageHeight": 150,
+                "imageWidth": 150,
                 "questionType": "radio",
                 "answerChoices": {
                   "Yes": [
                     {
                       "id": 105,
                       "isMandatory": false,
+                      "imageHeight": 150,
+                      "imageWidth": 150,
                       "question": "From when are you taking medication?",
                       "questionType": "datetime",
                       "answerChoices": null,
@@ -83,6 +95,8 @@
                       "isMandatory": false,
                       "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
                       "questionType": "list",
+                      "imageHeight": 150,
+                      "imageWidth": 150,
                       "answerChoices": {
                         "Yes": [
                           {
@@ -90,6 +104,8 @@
                             "isMandatory": true,
                             "question": "Name The Medicine You Are Taking",
                             "questionType": "text",
+                            "imageHeight": 150,
+                            "imageWidth": 150,
                             "answerChoices": null
                           }
                         ],
@@ -115,11 +131,15 @@
                 "isMandatory": true,
                 "question": "Are you taking medication?",
                 "questionType": "list",
+                "imageHeight": 150,
+                "imageWidth": 150,
                 "answerChoices": {
                   "Yes": [
                     {
                       "id": 110,
                       "isMandatory": true,
+                      "imageHeight": 150,
+                      "imageWidth": 150,
                       "question": "From when are you taking medication?",
                       "questionType": "datetime",
                       "answerChoices": null,
@@ -150,6 +170,8 @@
     "description": "The follow items are emulsion or colloid of butterfat globules within a water-based fluid that contains dissolved carbohydrates and protein aggregates with minerals.",
     "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
     "questionType": "search_item",
+    "imageHeight": 150,
+    "imageWidth": 150,
     "listGridType" : true,
     "answerChoices": {
       "Milk": [
@@ -168,49 +190,17 @@
       "Other":[ {
 
         "score": 7
-      }]
-    },
-    "score": 6
-  },
-  {
-    "id": 9001,
-    "isMandatory": false,
-    "question": "What veg-curry you want to have ?",
-    "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
-    "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-    "questionType": "list",
-    "listGridType" : false,
-    "isMultiListSelects" : true,
-    "answerChoices": {
-      "Carrot": [
-        {
-          "score": 7,
-          "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-          "answerDescription": "Will have carrot..."
-        }
-      ],
-      "Beetroot":[ {
-        "score": 7,
-        "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-        "answerDescription": "Will have beetroot."
-
       }],
-      "Potato": [
+      "Badam_Milk": [
         {
-          "score": 7,
-          "imageOption": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
-          "answerDescription": "Will have potato.."
+          "score": 7
         }
-      ],
-      "Tomato":[ {
-        "score": 7,
-        "imageOption": "https://www.pngall.com/wp-content/uploads/5/Gender-PNG-Image-File.png",
-        "answerDescription": "Will have potato.."
-
-      }]
+      ]
     },
     "score": 6
   },
+
+
   {
     "id": 904,
     "isMandatory": false,
@@ -218,8 +208,10 @@
     "description": "A dish composed with a sauce or gravy seasoned with a mixture of ground spices ",
     "image": "https://img.freepik.com/free-photo/realistic-heart-shape-with-city_23-2150827308.jpg?t=st=1711104825~exp=1711108425~hmac=2b890f2136c691396da160b2463cf50bf30d459e4810833e1f6a6009a7a61996&w=740",
     "questionType": "list",
+    "imageHeight": 150,
+    "imageWidth": 150,
     "listGridType" : true,
-    "isMultiListSelects" : true,
+    "isMultiListSelects" : false,
     "answerChoices": {
       "Chicken": [
         {
@@ -259,6 +251,8 @@
     "image": "https://img.freepik.com/free-vector/fruits-vegetales-icon-set_603843-2722.jpg?t=st=1711105196~exp=1711108796~hmac=8d3cdde944b75834df8cb9b37a021451d8f53100813048a0517fe01423f68001&w=1060",
     "questionType": "drop_down",
     "listGridType" : false,
+    "imageHeight": 150,
+    "imageWidth": 150,
     "answerChoices": {
       "Rice": [
         {
@@ -298,8 +292,8 @@
     "image": "https://img.freepik.com/free-vector/translator-concept-illustration_114360-6334.jpg?w=740&t=st=1711106890~exp=1711107490~hmac=81da96b4cdc1851164f83fda9f7ae4e130c20866ce09cac7ce6273074986bcdc",
     "imagePosition": "middle",
     "imagePlace": "center",
-    "imageHeight": 100,
-    "imageWidth": 200,
+    "imageHeight": 150,
+    "imageWidth": 150,
     "questionType": "slider",
     "score": 6,
     "answerChoices": null
@@ -313,6 +307,8 @@
     "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
     "image": "https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
     "imagePosition": "middle",
+    "imageHeight": 150,
+    "imageWidth": 150,
     "imagePlace": "center",
     "answerChoices": {
       "two": [
@@ -349,7 +345,5 @@
       ]
     }
   }
-
-
 
 ]
