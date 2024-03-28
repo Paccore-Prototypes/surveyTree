@@ -12,6 +12,7 @@ class SearchItem extends StatefulWidget {
     required this.callBack,required this.isLast,
     this.description,this.searchItemQuestionStyle,
     this.imagePlaceHolder,
+    this.questionContentAlignment,
     this.customButton,
     this.customLastButton,
     this.skipText,
@@ -25,6 +26,7 @@ class SearchItem extends StatefulWidget {
   Widget? customButton;
   Widget? customLastButton;
   String? skipText;
+  CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
   HashMap<String, dynamic>? answerMap;
   final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
@@ -101,6 +103,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&

@@ -158,8 +158,8 @@ class _DropDownState extends State<DropDown> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
-                  height: MediaQuery.of(context).size.height*0.05,
-                  width: MediaQuery.of(context).size.width*0.34,
+                  height: MediaQuery.of(context).size.height*0.06,
+                  width: MediaQuery.of(context).size.width*0.54,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12)
@@ -192,12 +192,12 @@ class _DropDownState extends State<DropDown> {
 
 
 
-               SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
-               SizedBox(height:MediaQuery.of(context).size.height*0.1,),
+
+               SizedBox(height:MediaQuery.of(context).size.height*0.03,),
               if (answerDescription.isNotEmpty)
                 Text(answerDescription),
-               SizedBox(height: MediaQuery.of(context).size.height*0.25),
+               SizedBox(height: MediaQuery.of(context).size.height*0.03),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
@@ -235,7 +235,7 @@ class _DropDownState extends State<DropDown> {
                       child: widget.isLast
                           ? widget.customLastButton ??
                           Container(
-                            width: MediaQuery.of(context).size.width*0.38,
+                            width: MediaQuery.of(context).size.width*0.32,
                             height: MediaQuery.of(context).size.height*0.05,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -266,8 +266,8 @@ class _DropDownState extends State<DropDown> {
                               ),
                             ),
                           ): widget.customButton ?? Container(
-                        height: MediaQuery.of(context).size.height*0.04,
-                        width: MediaQuery.of(context).size.width*0.34,
+                        height:MediaQuery.of(context).size.height*0.05,
+                        width: MediaQuery.of(context).size.width*0.32,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [

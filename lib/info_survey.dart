@@ -292,6 +292,7 @@ Navigator.pop(context);
           skipText: widget.skipText,
           customSkipStyle: widget.customSkipStyle,
           customButton: widget.customButton,
+          questionContentAlignment: widget.questionContentAlignment,
           customLastButton : widget.customLastButton,
           isLast: isLast,questionData: data[pageIndex],
           imagePlaceHolder: widget.imagePlaceHolder,
@@ -705,7 +706,7 @@ Navigator.pop(context);
     }).toList(),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.01
+            height: MediaQuery.of(context).size.height*0.03
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -832,8 +833,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       },
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           :widget.customButton ?? Container(
-                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
-                        height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
+                        width:  MediaQuery.of(context).size.width*0.32,
+                        height:  MediaQuery.of(context).size.height*0.05,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -896,8 +897,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       imageOption.isNotEmpty ?
       Image.network(
             imageOption,
-             width: widget.optionImageWidth ?? 0.15,
-            height: widget.optionImageHeight ?? 0.15,
+             width: MediaQuery.of(context).size.width*0.1,
+            height: MediaQuery.of(context).size.width*0.1,
       ) : Container(),
        SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
@@ -909,8 +910,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       imageOption.isNotEmpty ?
       Image.network(
             imageOption,
-            width: 25,
-            height: 25,
+            width: MediaQuery.of(context).size.width*0.1,
+            height: MediaQuery.of(context).size.width*0.1,
       ) : Container(),
        SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
@@ -1060,8 +1061,10 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: MediaQuery.of(context).size.width*0.05,
-                    height: MediaQuery.of(context).size.height*0.05,
+                    width: MediaQuery.of(context).size.width*0.1,
+
+                    height: MediaQuery.of(context).size.width*0.1,
+
                   ) : Container(),
                    SizedBox(width: MediaQuery.of(context).size.width*0.01,),
                   Center(child: Text(answer)),
@@ -1073,8 +1076,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: MediaQuery.of(context).size.width*0.05,
-                    height:MediaQuery.of(context).size.height*0.05,
+                    width: MediaQuery.of(context).size.width*0.1,
+                    height:MediaQuery.of(context).size.height*0.1,
                   ) : Container(),
                    SizedBox(width: MediaQuery.of(context).size.width*0.01),
                   Center(child: Text(answer)),
@@ -1238,8 +1241,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   : Container(),
               imagePosition == ImagePosition.bottom &&
                   questionData.image != null &&
-                  questionData.image!.isNotEmpty ?  SizedBox(height:MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
-               SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  questionData.image!.isNotEmpty ?  SizedBox(height:MediaQuery.of(context).size.height*0.001,):const SizedBox(height: 0,),
+             //  SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
               questionData.listGridType == true ?
               Padding(
@@ -1247,8 +1250,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 child: GridView.count(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
-                  mainAxisSpacing: 31,
-                   childAspectRatio: 3/2.2,
+                  mainAxisSpacing: 11,
+                   childAspectRatio: 3.5/2.2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
@@ -1268,7 +1271,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               answerDescription.isNotEmpty ?
               Text(answerDescription,style: widget.answerDescriptionStyle ?? const TextStyle(),) : Container(),
 
-              SizedBox(height: MediaQuery.of(context).size.height*0.2),
+              SizedBox(height: MediaQuery.of(context).size.height*0.03),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
@@ -1478,8 +1481,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 )
                             : widget.customButton ??
                                 Container(
-                                  width: MediaQuery.of(context).size.width*0.34,
-                                  height: MediaQuery.of(context).size.height*0.05,
+                                  width:  MediaQuery.of(context).size.width*0.32,
+                                  height:  MediaQuery.of(context).size.height*0.05,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
@@ -1782,8 +1785,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       }
                     },
                     child:isLast ? widget.customLastButton ?? Container(
-                          width: MediaQuery.of(context).size.height*0.12,
-                          height: MediaQuery.of(context).size.height*0.4,
+                          width: MediaQuery.of(context).size.height*0.32,
+                          height: MediaQuery.of(context).size.height*0.05,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -1814,7 +1817,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           ),
                         )
                     : widget.customButton ?? Container(
-                      width: MediaQuery.of(context).size.width*0.34,
+                      width: MediaQuery.of(context).size.width*0.32,
                       height: MediaQuery.of(context).size.height*0.05,
                       decoration:
                           BoxDecoration(
@@ -2436,7 +2439,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             ),
                           )
                       :widget.customButton ?? Container(
-                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
+                        width: MediaQuery.of(context).size.width * (isLast ? 0.32 : 0.32),
                         height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -2689,7 +2692,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       },
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           : widget.customButton ?? Container(
-                        width: MediaQuery.of(context).size.width * (isLast ? 0.15 : 0.34),
+                        width: MediaQuery.of(context).size.width * (isLast ? 0.32 : 0.32),
                         height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
