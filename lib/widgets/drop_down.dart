@@ -12,6 +12,7 @@ class DropDown extends StatefulWidget {
     required this.callBack,
     required this.isLast,
     this.imagePlaceHolder,
+    this.questionContentAlignment,
     this.dropDownQuestionStyle,
     this.descriptionStyle,
     this.customButton,
@@ -27,6 +28,7 @@ class DropDown extends StatefulWidget {
   Widget? customButton;
   Widget? customLastButton;
   String? skipText;
+  CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
   HashMap<String, dynamic>? answerMap;
   final Function(String? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
@@ -99,8 +101,9 @@ class _DropDownState extends State<DropDown> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.end,
             children: [
-              const SizedBox(height: 10,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.01),
               imagePosition == ImagePosition.top &&
                   widget.questionData.image != null &&
                   widget.questionData.image!.isNotEmpty
@@ -111,14 +114,14 @@ class _DropDownState extends State<DropDown> {
                   : Container(),
               imagePosition == ImagePosition.top &&
                   widget.questionData.image != null &&
-                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                  widget.questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
               Text(
                 widget.questionData.question ?? "",
                 style: widget.dropDownQuestionStyle ??
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: MediaQuery.of(context).size.height*0.01,
               ),
               imagePosition == ImagePosition.middle &&
                   widget.questionData.image != null &&
@@ -130,7 +133,7 @@ class _DropDownState extends State<DropDown> {
                   : Container(),
               imagePosition == ImagePosition.middle &&
                   widget.questionData.image != null &&
-                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+                  widget.questionData.image!.isNotEmpty ?  SizedBox(height:MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
               widget.questionData.description!.isNotEmpty
                   ? Text(
                 widget.questionData.description.toString(),
@@ -150,14 +153,14 @@ class _DropDownState extends State<DropDown> {
                   : Container(),
               imagePosition == ImagePosition.bottom &&
                   widget.questionData.image != null &&
-                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-              const SizedBox(height: 10),
+                  widget.questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
-                  height: 50,
-                  width: 250,
+                  height: MediaQuery.of(context).size.height*0.06,
+                  width: MediaQuery.of(context).size.width*0.64,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12)
@@ -190,12 +193,12 @@ class _DropDownState extends State<DropDown> {
 
 
 
-              const SizedBox(height: 10),
 
-              const SizedBox(height: 15,),
+
+               SizedBox(height:MediaQuery.of(context).size.height*0.03,),
               if (answerDescription.isNotEmpty)
                 Text(answerDescription),
-              const SizedBox(height: 20,),
+               SizedBox(height: MediaQuery.of(context).size.height*0.03),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
@@ -233,8 +236,8 @@ class _DropDownState extends State<DropDown> {
                       child: widget.isLast
                           ? widget.customLastButton ??
                           Container(
-                            width: 150,
-                            height: 50,
+                            width: MediaQuery.of(context).size.width*0.32,
+                            height: MediaQuery.of(context).size.height*0.05,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
@@ -264,8 +267,8 @@ class _DropDownState extends State<DropDown> {
                               ),
                             ),
                           ): widget.customButton ?? Container(
-                        height: 40,
-                        width: 120,
+                        height:MediaQuery.of(context).size.height*0.05,
+                        width: MediaQuery.of(context).size.width*0.32,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [

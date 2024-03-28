@@ -12,6 +12,7 @@ class SearchItem extends StatefulWidget {
     required this.callBack,required this.isLast,
     this.description,this.searchItemQuestionStyle,
     this.imagePlaceHolder,
+    this.questionContentAlignment,
     this.customButton,
     this.customLastButton,
     this.skipText,
@@ -25,6 +26,7 @@ class SearchItem extends StatefulWidget {
   Widget? customButton;
   Widget? customLastButton;
   String? skipText;
+  CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
   HashMap<String, dynamic>? answerMap;
   final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
@@ -67,6 +69,7 @@ class _SearchItemState extends State<SearchItem> {
 
   @override
   Widget build(BuildContext context) {
+
 print('-------------------having the answersmap data ${widget.answerMap}');
 
 
@@ -89,6 +92,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10,),
             imagePosition == ImagePosition.top &&
@@ -96,6 +100,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                 widget.questionData.image!.isNotEmpty
                 ? ImageParser(data:widget.questionData,
               imagePaceHolder: widget.imagePlaceHolder,
+
 
             )
                 : Container(),
@@ -231,6 +236,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
 
             const SizedBox(height: 10),
           //  IngredientChip(items: [selectedItem.toString()],),
+
             const SizedBox(height: 10),
             // ListView.builder(
             //   shrinkWrap: true,
@@ -279,7 +285,10 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                       },
                       child: Center(
                         child: Text(
+
+
                         widget.skipText ??  'Skip',
+
                           style: widget.customSkipStyle ?? const TextStyle(
                             color: Colors.blue,
                             fontSize: 16,
