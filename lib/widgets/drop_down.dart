@@ -159,7 +159,7 @@ class _DropDownState extends State<DropDown> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
                   height: MediaQuery.of(context).size.height*0.06,
-                  width: MediaQuery.of(context).size.width*0.54,
+                  width: MediaQuery.of(context).size.width*0.64,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12)

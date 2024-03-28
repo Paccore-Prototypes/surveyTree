@@ -1246,7 +1246,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
               questionData.listGridType == true ?
               Padding(
-                padding: const EdgeInsets.all(1.0),
+                padding: const EdgeInsets.all(8.0),
                 child: GridView.count(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
@@ -1633,7 +1633,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
           },
         ),
          SizedBox(
-          height: MediaQuery.of(context).size.height*0.25,
+          height: MediaQuery.of(context).size.height*0.01,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -1785,7 +1785,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       }
                     },
                     child:isLast ? widget.customLastButton ?? Container(
-                          width: MediaQuery.of(context).size.height*0.32,
+                          width: MediaQuery.of(context).size.width*0.32,
                           height: MediaQuery.of(context).size.height*0.05,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -2555,7 +2555,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             onTap: () => _selectDate(context),
             child: widget.dateTimeButton??Container(
 
-              width: MediaQuery.of(context).size.width*0.2,
+              width: MediaQuery.of(context).size.width*0.4,
               height: MediaQuery.of(context).size.height*0.05,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -2587,7 +2587,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height*0.2),
+          SizedBox(height: MediaQuery.of(context).size.height*0.03),
           Text(
             '$selectedDate',
             //  '00:00:00',
@@ -2596,7 +2596,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple.shade400),
           ),
-           SizedBox(height: MediaQuery.of(context).size.height*0.15),
+           SizedBox(height: MediaQuery.of(context).size.height*0.05),
           //   widget.isLastButton ??
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
