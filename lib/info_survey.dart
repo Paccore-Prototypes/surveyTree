@@ -59,7 +59,8 @@ this.optionTapNavigation=true,
     //  this.appBarIconThemeData,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
-        this.optionImageWidth});
+        this.optionImageWidth,this.customWidget,
+      this.customWidgetReturn});
 
   Widget?dateTimeButton;
   TextStyle?answerDescriptionStyle;
@@ -92,6 +93,8 @@ Color?activeCheckboxColor;
   TextStyle? searchItemQuestionStyle;
   double? optionImageHeight;
   double? optionImageWidth;
+  Widget? customWidget;
+  Function(int? questionId, String? question, List<String>? answer)? customWidgetReturn;
 
 
  // bool isAppBarVisible=true;
@@ -214,38 +217,37 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   Widget build(BuildContext context) {
 
     ImagePosition refEnum = ImagePosition.top;
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.transparent
-      ),
-      child: WillPopScope(
-        onWillPop: () async {
-          if(pageController.page?.toInt()==0){
+    return SafeArea(
+      child: Theme(
+        data: ThemeData(
+          primaryColor: Colors.transparent
+        ),
+        child: WillPopScope(
+          onWillPop: () async {
+            if(pageController.page?.toInt()==0){
 Navigator.pop(context);
-          }else{
-          answers=[];
-          answerdata='';
-          answerDescription = '';
-          pageController.previousPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease);
-          if (pageviewTree != null) {
-            isLast = false;
-            if (pageController.page?.toInt() == 0) {
-            } else {
-              removeTheNode();
-              setState(() {});
-            }
-          }}
-          return false;
-        },
-        child:  isLoad
-              ? const Center(child: CircularProgressIndicator())
-              : SizedBox(
-               //   width: MediaQuery.of(context).size.width,
-                 // height: MediaQuery.of(context).size.height,
-                //  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+            }else{
+            answers=[];
+            answerdata='';
+            answerDescription = '';
+            pageController.previousPage(
+                duration: const Duration(milliseconds: 500), curve: Curves.ease);
+            if (pageviewTree != null) {
+              isLast = false;
+              if (pageController.page?.toInt() == 0) {
+              } else {
+                removeTheNode();
+                setState(() {});
+              }
+            }}
+            return false;
+          },
+          child:  isLoad
+                ? const Center(child: CircularProgressIndicator())
+                : SizedBox(
+                 //   width: MediaQuery.of(context).size.width,
+                   // height: MediaQuery.of(context).size.height,
+                  //  color: Colors.transparent,
                     child: PageView.builder(
                       onPageChanged: (page) {
                         if (widget.onPageChanged != null) {
@@ -267,13 +269,13 @@ Navigator.pop(context);
                       },
                     ),
                   ),
-                ),
+        ),
       ),
     );
   }
 
 
-  Widget buildQuestion(List<TreeNode> data, int pageIndex,) {
+  Widget? buildQuestion(List<TreeNode> data, int pageIndex,) {
     String questionType = data[pageIndex].questionType;
     switch (questionType) {
       case "radio":
@@ -288,6 +290,8 @@ Navigator.pop(context);
         return buildLIstQuestioins(data[pageIndex]);
       case "text-field":
         return buildTextQuestion(data[pageIndex], pageIndex);
+        case"custom_widget" :
+        return widget.customWidget;
       case "drop_down":
         return DropDown(dropDownQuestionStyle: widget.dropDownQuestionStyle,
           descriptionStyle: widget.description,answerMap: answersMap,
@@ -593,7 +597,7 @@ Navigator.pop(context);
           //     : const SizedBox(),
           imagePosition == ImagePosition.top &&
               data.image != null &&
-              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01): SizedBox(height: MediaQuery.of(context).size.height),
+              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01): const SizedBox(height: 0),
           Text(
             data.question ?? "",
             style: widget.radioQuestion ??
@@ -1410,16 +1414,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             }
                             else {
                               if (questionData.isMandatory == true) {
-                                if (answers.isEmpty) {
+                                if (questionData.isMultiListSelects == false ? answerdata.isEmpty : answers.isEmpty) {
                                   ScaffoldMessenger.maybeOf(context)!
                                       .showSnackBar(const SnackBar(
                                     content:
-                                        Text('Please select at least one answer'),
+                                    Text('Please select at least one answer'),
                                     behavior: SnackBarBehavior.floating,
                                   ));
                                   return;
                                 }
-                                addTheFollowUpQuestion( questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
+                                addTheFollowUpQuestion(questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
                                     isNestedchoice: true,
                                     question: questionData.question,
                                     answeValue: {
