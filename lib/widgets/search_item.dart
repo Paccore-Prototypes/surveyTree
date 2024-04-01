@@ -310,11 +310,15 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                         widget.callBack!(selectedItem, widget.questionData,false);
                       }
                     },
+        child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                     child: widget.isLast
                         ? widget.customLastButton ??
                         Container(
-                          width: 150,
-                          height: 50,
+
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -343,9 +347,14 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                               ),
                             ),
                           ),
-                        ) : widget.customButton ?? Container(
-                      height: 40,
-                      width: 120,
+                        )
+                                  :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
+                        child:widget.customButton ?? Container(
+
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -376,7 +385,8 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                       ),
                     ),
                   ),
-                ],
+
+                  ))],
               ),
             ),
           ],
