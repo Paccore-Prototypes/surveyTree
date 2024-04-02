@@ -60,7 +60,6 @@ this.optionTapNavigation=true,
       // this.imagePlace,
         this.listTileShape,
         this.skipText,
-        this.textFieldDecoration,
         //    this.appBarBackgroundColor,
         //  this.appBarIconThemeData,
       this.textFieldDecoration,
@@ -95,7 +94,7 @@ Color?activeCheckboxColor;
   Color? activeRadioColor;
   // Color? activeRadioTextColor;
   Color? tileListColor;
-
+Color? dropDownColor;
 
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
@@ -133,10 +132,10 @@ Color?activeCheckboxColor;
   //IconThemeData? appBarIconThemeData;
 
   @override
-  State<InfoSurvey> createState() => _InfoSurveyState();
+  State<InfoSurvey> createState() => InfoSurveyState();
 }
 
-class _InfoSurveyState extends State<InfoSurvey>  {
+class InfoSurveyState extends State<InfoSurvey>  {
   // late AnimationController scaleController = AnimationController(
   //     duration: const Duration(milliseconds: 2000), vsync: this);
   // late Animation<double> scaleAnimation =
@@ -284,7 +283,7 @@ Navigator.pop(context);
                             widget.onPageChanged!(
                                 answersMap,
                                 pageviewTree?.nodes[pageController.page!.toInt()],
-                                page
+                                page,
                             );
                             print('-----------------------printing index with question data ${pageviewTree?.nodes[pageController.page!.toInt()].question}');
                           });
@@ -501,7 +500,10 @@ Navigator.pop(context);
       String? question,
       Map<String, dynamic>? answeValue,
       bool isRecrusive = false,
-      haveDescription = false}) async {
+      haveDescription = false,
+      bool? isScrollTonextPage=false
+      
+      }) async {
     TreeModel? model;
     TreeNode? node;
     resetOption();
@@ -534,6 +536,8 @@ Navigator.pop(context);
       model = TreeModel.fromJson(
           widget.treeModel.nodes[currentQuestionIndex].answerChoices[answer]);
       node = model.nodes[0];
+
+
     }
     if (node.questionType != "") {
       pageviewTree!.nodes.add(node);
@@ -545,6 +549,12 @@ Navigator.pop(context);
     //
     // print('----------------------------------Having the data from json decode  $answerValueJson');
     parseAnswers();
+
+    if(isScrollTonextPage??false){
+      pageController.nextPage(duration: const Duration(milliseconds: 500),
+                          curve: Curves.ease);
+
+    }
     setState(() {});
   }
 
