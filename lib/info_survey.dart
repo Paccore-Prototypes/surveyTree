@@ -160,24 +160,18 @@ class InfoSurveyState extends State<InfoSurvey>  {
   Map<String,dynamic>? listAnswer;
 
 
-
-void onCustomWidgetNextTapped(int questionId,String answerdata,String question,int score){
-  addTheFollowUpQuestion(answerdata,
-                      isScrollTonextPage: true,
-                      
-                              question:question,
-                                                        isNestedchoice: true,
-
-                              answeValue: {
-                                'id': questionId,
-                                'question-type': 'custom_widget',
-                                'score': score??0,
-                                    
-                                    
-                                'answer': answerdata
-                              });
-
-}
+  void onCustomWidgetNextTapped(int questionId, String answerdata, String question, int score) {
+    addTheFollowUpQuestion(answerdata,
+        isScrollTonextPage: true,
+        question: question,
+        isNestedchoice: true,
+        answeValue: {
+          'id': questionId,
+          'question-type': 'custom_widget',
+          'score': score ?? 0,
+          'answer': answerdata
+        });
+  }
 
   Future<void> modelJson() async {
     setState(() {
@@ -501,6 +495,7 @@ Navigator.pop(context);
 
   void parseAnswers() {
     jsonData = const JsonEncoder.withIndent('  ').convert(answersMap);
+    print('printing the all answer-map values $jsonData');
   }
 
   void addTheFollowUpQuestion(String answer,
