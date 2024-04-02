@@ -10,6 +10,10 @@ import '../utils/imageparser.dart';
 class DropDown extends StatefulWidget {
   DropDown({Key? key, required this.questionData,
     required this.callBack,
+    this.dropDownHeight,
+    this.dropDownColor,
+    this.dropDownDecoration,
+    this.dropDownWidth,
     required this.isLast,
     this.imagePlaceHolder,
     this.questionContentAlignment,
@@ -22,7 +26,11 @@ class DropDown extends StatefulWidget {
       : super(key: key);
   final TreeNode questionData;
   bool isLast = false;
+ double?dropDownHeight;
+  double?dropDownWidth;
+  BoxDecoration?dropDownDecoration;
   String? imagePlaceHolder;
+  Color? dropDownColor;
   TextStyle? dropDownQuestionStyle;
   TextStyle? descriptionStyle;
   Widget? customButton;
@@ -159,9 +167,9 @@ class _DropDownState extends State<DropDown> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
-                  height: MediaQuery.of(context).size.height*0.06,
-                  width: MediaQuery.of(context).size.width*0.64,
-                  decoration: BoxDecoration(
+                  height: widget.dropDownHeight ?? MediaQuery.of(context).size.height * 0.06,
+                  width: widget.dropDownWidth ?? MediaQuery.of(context).size.width * 0.64,
+                  decoration: widget.dropDownDecoration ?? BoxDecoration(
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12)
                   ),
@@ -169,7 +177,7 @@ class _DropDownState extends State<DropDown> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: DropdownButtonFormField<String>(borderRadius: BorderRadius.circular(12),
-                        value: dropdownValue,
+                        value: dropdownValue,dropdownColor: widget.dropDownColor ?? Colors.white,
                         iconSize: 30,
                         onChanged: (String? value) {
                           setState(() {
@@ -233,11 +241,15 @@ class _DropDownState extends State<DropDown> {
                           widget.callBack!(dropdownValue, widget.questionData,false);
                         }
                       },
+        child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                       child: widget.isLast
                           ? widget.customLastButton ??
                           Container(
-                            width: MediaQuery.of(context).size.width*0.32,
-                            height: MediaQuery.of(context).size.height*0.05,
+
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
@@ -266,9 +278,14 @@ class _DropDownState extends State<DropDown> {
                                 ),
                               ),
                             ),
-                          ): widget.customButton ?? Container(
-                        height:MediaQuery.of(context).size.height*0.05,
-                        width: MediaQuery.of(context).size.width*0.32,
+                          )
+        :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
+                          child:widget.customButton ?? Container(
+
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -299,7 +316,7 @@ class _DropDownState extends State<DropDown> {
                         ),
                       ),
                     ),
-                  ],
+                    ))],
                 ),
               ),
             ],
