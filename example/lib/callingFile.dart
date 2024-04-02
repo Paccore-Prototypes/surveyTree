@@ -5,9 +5,8 @@ import 'package:infosurvey/info_survey.dart';
 import 'package:infosurvey/tree_node.dart';
 
 class ImportingProperties extends StatefulWidget {
-  final AnswerCallback? onAnswerSelected;
 
-  const ImportingProperties({super.key,this.onAnswerSelected});
+  const ImportingProperties({super.key,});
 
   @override
   State<ImportingProperties> createState() => _ImportingPropertiesState();
@@ -40,11 +39,10 @@ class _ImportingPropertiesState extends State<ImportingProperties>
   }
 
 
-  onTap(String? answer) {
-    if (widget.onAnswerSelected != null) {
-      widget.onAnswerSelected!(answer!);
-    }
-  }
+
+
+
+
 
   @override
   void dispose() {
@@ -164,9 +162,6 @@ key: infoSurveyKey,
 
 
 
-                                     if (widget.onAnswerSelected != null) {
-                                       widget.onAnswerSelected!(answer);
-                                     }
                                      print('-------------------------------------checking the answerdata value--$answerdata');
                                    } else {
                                          answerdata = '';
@@ -184,23 +179,25 @@ key: infoSurveyKey,
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: InkWell(
                     onTap: (){
-                      infoSurveyKey.currentState?.addTheFollowUpQuestion(answerdata,
-                      isScrollTonextPage: true,
-                      
-                              question:question,
-                                                        isNestedchoice: true,
 
-                              answeValue: {
-                                'id': questionId,
-                                'question-type': questionType,
-                                'score': score??0,
+                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, answerdata, question, score??0);
+                      // infoSurveyKey.currentState?.addTheFollowUpQuestion(answerdata,
+                      // isScrollTonextPage: true,
+                      
+                      //         question:question,
+                      //                                   isNestedchoice: true,
+
+                      //         answeValue: {
+                      //           'id': questionId,
+                      //           'question-type': questionType,
+                      //           'score': score??0,
                                     
                                     
-                                'answer': answerdata
-                              });
+                      //           'answer': answerdata
+                      //         });
                       
 
-                      onTap(answerdata);
+                     // onTap(answerdata);
                     },
                     child: Container(
                       height: 62,
@@ -232,10 +229,6 @@ key: infoSurveyKey,
             //
             // },
 
-            onAnswerSelected: (answer) {
-              // Do whatever you need with the selected answer
-              print('Selected ---------------------------------------------------------------answer: $answer');
-            },
             onPageChanged: (answerMap, questionData, index){
 
               setState(() {
