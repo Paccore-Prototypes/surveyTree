@@ -9,7 +9,6 @@ import 'package:infosurvey/widgets/search_item.dart';
 import '../answers.dart';
 import 'enum.dart';
 
-typedef AnswerCallback = void Function(String answer);
 
 
 class InfoSurvey extends StatefulWidget {
@@ -69,7 +68,7 @@ this.optionTapNavigation=true,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth,this.customWidget,
-        this.customWidgetReturn,this.onAnswerSelected});
+        this.customWidgetReturn,});
 
   Widget?dateTimeButton;
  double? dropDownHeight;
@@ -126,7 +125,7 @@ Color? dropDownColor;
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
-  final AnswerCallback? onAnswerSelected;
+  Function(String answer,String question, int score)? onCustomWidgetNextTapped; 
 
 //  Color? appBarBackgroundColor;
   //IconThemeData? appBarIconThemeData;
@@ -160,14 +159,25 @@ class InfoSurveyState extends State<InfoSurvey>  {
 
   Map<String,dynamic>? listAnswer;
 
-  void addAnswer(String answer) {
-    if (widget.onAnswerSelected != null) {
-      widget.onAnswerSelected!(answer);
-      print('Selected ---------------------------------------------------------------answer: $answer');
 
-    }
-  }
 
+void onCustomWidgetNextTapped(int questionId,String answerdata,String question,int score){
+  addTheFollowUpQuestion(answerdata,
+                      isScrollTonextPage: true,
+                      
+                              question:question,
+                                                        isNestedchoice: true,
+
+                              answeValue: {
+                                'id': questionId,
+                                'question-type': 'custom_widget',
+                                'score': score??0,
+                                    
+                                    
+                                'answer': answerdata
+                              });
+
+}
 
   Future<void> modelJson() async {
     setState(() {
@@ -491,8 +501,6 @@ Navigator.pop(context);
 
   void parseAnswers() {
     jsonData = const JsonEncoder.withIndent('  ').convert(answersMap);
-    print(
-        '---------------------------------getting all data from answersMap$jsonData');
   }
 
   void addTheFollowUpQuestion(String answer,
