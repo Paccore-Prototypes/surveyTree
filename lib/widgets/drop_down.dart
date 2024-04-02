@@ -241,10 +241,15 @@ class _DropDownState extends State<DropDown> {
                           widget.callBack!(dropdownValue, widget.questionData,false);
                         }
                       },
-        child:Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    child: Container(
+    constraints: widget.isLast
+    ? BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width * 0.5,
+    maxHeight: MediaQuery.of(context).size.height * 0.05,
+    )
+        : BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width * 0.3,
+    maxHeight: MediaQuery.of(context).size.height * 0.1,
     ),
                       child: widget.isLast
                           ? widget.customLastButton ??
@@ -279,12 +284,7 @@ class _DropDownState extends State<DropDown> {
                               ),
                             ),
                           )
-        :Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
-    ),
-                          child:widget.customButton ?? Container(
+      :widget.customButton ?? Container(
 
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -316,7 +316,7 @@ class _DropDownState extends State<DropDown> {
                         ),
                       ),
                     ),
-                    ))],
+                    )],
                 ),
               ),
             ],
