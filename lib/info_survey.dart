@@ -9,10 +9,16 @@ import 'package:infosurvey/widgets/search_item.dart';
 import '../answers.dart';
 import 'enum.dart';
 
+typedef AnswerCallback = void Function(String answer);
+
+
 class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
         this.radioTextColor,
+       this.dropDownColor,
+        this.dropDownHeight,
+        this.dropDownWidth,
         this.answerDescriptionStyle,
         this.dateTimeButton,
         this.activeCheckboxColor,
@@ -54,15 +60,21 @@ this.optionTapNavigation=true,
       // this.imagePlace,
         this.listTileShape,
         this.skipText,
+        this.textFieldDecoration,
+        //    this.appBarBackgroundColor,
+        //  this.appBarIconThemeData,
       this.textFieldDecoration,
+        this.dropDownDecoration,
   //    this.appBarBackgroundColor,
     //  this.appBarIconThemeData,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth,this.customWidget,
-      this.customWidgetReturn});
+        this.customWidgetReturn,this.onAnswerSelected});
 
   Widget?dateTimeButton;
+ double? dropDownHeight;
+double?dropDownWidth;
   TextStyle?answerDescriptionStyle;
 Color?radioTextColor;
 Color?activeCheckboxColor;
@@ -89,6 +101,7 @@ Color?activeCheckboxColor;
   TextStyle? textFieldQuestionStyle;
   TextStyle? buttonTextStyle;
   InputDecoration? textFieldDecoration;
+  BoxDecoration?dropDownDecoration;
   TextStyle? dropDownQuestionStyle;
   TextStyle? searchItemQuestionStyle;
   double? optionImageHeight;
@@ -114,6 +127,8 @@ Color?activeCheckboxColor;
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
+  final AnswerCallback? onAnswerSelected;
+
 //  Color? appBarBackgroundColor;
   //IconThemeData? appBarIconThemeData;
 
@@ -145,6 +160,15 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   List<Map<String, dynamic>>? jsonResult;
 
   Map<String,dynamic>? listAnswer;
+
+  void addAnswer(String answer) {
+    if (widget.onAnswerSelected != null) {
+      widget.onAnswerSelected!(answer);
+      print('Selected ---------------------------------------------------------------answer: $answer');
+
+    }
+  }
+
 
   Future<void> modelJson() async {
     setState(() {
@@ -215,7 +239,12 @@ class _InfoSurveyState extends State<InfoSurvey>  {
 
   @override
   Widget build(BuildContext context) {
-
+    // customWidgetReturnMain: (questionId, question, answers) {
+    //   if (widget.customWidgetReturn != null) {
+    //     widget.customWidgetReturn!(questionId, question, answers);
+    //     print('----------checking whether custom widget working or not $answers');
+    //   }
+    // };
     ImagePosition refEnum = ImagePosition.top;
     return SafeArea(
       child: Theme(
@@ -290,18 +319,20 @@ Navigator.pop(context);
         return buildLIstQuestioins(data[pageIndex]);
       case "text-field":
         return buildTextQuestion(data[pageIndex], pageIndex);
-        case"custom_widget" :
+      case"custom_widget" :
         return widget.customWidget;
       case "drop_down":
         return DropDown(dropDownQuestionStyle: widget.dropDownQuestionStyle,
           descriptionStyle: widget.description,answerMap: answersMap,
           skipText: widget.skipText,
           customSkipStyle: widget.customSkipStyle,
+          dropDownDecoration:widget.dropDownDecoration,
           customButton: widget.customButton,
           questionContentAlignment: widget.questionContentAlignment,
           customLastButton : widget.customLastButton,
+          dropDownColor: widget.dropDownColor,
           isLast: isLast,questionData: data[pageIndex],
-          imagePlaceHolder: widget.imagePlaceHolder,
+          imagePlaceHolder: widget.imagePlaceHolder,dropDownHeight:widget.dropDownHeight,dropDownWidth:widget.dropDownWidth,
           callBack: (data,callingBackData,fromSkip,){
           print('-----------------------------------building the drop down$data');
           if(callingBackData!=null){
@@ -635,8 +666,8 @@ Navigator.pop(context);
                   height: 0,
                 ),
           // widget.customSizedBox ??
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: MediaQuery.of(context).size.height*0.01
               ),
           imagePosition == ImagePosition.bottom &&
                   data.image != null &&
@@ -852,66 +883,76 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           }
                         }
                       },
-                      child: isLast ? widget.customLastButton ?? Container(
-                            width: isLast ? 150 : 120,
-                            height: isLast ? 50 : 40,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.teal,
-                                  Colors.teal.shade300,
+                   child:    isLast ? Container(
+
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+
+    ),
+                     child: widget.customLastButton ?? Container(
+
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal,
+                                    Colors.teal.shade300,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(5, 5),
+                                    blurRadius: 10,
+                                  )
                                 ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
                               ),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  offset: Offset(5, 5),
-                                  blurRadius: 10,
-                                )
-                              ],
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Submit',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                              child: const Center(
+                                child: Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
-                          )
-                      :widget.customButton ?? Container(
-                        width: isLast ? 150 : 120,
-                        height: isLast ? 50 : 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.teal,
-                              Colors.teal.shade300,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(5, 5),
-                              blurRadius: 10,
-                            )
-                          ],
+                   )
+                      :Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width*0.32,
+                          maxHeight: MediaQuery.of(context).size.height*0.05,
                         ),
-                        child: Center(
-                          child: Text(
-                            isLast ? 'Submit Survey' : 'Next',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                        child: widget.customButton ?? Container(
+
+
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.teal, Colors.teal.shade300],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              isLast ? 'Submit Survey' : 'Next',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
@@ -1302,7 +1343,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 11,
-                   childAspectRatio: 3.5/2.2,
+                  childAspectRatio: 3.5/2.2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
@@ -1411,27 +1452,27 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   behavior: SnackBarBehavior.floating,
                                 ));
                               }*/
-                            }
-                            else {
-                              if (questionData.isMandatory == true) {
-                                if (questionData.isMultiListSelects == false ? answerdata.isEmpty : answers.isEmpty) {
-                                  ScaffoldMessenger.maybeOf(context)!
-                                      .showSnackBar(const SnackBar(
-                                    content:
-                                    Text('Please select at least one answer'),
-                                    behavior: SnackBarBehavior.floating,
-                                  ));
-                                  return;
-                                }
-                                addTheFollowUpQuestion(questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
-                                    isNestedchoice: true,
-                                    question: questionData.question,
-                                    answeValue: {
-                                      'id': questionData.id,
-                                      'question-type': questionData.questionType,
-                                      'score': questionData.answerChoices == null
-                                          ? 0
-                                          : questionData.score,
+                          }
+                          else {
+                            if (questionData.isMandatory == true) {
+                              if (questionData.isMultiListSelects == false ? answerdata.isEmpty : answers.isEmpty) {
+                                ScaffoldMessenger.maybeOf(context)!
+                                    .showSnackBar(const SnackBar(
+                                  content:
+                                  Text('Please select at least one answer'),
+                                  behavior: SnackBarBehavior.floating,
+                                ));
+                                return;
+                              }
+                              addTheFollowUpQuestion(questionData.isMultiListSelects == false ? answerdata :answers.length==1?answers[0]:answers.toString(),
+                                  isNestedchoice: true,
+                                  question: questionData.question,
+                                  answeValue: {
+                                    'id': questionData.id,
+                                    'question-type': questionData.questionType,
+                                    'score': questionData.answerChoices == null
+                                        ? 0
+                                        : questionData.score,
                                     //  'answer':answers,
                                       'answer': questionData.isMultiListSelects==true? answers:answerdata,
                                       'optionDescription': answerDescription
@@ -1496,6 +1537,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               }
                             }
                           },
+                                child:Container(
+                        constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width*0.32,
+      maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                           child: isLast
                             ? widget.customLastButton ??
                                 Container(
@@ -1530,7 +1576,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     ),
                                   ),
                                 )
-                            : widget.customButton ??
+                              :Container(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width*0.32,
+                                maxHeight: MediaQuery.of(context).size.height*0.05,
+                              ),
+                            child:widget.customButton ??
                                 Container(
                                   width:  MediaQuery.of(context).size.width*0.32,
                                   height:  MediaQuery.of(context).size.height*0.05,
@@ -1563,7 +1614,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                     ),
                                   ),
                                 )),
-                  ],
+                        )),],
                 ),
               ),
             ],
@@ -1835,6 +1886,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         );
                       }
                     },
+        child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                     child:isLast ? widget.customLastButton ?? Container(
                           width: MediaQuery.of(context).size.width*0.32,
                           height: MediaQuery.of(context).size.height*0.05,
@@ -1867,9 +1923,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             ),
                           ),
                         )
-                    : widget.customButton ?? Container(
-                      width: MediaQuery.of(context).size.width*0.32,
-                      height: MediaQuery.of(context).size.height*0.05,
+                                  :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
+                    child: widget.customButton ?? Container(
+
                       decoration:
                           BoxDecoration(
                             gradient: LinearGradient(
@@ -1902,7 +1962,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       ),
                     ),
                   ),
-            ],
+                  )),],
           ),
         ),
       ],
@@ -2146,9 +2206,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             ),
                           ),
                         )
-                            : widget.customButton ?? Container(
-                          width: isLast ? 150 : 120,
-                          height: isLast ? 50 : 40,
+        :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
+                            child: widget.customButton ?? Container(
+
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -2179,7 +2243,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           ),
                         ),
                       ),
-                ],
+                      ),],
               ),
             )
           ],
@@ -2457,6 +2521,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         });
 
                       },
+        child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                       child: isLast ? widget.customLastButton ?? Container(
                             width: isLast ? 150 : 120,
                             height: isLast ? 50 : 40,
@@ -2489,9 +2558,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               ),
                             ),
                           )
-                      :widget.customButton ?? Container(
-                        width: MediaQuery.of(context).size.width * (isLast ? 0.32 : 0.32),
-                        height: MediaQuery.of(context).size.height * (isLast ? 0.05 : 0.05),
+        :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
+                      child:widget.customButton ?? Container(
+
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -2522,7 +2595,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         ),
                       ),
                     ),
-              ],
+                    )),],
             ),
           ),
         ],
@@ -2741,6 +2814,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               curve: Curves.ease);
                         }
                       },
+        child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.32,
+    maxHeight: MediaQuery.of(context).size.height*0.05,
+    ),
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           : widget.customButton ?? Container(
                         width: MediaQuery.of(context).size.width * (isLast ? 0.32 : 0.32),
@@ -2775,7 +2853,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         ),
                       ),
                     ),
-              ],
+                    ),],
             ),
           )
         ],
