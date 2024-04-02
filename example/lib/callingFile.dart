@@ -19,6 +19,8 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 
   TreeModel? model;
   bool isLoad = false;
+  String? questionType;
+  int? score;
   String question = '';
   String description = '';
   int questionId = 0;
@@ -59,6 +61,8 @@ class _ImportingPropertiesState extends State<ImportingProperties>
     TreeModel treeModel = TreeModel.fromJson(dataList);
     return treeModel;
   }
+      final GlobalKey<InfoSurveyState> infoSurveyKey = GlobalKey<InfoSurveyState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
             : model != null
             ? Center(
           child: InfoSurvey(
-
+key: infoSurveyKey,
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
@@ -152,9 +156,14 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                              ),
                                selected: isSelected,
                                onTap: () {
+
+
                                  setState(() {
                                    if (answerdata != answer) {
                                      answerdata = answer;
+
+
+
                                      if (widget.onAnswerSelected != null) {
                                        widget.onAnswerSelected!(answer);
                                      }
@@ -175,6 +184,22 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: InkWell(
                     onTap: (){
+                      infoSurveyKey.currentState?.addTheFollowUpQuestion(answerdata,
+                      isScrollTonextPage: true,
+                      
+                              question:question,
+                                                        isNestedchoice: true,
+
+                              answeValue: {
+                                'id': questionId,
+                                'question-type': questionType,
+                                'score': score??0,
+                                    
+                                    
+                                'answer': answerdata
+                              });
+                      
+
                       onTap(answerdata);
                     },
                     child: Container(
@@ -218,6 +243,9 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                 options = questionData.answerChoices;
                 questionId = questionData.id;
                 description = questionData.description!;
+                score=questionData.score??0;
+                questionType=questionData.questionType;
+
 
 
               });
@@ -230,6 +258,6 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       ),
           )
           : Container(),
-    );
+    ));
   }
 }
