@@ -9,6 +9,9 @@ import 'package:infosurvey/widgets/search_item.dart';
 import '../answers.dart';
 import 'enum.dart';
 
+typedef AnswerCallback = void Function(String answer);
+
+
 class InfoSurvey extends StatefulWidget {
   InfoSurvey(
       {super.key,
@@ -60,7 +63,7 @@ class InfoSurvey extends StatefulWidget {
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth,this.customWidget,
-        this.customWidgetReturn});
+        this.customWidgetReturn,this.onAnswerSelected});
 
   Widget?dateTimeButton;
   TextStyle?answerDescriptionStyle;
@@ -114,6 +117,8 @@ class InfoSurvey extends StatefulWidget {
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
+  final AnswerCallback? onAnswerSelected;
+
 //  Color? appBarBackgroundColor;
   //IconThemeData? appBarIconThemeData;
 
@@ -145,6 +150,15 @@ class _InfoSurveyState extends State<InfoSurvey>  {
   List<Map<String, dynamic>>? jsonResult;
 
   Map<String,dynamic>? listAnswer;
+
+  void addAnswer(String answer) {
+    if (widget.onAnswerSelected != null) {
+      widget.onAnswerSelected!(answer);
+      print('Selected ---------------------------------------------------------------answer: $answer');
+
+    }
+  }
+
 
   Future<void> modelJson() async {
     setState(() {
@@ -215,7 +229,12 @@ class _InfoSurveyState extends State<InfoSurvey>  {
 
   @override
   Widget build(BuildContext context) {
-
+    // customWidgetReturnMain: (questionId, question, answers) {
+    //   if (widget.customWidgetReturn != null) {
+    //     widget.customWidgetReturn!(questionId, question, answers);
+    //     print('----------checking whether custom widget working or not $answers');
+    //   }
+    // };
     ImagePosition refEnum = ImagePosition.top;
     return SafeArea(
       child: Theme(

@@ -164,6 +164,54 @@
       }]
     }
   },
+
+  {
+    "id": 402,
+    "isMandatory": false,
+    "question": "List your previous \ninterventions",
+    "questionType": "custom_widget",
+    "description": " Select all that apply.",
+    "image": "https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imagePosition": "middle",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "imagePlace": "center",
+    "answerChoices": {
+      "Wisdom Teeth":  null,
+      "Incisors": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 8
+        }
+      ],
+      "Canines": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 6
+        }
+      ],
+      "Premolars": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ],
+      "Molars": [
+        {
+          "question": null,
+          "questionType": null,
+          "answerChoices": null,
+          "score": 1
+        }
+      ]
+    }
+  },
   {
     "id": 903,
     "isMandatory": false,
@@ -330,46 +378,7 @@
     "questionType": "slider",
     "score": 6,
     "answerChoices": null
-  },
-
-  {
-    "id": 402,
-    "isMandatory": false,
-    "question": "How Many times do you eat per day?",
-    "questionType": "multipleChoices",
-    "description": " Descriptive content provides a wide range of information concerning a property itself as well as other information that may be of interest to potential customers.",
-    "image": "https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
-    "imagePosition": "middle",
-    "imageHeight": 150,
-    "imageWidth": 150,
-    "imagePlace": "center",
-    "answerChoices": {
-      "two":  null,
-      "three": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 8
-        }
-      ],
-      "one": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 6
-        }
-      ],
-      "four": [
-        {
-          "question": null,
-          "questionType": null,
-          "answerChoices": null,
-          "score": 1
-        }
-      ]
-    }
   }
+
 
 ]
