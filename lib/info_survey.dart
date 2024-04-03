@@ -593,375 +593,383 @@ Navigator.pop(context);
       );
     }
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          imagePosition == ImagePosition.top &&
-                  data.image != null &&
-                  data.image!.isNotEmpty
-              ? ImageParser(data:data,
-                            imagePaceHolder: widget.imagePlaceHolder,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12,right: 12),
+        child: Column(
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            imagePosition == ImagePosition.top &&
+                    data.image != null &&
+                    data.image!.isNotEmpty
+                ? ImageParser(data:data,
+                              imagePaceHolder: widget.imagePlaceHolder,
 
-              )
-          // SizedBox(
-          //   width: MediaQuery.of(context).size.width,
-          //       child:
-          //       Image.network(data.image!,
-          //           height: data.imageHeight?.toDouble(),
-          //           alignment: imagePlace == ImagePlace.left
-          //               ? Alignment.topLeft
-          //               : imagePlace == ImagePlace.right
-          //                   ? Alignment.topRight
-          //                   : Alignment.topCenter),
-          //     )
-              : Container(),
-
-          // imagePosition == ImagePosition.top &&
-          //         data.image != null &&
-          //         data.image!.isNotEmpty
-          //     ? widget.customSizedBox ??
-          //         const SizedBox(
-          //           height: 10,
-          //         )
-          //     : const SizedBox(),
-          imagePosition == ImagePosition.top &&
-              data.image != null &&
-              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01): const SizedBox(height: 0),
-          Text(
-            data.question ?? "",
-            style: widget.radioQuestion ??
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-
-          ),
-              const SizedBox(
-                height: 10,
-              ),
-          imagePosition == ImagePosition.middle &&
-                  data.image != null &&
-                  data.image!.isNotEmpty
-              ? ImageParser(data:data,
-              imagePaceHolder: widget.imagePlaceHolder,
-              )
-              : Container(),
-          imagePosition == ImagePosition.middle &&
-              data.image != null &&
-              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
-
-          // imagePosition == ImagePosition.middle &&
-          //         data.image != null &&
-          //         data.image!.isNotEmpty
-          //     ? widget.customSizedBox ??
-          //         const SizedBox(
-          //           height: 10,
-          //         )
-          //     : const SizedBox(),
-          data.description!.isNotEmpty
-              ? Text(
-                  data.description.toString(),
-                  style: widget.description ?? const TextStyle(fontSize: 12),
                 )
-              : const SizedBox(
-                  height: 0,
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //       child:
+            //       Image.network(data.image!,
+            //           height: data.imageHeight?.toDouble(),
+            //           alignment: imagePlace == ImagePlace.left
+            //               ? Alignment.topLeft
+            //               : imagePlace == ImagePlace.right
+            //                   ? Alignment.topRight
+            //                   : Alignment.topCenter),
+            //     )
+                : Container(),
+
+            // imagePosition == ImagePosition.top &&
+            //         data.image != null &&
+            //         data.image!.isNotEmpty
+            //     ? widget.customSizedBox ??
+            //         const SizedBox(
+            //           height: 10,
+            //         )
+            //     : const SizedBox(),
+            imagePosition == ImagePosition.top &&
+                data.image != null &&
+                data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01): const SizedBox(height: 0),
+            Text(
+              data.question ?? "",
+              style: widget.radioQuestion ??
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+            ),
+                const SizedBox(
+                  height: 10,
                 ),
-          // widget.customSizedBox ??
-               SizedBox(
-                height: MediaQuery.of(context).size.height*0.01
-              ),
-          imagePosition == ImagePosition.bottom &&
-                  data.image != null &&
-                  data.image!.isNotEmpty
-              ? ImageParser(data:data,
-                            imagePaceHolder: widget.imagePlaceHolder,
+            imagePosition == ImagePosition.middle &&
+                    data.image != null &&
+                    data.image!.isNotEmpty
+                ? ImageParser(data:data,
+                imagePaceHolder: widget.imagePlaceHolder,
+                )
+                : Container(),
+            imagePosition == ImagePosition.middle &&
+                data.image != null &&
+                data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
 
-              )
-              : Container(),
-          imagePosition == ImagePosition.bottom &&
-              data.image != null &&
-              data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
-          SizedBox(height:MediaQuery.of(context).size.height*0.01),
-          Column(
-            children: (data.answerChoices).keys.map<Widget>((answer) {
-              if (data.answerChoices[answer] != null && data.answerChoices[answer]!='') {
-                if (answersMap.containsKey(data.question)) {
-                  selectedValue = answersMap[data.question]['answer'];
+            // imagePosition == ImagePosition.middle &&
+            //         data.image != null &&
+            //         data.image!.isNotEmpty
+            //     ? widget.customSizedBox ??
+            //         const SizedBox(
+            //           height: 10,
+            //         )
+            //     : const SizedBox(),
+            data.description!.isNotEmpty
+                ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      data.description.toString(),
+                      style: widget.description ?? const TextStyle(fontSize: 12),
+                    ),
+                )
+                : const SizedBox(
+                    height: 0,
+                  ),
+            // widget.customSizedBox ??
+                 SizedBox(
+                  height: MediaQuery.of(context).size.height*0.01
+                ),
+            imagePosition == ImagePosition.bottom &&
+                    data.image != null &&
+                    data.image!.isNotEmpty
+                ? ImageParser(data:data,
+                              imagePaceHolder: widget.imagePlaceHolder,
+
+                )
+                : Container(),
+            imagePosition == ImagePosition.bottom &&
+                data.image != null &&
+                data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+            SizedBox(height:MediaQuery.of(context).size.height*0.01),
+            Column(
+              children: (data.answerChoices).keys.map<Widget>((answer) {
+                if (data.answerChoices[answer] != null && data.answerChoices[answer]!='') {
+                  if (answersMap.containsKey(data.question)) {
+                    selectedValue = answersMap[data.question]['answer'];
+                  }
                 }
-              }
-              //final bool isSelected = selectedValue == answer;
-            //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
-                return RadioListTile(
-                    title:  Text(answer,style: widget.optionRadioStyle ??
-                        TextStyle(
-                            color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
-                    value: answer,
-                    activeColor: widget.activeRadioColor ?? Colors.deepPurple,
-                    groupValue: selectedValue?.isNotEmpty ?? false
-                        ? selectedValue
-                        : null,
-                  //  groupValue: selectedValue,
-                   // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
-                    onChanged: (selectedAnswer) {
+                //final bool isSelected = selectedValue == answer;
+              //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
+                  return RadioListTile(
+                      title:  Text(answer,style: widget.optionRadioStyle ??
+                          TextStyle(
+                              color: selectedValue==answer? widget.radioTextColor ?? Colors.deepPurple:Colors.black,fontWeight: FontWeight.w400,fontSize: 16),),
+                      value: answer,
+                      activeColor: widget.activeRadioColor ?? Colors.deepPurple,
+                      groupValue: selectedValue?.isNotEmpty ?? false
+                          ? selectedValue
+                          : null,
+                    //  groupValue: selectedValue,
+                     // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
+                      onChanged: (selectedAnswer) {
 
-                      setState(() {
-                        selectedValue = selectedAnswer;
-                        answer = selectedAnswer!;
+                        setState(() {
+                          selectedValue = selectedAnswer;
+                          answer = selectedAnswer!;
+                        });
+                        if(isLast){
+                          answersMap[data.question!]={
+                            'id':data.id,
+                            'question-type':data.questionType,
+                            'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue]!=null?data.answerChoices[selectedValue][0]['score']:0,
+                            'answer':selectedAnswer
+                          };
+                          sumOfScoresData();
+
+                          // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                          //     SnackBar(content: Text('Your Score Is $sumOfScores')));
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                                _showSubmitDialog();
+
+}
+                        }else{
+                 addTheFollowUpQuestion(answer,
+                            isNestedchoice: true,
+                            haveDescription:
+                                data.description != null ? true : false,
+                            question: data.question,
+                            answeValue: {
+                              'id': data.id,
+                              'question-type': data.questionType,
+                              'score': data.answerChoices[selectedAnswer] != null
+                                  ? data.answerChoices[selectedAnswer][0]['score']
+                                  : 0,
+                              'answer':answer
+                            });
+
+
+                 answersMap[data.question!]={
+                   'id':data.id,
+                   'question-type':data.questionType,
+                   'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
+                   'answer':selectedAnswer
+                 };
+
+                        pageController.nextPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease);
+
+               }
                       });
-                      if(isLast){
-                        answersMap[data.question!]={
-                          'id':data.id,
-                          'question-type':data.questionType,
-                          'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue]!=null?data.answerChoices[selectedValue][0]['score']:0,
-                          'answer':selectedAnswer
-                        };
-                        sumOfScoresData();
-
-                        // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                        //     SnackBar(content: Text('Your Score Is $sumOfScores')));
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                              _showSubmitDialog();
-
-}
-                      }else{
-               addTheFollowUpQuestion(answer,
-                          isNestedchoice: true,
-                          haveDescription:
-                              data.description != null ? true : false,
-                          question: data.question,
-                          answeValue: {
-                            'id': data.id,
-                            'question-type': data.questionType,
-                            'score': data.answerChoices[selectedAnswer] != null
-                                ? data.answerChoices[selectedAnswer][0]['score']
-                                : 0,
-                            'answer':answer
-                          });
-
-
-               answersMap[data.question!]={
-                 'id':data.id,
-                 'question-type':data.questionType,
-                 'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
-                 'answer':selectedAnswer
-               };
-
-                      pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-
-             }
-                    });
-              // }
-            }).toList(),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height*0.03
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                data.isMandatory == false && isLast == false
-                    ? GestureDetector(
-                          onTap: () {
-                            addTheFollowUpQuestion('',
-                                isNestedchoice: true,
-                                question: data.question,
-                                answeValue: {'score': 0});
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          /* child:
-                  Container(
-                    width: 120,
-                    height:  40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                           Colors.blueGrey,
-                           Colors.blueGrey.shade200,
+                // }
+              }).toList(),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.03
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  data.isMandatory == false && isLast == false
+                      ? GestureDetector(
+                            onTap: () {
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: data.question,
+                                  answeValue: {'score': 0});
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            /* child:
+                    Container(
+                      width: 120,
+                      height:  40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                             Colors.blueGrey,
+                             Colors.blueGrey.shade200,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey.shade50,
+                            offset: const Offset(5, 5),
+                            blurRadius:  10,
+                          )
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.shade50,
-                          offset: const Offset(5, 5),
-                          blurRadius:  10,
-                        )
-                      ],
-                    ),*/
-                          child: Center(
-                            child:  Text(
-                              widget.skipText ?? 'Skip',
-                              style: widget.customSkipStyle ?? const TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.blue,
-                                  fontStyle: FontStyle.italic),
+                      ),*/
+                            child: Center(
+                              child:  Text(
+                                widget.skipText ?? 'Skip',
+                                style: widget.customSkipStyle ?? const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.blue,
+                                    fontStyle: FontStyle.italic),
+                              ),
                             ),
-                          ),
-                        )
-                    : const SizedBox(),
+                          )
+                      : const SizedBox(),
 
-                    GestureDetector(
-                      onTap: () {
-                        if (isLast) {
-                          if (answersMap.containsKey(data.question)) {
-                            sumOfScoresData();
+                      GestureDetector(
+                        onTap: () {
+                          if (isLast) {
+                            if (answersMap.containsKey(data.question)) {
+                              sumOfScoresData();
 
-                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                            //     SnackBar(
-                            //         content:
-                            //             Text('Your Score Is $sumOfScores')));
+                              // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                              //     SnackBar(
+                              //         content:
+                              //             Text('Your Score Is $sumOfScores')));
 
 if(widget.onSurveyEnd!=null){
 widget.onSurveyEnd!(sumOfScores, answersMap);
 }else{
-                                              _showSubmitDialog();
+                                                _showSubmitDialog();
 
 }
-                          } else {
-                            ScaffoldMessenger.maybeOf(context)!
-                                .showSnackBar(const SnackBar(
-                              content:
-                                  Text('Please select at least one answer'),
-                              behavior: SnackBarBehavior.floating,
-                            ));
-                          }
-                        } else {
-                          if (data.isMandatory == true) {
-                            if (answers.isEmpty) {
+                            } else {
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
                                 content:
                                     Text('Please select at least one answer'),
                                 behavior: SnackBarBehavior.floating,
                               ));
-                              return;
                             }
-                            addTheFollowUpQuestion('',
-                                isNestedchoice: true,
-                                question: data.question,
-                                answeValue: {
-                                  'id': data.id,
-                                  'question-type': data.questionType,
-                                  'score': data.answerChoices == null
-                                      ? 0
-                                      : data.score,
-                                  'answer': selectedValue
-                                });
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
                           } else {
-                            addTheFollowUpQuestion('',
-                                isNestedchoice: true,
-                                question: data.question,
-                                answeValue: {
-                                  'id': data.id,
-                                  'question-type': data.questionType,
-                                  'score': data.answerChoices == null
-                                      ? 0
-                                      : data.score,
-                                  'answer': selectedValue
-                                });
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
+                            if (data.isMandatory == true) {
+                              if (answers.isEmpty) {
+                                ScaffoldMessenger.maybeOf(context)!
+                                    .showSnackBar(const SnackBar(
+                                  content:
+                                      Text('Please select at least one answer'),
+                                  behavior: SnackBarBehavior.floating,
+                                ));
+                                return;
+                              }
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: data.question,
+                                  answeValue: {
+                                    'id': data.id,
+                                    'question-type': data.questionType,
+                                    'score': data.answerChoices == null
+                                        ? 0
+                                        : data.score,
+                                    'answer': selectedValue
+                                  });
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            } else {
+                              addTheFollowUpQuestion('',
+                                  isNestedchoice: true,
+                                  question: data.question,
+                                  answeValue: {
+                                    'id': data.id,
+                                    'question-type': data.questionType,
+                                    'score': data.answerChoices == null
+                                        ? 0
+                                        : data.score,
+                                    'answer': selectedValue
+                                  });
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
+                            }
                           }
-                        }
-                      },
-                   child:    isLast ? Container(
+                        },
+                     child:    isLast ? Container(
 
     constraints: BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width*0.5,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
 
     ),
-                     child: widget.customLastButton ?? Container(
-
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.teal,
-                                    Colors.teal.shade300,
+                       child: widget.customLastButton ?? Container(
+                         width: MediaQuery.of(context).size.width*0.32,
+                         height: MediaQuery.of(context).size.height*0.05,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.teal,
+                                      Colors.teal.shade300,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(5, 5),
+                                      blurRadius: 10,
+                                    )
                                   ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    offset: Offset(5, 5),
-                                    blurRadius: 10,
-                                  )
-                                ],
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                child: const Center(
+                                  child: Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                   )
-                      :Container(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width*0.32,
-                          maxHeight: MediaQuery.of(context).size.height*0.05,
-                        ),
-                        child: widget.customButton ?? Container(
-
-
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.teal, Colors.teal.shade300],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
-                              )
-                            ],
+                     )
+                        :Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width*0.5,
+                            maxHeight: MediaQuery.of(context).size.height*0.1,
                           ),
-                          child: Center(
-                            child: Text(
-                              isLast ? 'Submit Survey' : 'Next',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                          child: widget.customButton ?? Container(
+
+                            width: MediaQuery.of(context).size.width*0.32,
+                            height: MediaQuery.of(context).size.height*0.05,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.teal, Colors.teal.shade300],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                isLast ? 'Submit Survey' : 'Next',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -989,8 +997,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       imageOption.isNotEmpty ?
       Image.network(
             imageOption,
-             width: MediaQuery.of(context).size.width*0.1,
-            height: MediaQuery.of(context).size.width*0.1,
+             width: MediaQuery.of(context).size.width*0.17,
+            height: MediaQuery.of(context).size.width*0.17,
       ) : Container(),
        SizedBox(width: MediaQuery.of(context).size.width*0.1),
       Center(child: Text(answer)),
@@ -1144,7 +1152,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
         children: [
            SizedBox(height: MediaQuery.of(context).size.height*0.01,),
           SizedBox(
-            height: questionData.listGridType == true ? 100 : 60,
+            height: questionData.listGridType == true ? 92 : 60,
             child: ListTile(
               title: Center(child: questionData.listGridType == true ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1153,9 +1161,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: MediaQuery.of(context).size.width*0.1,
+                    width: MediaQuery.of(context).size.width*0.16,
 
-                    height: MediaQuery.of(context).size.width*0.1,
+                    height: MediaQuery.of(context).size.width*0.16,
 
                   ) : Container(),
                    SizedBox(width: MediaQuery.of(context).size.width*0.01,),
@@ -1168,8 +1176,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   imageOption.isNotEmpty ?
                   Image.network(
                     imageOption,
-                    width: MediaQuery.of(context).size.width*0.1,
-                    height:MediaQuery.of(context).size.height*0.1,
+                    width: MediaQuery.of(context).size.width*0.16,
+                    height:MediaQuery.of(context).size.height*0.16,
                   ) : Container(),
                    SizedBox(width: MediaQuery.of(context).size.width*0.01),
                   Center(child: Text(answer)),
@@ -1484,7 +1492,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               //  answerdata = '';
                                // answerDescription = '';
                                 setState(() {});
-                              });
+                              }
+                              );
                               pageController.nextPage(
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
@@ -1539,13 +1548,13 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           },
                                 child:Container(
                         constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width*0.32,
-      maxHeight: MediaQuery.of(context).size.height*0.05,
+                        maxWidth: MediaQuery.of(context).size.width*0.5,
+      maxHeight: MediaQuery.of(context).size.height*0.1,
     ),
                           child: isLast
                             ? widget.customLastButton ??
                                 Container(
-                                  width:MediaQuery.of(context).size.width*0.34,
+                                  width:MediaQuery.of(context).size.width*0.32,
                                   height: MediaQuery.of(context).size.height*0.05,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -1578,8 +1587,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 )
                               :Container(
                               constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width*0.32,
-                                maxHeight: MediaQuery.of(context).size.height*0.05,
+                                maxWidth: MediaQuery.of(context).size.width*0.5,
+                                maxHeight: MediaQuery.of(context).size.height*0.1,
                               ),
                             child:widget.customButton ??
                                 Container(
@@ -1643,329 +1652,333 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
       );
     }
 
-    return Column(
-      crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.end,
-      children: [
-         SizedBox(
-          height: MediaQuery.of(context).size.height*0.01,
-        ),
-        imagePosition == ImagePosition.top &&
-                questionData.image != null &&
-                questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData,
-                          imagePaceHolder: widget.imagePlaceHolder,
+    return Padding(
+      padding: const EdgeInsets.only(left: 12,right: 12),
+      child: Column(
+        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.end,
+        children: [
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
+          ),
+          imagePosition == ImagePosition.top &&
+                  questionData.image != null &&
+                  questionData.image!.isNotEmpty
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
 
-            )
-            : Container(),
-        imagePosition == ImagePosition.top &&
-            questionData.image != null &&
-            questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
-        Text(
-          questionData.question ?? "",
-          style: widget.sliderQuestionStyle ??
-              const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-         SizedBox(
-          height: MediaQuery.of(context).size.height*0.01,
-        ),
-        imagePosition == ImagePosition.middle &&
-                questionData.image != null &&
-                questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData,
-                          imagePaceHolder: widget.imagePlaceHolder,
-
-            )
-            : Container(),
-        imagePosition == ImagePosition.middle &&
-            questionData.image != null &&
-            questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0),
-
-        questionData.description!.isNotEmpty
-            ? Text(
-                questionData.description.toString(),
-                style: widget.description ?? const TextStyle(fontSize: 12),
               )
-            : const SizedBox(
-                height: 0,
-              ),
-         SizedBox(
-          height: MediaQuery.of(context).size.height*0.01,
-        ),
-        imagePosition == ImagePosition.bottom &&
-                questionData.image != null &&
-                questionData.image!.isNotEmpty
-            ? ImageParser(data:questionData,
-                          imagePaceHolder: widget.imagePlaceHolder,
+              : Container(),
+          imagePosition == ImagePosition.top &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+          Text(
+            questionData.question ?? "",
+            style: widget.sliderQuestionStyle ??
+                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
+          ),
+          imagePosition == ImagePosition.middle &&
+                  questionData.image != null &&
+                  questionData.image!.isNotEmpty
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
 
-            )
-            : Container(),
-        imagePosition == ImagePosition.bottom &&
-            questionData.image != null &&
-            questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
-        ValueListenableBuilder<double>(
-          valueListenable: sliderValue,
-          builder: (context, value, child) {
-            return Column(
-              children: [
+              )
+              : Container(),
+          imagePosition == ImagePosition.middle &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0),
+
+          questionData.description!.isNotEmpty
+              ? Text(
+                  questionData.description.toString(),
+                  style: widget.description ?? const TextStyle(fontSize: 12),
+                )
+              : const SizedBox(
+                  height: 0,
+                ),
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
+          ),
+          imagePosition == ImagePosition.bottom &&
+                  questionData.image != null &&
+                  questionData.image!.isNotEmpty
+              ? ImageParser(data:questionData,
+                            imagePaceHolder: widget.imagePlaceHolder,
+
+              )
+              : Container(),
+          imagePosition == ImagePosition.bottom &&
+              questionData.image != null &&
+              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+          ValueListenableBuilder<double>(
+            valueListenable: sliderValue,
+            builder: (context, value, child) {
+              return Column(
+                children: [
   SliderTheme(
-              data: const SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.always),
-              child:
+                data: const SliderThemeData(
+                    showValueIndicator: ShowValueIndicator.always),
+                child:
   Slider(
-                  value: sliderValue.value,
-                  divisions: 100,
-                  onChanged: (double newValue) {
-                      sliderValue.value = newValue;
-                  },
-                  max: 100,
-                  inactiveColor:
-                      widget.inactiveColorSlider ?? Colors.blueGrey.shade300,
-                  activeColor: widget.activeColorSlider ?? Colors.blueGrey,
-                  label: sliderValue.value.toStringAsFixed(0),
-                )),
-                // Text(
-                //   "Saved Value: ${sliderValue.value.toStringAsFixed(0)}",
-                //   style: TextStyle(
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.deepPurple.shade400),
-                // ),
-              ],
-            );
-          },
-        ),
-         SizedBox(
-          height: MediaQuery.of(context).size.height*0.01,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              questionData.isMandatory == false && isLast == false
-                  ? GestureDetector(
-                        onTap: () {
+                    value: sliderValue.value,
+                    divisions: 100,
+                    onChanged: (double newValue) {
+                        sliderValue.value = newValue;
+                    },
+                    max: 100,
+                    inactiveColor:
+                        widget.inactiveColorSlider ?? Colors.blueGrey.shade300,
+                    activeColor: widget.activeColorSlider ?? Colors.blueGrey,
+                    label: sliderValue.value.toStringAsFixed(0),
+                  )),
+                  // Text(
+                  //   "Saved Value: ${sliderValue.value.toStringAsFixed(0)}",
+                  //   style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.deepPurple.shade400),
+                  // ),
+                ],
+              );
+            },
+          ),
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.01,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                questionData.isMandatory == false && isLast == false
+                    ? GestureDetector(
+                          onTap: () {
+                            addTheFollowUpQuestion('',
+                                isNestedchoice: true,
+                                question: questionData.question,
+                                answeValue: {'score': 0});
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          },
+                          /* child:
+                    Container(
+                      width: 120,
+                      height:  40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                             Colors.blueGrey,
+                             Colors.blueGrey.shade200,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey.shade50,
+                            offset: const Offset(5, 5),
+                            blurRadius:  10,
+                          )
+                        ],
+                      ),*/
+                          child: Center(
+                            child: Text(
+                             widget.skipText ?? 'Skip',
+                              style: widget.customSkipStyle ?? const  TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        )
+                    : const SizedBox(),
+                    GestureDetector(
+                      onTap: () {
+                        String? ageGroup;
+                        double valueSlider = sliderValue.value;
+                        if (valueSlider < 10) {
+                          ageGroup = 'under_10';
+                        } else if (valueSlider >= 10 && valueSlider <= 20) {
+                          ageGroup = '10_to_20';
+                        } else if (valueSlider > 20 && valueSlider <= 30) {
+                          ageGroup = '20_to_30';
+                        } else if (valueSlider >= 10 && valueSlider <= 20) {
+                          ageGroup = '30_to_40';
+                        } else if (valueSlider > 20 && valueSlider <= 30) {
+                          ageGroup = '40_to_50';
+                        } else if (valueSlider >= 10 && valueSlider <= 20) {
+                          ageGroup = '50_to_60';
+                        } else if (valueSlider > 20 && valueSlider <= 30) {
+                          ageGroup = '60_to_70';
+                        } else if (valueSlider >= 10 && valueSlider <= 20) {
+                          ageGroup = '70_to_80';
+                        } else if (valueSlider > 20 && valueSlider <= 30) {
+                          ageGroup = '80_to_90';
+                        } else if (valueSlider >= 10 && valueSlider <= 20) {
+                          ageGroup = '90_to_100';
+                        } else {}
+
+                        switch (ageGroup) {
+                          case 'under_10':
+                            sliderScore = 1;
+                            break;
+                          case '10_to_20':
+                            sliderScore = 2;
+                            break;
+                          case '20_to_30':
+                            sliderScore = 3;
+                            break;
+                          case '30_to_40':
+                            sliderScore = 4;
+                            break;
+                          case '40_to_50':
+                            sliderScore = 5;
+                            break;
+                          case '50_to_60':
+                            sliderScore = 6;
+                            break;
+                          case '60_to_70':
+                            sliderScore = 7;
+                            break;
+                          case '70_to_80':
+                            sliderScore = 8;
+                            break;
+                          case '80_to_90':
+                            sliderScore = 9;
+                            break;
+                          case '90_to_100':
+                            sliderScore = 10;
+                            break;
+                          default:
+                            sliderScore = questionData.score!.toDouble();
+                            break;
+                        }
+
+                        if (isLast) {
+                          answersMap[questionData.question!] = {
+                            'id': questionData.id,
+                            'score': questionData.answerChoices == null
+                                ? 0
+                                : questionData.score,
+                            //  'score': sliderScore,
+                            'question-type': questionData.questionType,
+                            'answer': sliderValue.value.toStringAsFixed(0)
+                          };
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                                _showSubmitDialog();
+
+}
+                        } else {
                           addTheFollowUpQuestion('',
                               isNestedchoice: true,
                               question: questionData.question,
-                              answeValue: {'score': 0});
+                              answeValue: {
+                                'id': questionData.id,
+                                'question-type': questionData.questionType,
+                                //  'score': sliderScore,
+                                'score': questionData.answerChoices == null
+                                    ? 0
+                                    : questionData.score,
+                                'answer': sliderValue.value.toStringAsFixed(0)
+                              });
                           pageController.nextPage(
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeInOut,
                           );
-                        },
-                        /* child:
-                  Container(
-                    width: 120,
-                    height:  40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                           Colors.blueGrey,
-                           Colors.blueGrey.shade200,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.shade50,
-                          offset: const Offset(5, 5),
-                          blurRadius:  10,
-                        )
-                      ],
-                    ),*/
-                        child: Center(
+                        }
+                      },
+          child:Container(
+      constraints: BoxConstraints(
+      maxWidth: MediaQuery.of(context).size.width*0.5,
+      maxHeight: MediaQuery.of(context).size.height*0.1,
+      ),
+                      child:isLast ? widget.customLastButton ?? Container(
+                            width: MediaQuery.of(context).size.width*0.32,
+                            height: MediaQuery.of(context).size.height*0.05,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                                    :Container(
+      constraints: BoxConstraints(
+      maxWidth: MediaQuery.of(context).size.width*0.5,
+      maxHeight: MediaQuery.of(context).size.height*0.1,
+      ),
+                      child: widget.customButton ?? Container(
+                        width: MediaQuery.of(context).size.width*0.32,
+                        height: MediaQuery.of(context).size.height*0.05,
+                        decoration:
+                            BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                        child: const Center(
                           child: Text(
-                           widget.skipText ?? 'Skip',
-                            style: widget.customSkipStyle ?? const  TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.blue,
-                                fontStyle: FontStyle.italic),
+                           'Next',
+                            style:
+                                TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                           ),
-                        ),
-                      )
-                  : const SizedBox(),
-                  GestureDetector(
-                    onTap: () {
-                      String? ageGroup;
-                      double valueSlider = sliderValue.value;
-                      if (valueSlider < 10) {
-                        ageGroup = 'under_10';
-                      } else if (valueSlider >= 10 && valueSlider <= 20) {
-                        ageGroup = '10_to_20';
-                      } else if (valueSlider > 20 && valueSlider <= 30) {
-                        ageGroup = '20_to_30';
-                      } else if (valueSlider >= 10 && valueSlider <= 20) {
-                        ageGroup = '30_to_40';
-                      } else if (valueSlider > 20 && valueSlider <= 30) {
-                        ageGroup = '40_to_50';
-                      } else if (valueSlider >= 10 && valueSlider <= 20) {
-                        ageGroup = '50_to_60';
-                      } else if (valueSlider > 20 && valueSlider <= 30) {
-                        ageGroup = '60_to_70';
-                      } else if (valueSlider >= 10 && valueSlider <= 20) {
-                        ageGroup = '70_to_80';
-                      } else if (valueSlider > 20 && valueSlider <= 30) {
-                        ageGroup = '80_to_90';
-                      } else if (valueSlider >= 10 && valueSlider <= 20) {
-                        ageGroup = '90_to_100';
-                      } else {}
-
-                      switch (ageGroup) {
-                        case 'under_10':
-                          sliderScore = 1;
-                          break;
-                        case '10_to_20':
-                          sliderScore = 2;
-                          break;
-                        case '20_to_30':
-                          sliderScore = 3;
-                          break;
-                        case '30_to_40':
-                          sliderScore = 4;
-                          break;
-                        case '40_to_50':
-                          sliderScore = 5;
-                          break;
-                        case '50_to_60':
-                          sliderScore = 6;
-                          break;
-                        case '60_to_70':
-                          sliderScore = 7;
-                          break;
-                        case '70_to_80':
-                          sliderScore = 8;
-                          break;
-                        case '80_to_90':
-                          sliderScore = 9;
-                          break;
-                        case '90_to_100':
-                          sliderScore = 10;
-                          break;
-                        default:
-                          sliderScore = questionData.score!.toDouble();
-                          break;
-                      }
-
-                      if (isLast) {
-                        answersMap[questionData.question!] = {
-                          'id': questionData.id,
-                          'score': questionData.answerChoices == null
-                              ? 0
-                              : questionData.score,
-                          //  'score': sliderScore,
-                          'question-type': questionData.questionType,
-                          'answer': sliderValue.value.toStringAsFixed(0)
-                        };
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                              _showSubmitDialog();
-
-}
-                      } else {
-                        addTheFollowUpQuestion('',
-                            isNestedchoice: true,
-                            question: questionData.question,
-                            answeValue: {
-                              'id': questionData.id,
-                              'question-type': questionData.questionType,
-                              //  'score': sliderScore,
-                              'score': questionData.answerChoices == null
-                                  ? 0
-                                  : questionData.score,
-                              'answer': sliderValue.value.toStringAsFixed(0)
-                            });
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-        child:Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
-    ),
-                    child:isLast ? widget.customLastButton ?? Container(
-                          width: MediaQuery.of(context).size.width*0.32,
-                          height: MediaQuery.of(context).size.height*0.05,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal,
-                                Colors.teal.shade300,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
-                              )
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        )
-                                  :Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
-    ),
-                    child: widget.customButton ?? Container(
-
-                      decoration:
-                          BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal,
-                                Colors.teal.shade300,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
-                              )
-                            ],
-                          ),
-                      child: const Center(
-                        child: Text(
-                         'Next',
-                          style:
-                              TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
                         ),
                       ),
                     ),
-                  ),
-                  )),],
+                    )),],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -1982,7 +1995,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.only(left: 12,right: 12),
         child: Column(
           crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
           children: [
@@ -2208,11 +2221,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                         )
         :Container(
     constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
     ),
                             child: widget.customButton ?? Container(
-
+                              width: MediaQuery.of(context).size.width*0.32,
+                              height: MediaQuery.of(context).size.height*0.05,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -2273,332 +2287,336 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
-        children: [
-           SizedBox(
-            height: MediaQuery.of(context).size.height*0.01
-          ),
-          imagePosition == ImagePosition.top &&
-                  questionData.image != null &&
-                  questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12,right: 12),
+        child: Column(
+          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+          children: [
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01
+            ),
+            imagePosition == ImagePosition.top &&
+                    questionData.image != null &&
+                    questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
 
-              )
-              : Container(),
-          imagePosition == ImagePosition.top &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
-          Text(
-            questionData.question ?? "",
-            style: widget.checkBoxQuestionStyle ??
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-           SizedBox(
-            height:MediaQuery.of(context).size.height*0.01
-          ),
-          imagePosition == ImagePosition.middle &&
-                  questionData.image != null &&
-                  questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
-
-              )
-              : Container(),
-          imagePosition == ImagePosition.middle &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
-          questionData.description!.isNotEmpty
-              ? Text(
-                  questionData.description.toString(),
-                  style: widget.description ?? const TextStyle(fontSize: 12),
                 )
-              : const SizedBox(
-                  height: 0,
-                ),
-           SizedBox(
-            height: MediaQuery.of(context).size.height*0.01,
-          ),
-          imagePosition == ImagePosition.bottom &&
-                  questionData.image != null &&
-                  questionData.image!.isNotEmpty
-              ? ImageParser(data:questionData,
-                            imagePaceHolder: widget.imagePlaceHolder,
+                : Container(),
+            imagePosition == ImagePosition.top &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+            Text(
+              questionData.question ?? "",
+              style: widget.checkBoxQuestionStyle ??
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+             SizedBox(
+              height:MediaQuery.of(context).size.height*0.01
+            ),
+            imagePosition == ImagePosition.middle &&
+                    questionData.image != null &&
+                    questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
 
-              )
-              : Container(),
-          imagePosition == ImagePosition.top &&
-              questionData.image != null &&
-              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
-          SizedBox(height:MediaQuery.of(context).size.height*0.01),
+                )
+                : Container(),
+            imagePosition == ImagePosition.middle &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+            questionData.description!.isNotEmpty
+                ? Text(
+                    questionData.description.toString(),
+                    style: widget.description ?? const TextStyle(fontSize: 12),
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
+             SizedBox(
+              height: MediaQuery.of(context).size.height*0.01,
+            ),
+            imagePosition == ImagePosition.bottom &&
+                    questionData.image != null &&
+                    questionData.image!.isNotEmpty
+                ? ImageParser(data:questionData,
+                              imagePaceHolder: widget.imagePlaceHolder,
 
-          Column(
+                )
+                : Container(),
+            imagePosition == ImagePosition.top &&
+                questionData.image != null &&
+                questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01):const SizedBox(height: 0,),
+            SizedBox(height:MediaQuery.of(context).size.height*0.01),
 
-            children: (questionData.answerChoices)
-                .keys
-                .map<Widget>((answer) {
-              return CheckboxListTile(
-                title: Text(
-                  answer,
-                  style: widget.optionCheckBoxStyle ??
-                      const TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 16),
-                ),
+            Column(
 
-                activeColor: widget.activeCheckboxColor ?? Colors.indigo,
-                value: answers.contains(answer),
-                  onChanged: (bool? selected) {
-                    setState(() {
-                      if (selected ?? false) {
-                        if (!answers.contains(answer)) {
-                          answers.add(answer);
-                        }
-                      } else {
-                        answers.remove(answer);
-                      }
-                    });
-                  } );
-            }).toList(),
-          ),
-          SizedBox(
-            height:MediaQuery.of(context).size.height*0.01
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                questionData.isMandatory == false && isLast == false
-                    ? GestureDetector(
-                          onTap: () {
-                            addTheFollowUpQuestion('',
-                                isNestedchoice: true,
-                                question: questionData.question,
-                                answeValue: {'score': 0});
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          /* child:
-                  Container(
-                    width: 120,
-                    height:  40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.blueGrey,
-                          Colors.blueGrey.shade200,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(5, 5),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),*/
-                          child: Center(
-                            child: Text(
-                            widget.skipText ??  'Skip',
-                              style:  widget.customSkipStyle ?? const TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.blue,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        )
-                    : const SizedBox(),
+              children: (questionData.answerChoices)
+                  .keys
+                  .map<Widget>((answer) {
+                return CheckboxListTile(
+                  title: Text(
+                    answer,
+                    style: widget.optionCheckBoxStyle ??
+                        const TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 16),
+                  ),
 
-                    GestureDetector(
-                      onTap: () {
-                        int score = 0;
-                        if (questionData.isMandatory == true) {
-                          if (answers.isEmpty) {
-                            ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please select at least one option')));
-                            return;
+                  activeColor: widget.activeCheckboxColor ?? Colors.indigo,
+                  value: answers.contains(answer),
+                    onChanged: (bool? selected) {
+                      setState(() {
+                        if (selected ?? false) {
+                          if (!answers.contains(answer)) {
+                            answers.add(answer);
                           }
-                          // for (int i = 0; i < answers.length; i++) {
-                          //   if (questionData.answerChoices != null) {
-                          //     score = score +
-                          //         questionData.answerChoices[answers[i]][0]
-                          //             ['score'] as int;
-                          //   }
-                          // }
-                          if (isLast) {
-                            answersMap[questionData.question] = {
-                              'id': questionData.id,
-                              'question-type': questionData.questionType,
-                              'score': score,
-                              'answer': answers
-                            };
-                            sumOfScoresData();
-                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                            //     SnackBar(
-                            //         content:
-                            //             Text('Your Score Is $sumOfScores')));
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                              _showSubmitDialog();
-
-}
-                          } else {
-                            setState(() {
-                              addTheFollowUpQuestion(answers.toString(),
-                                  isNestedchoice: true,
-                                  question: questionData.question,
-                                  answeValue: {
-                                    'id': questionData.id,
-                                    'question-type': questionData.questionType,
-                                    'score': score,
-                                    'answer': answers
-                                  });
-                              answers=[];
-
-                              pageController.nextPage(
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut,
-                              );
-                            });
-                          }
-
                         } else {
-                          if (isLast) {
-                            answersMap[questionData.question] = {
-                              'id': questionData.id,
-                              'question-type': questionData.questionType,
-                              'score': score,
-                              'answer': answers
-                            };
-                            sumOfScoresData();
-                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                            //     SnackBar(
-                            //         content:
-                            //             Text('Your Score Is $sumOfScores')));
-                            if(widget.onSurveyEnd!=null){
-                              widget.onSurveyEnd!(sumOfScores, answersMap);
-                            }else{
-                              _showSubmitDialog();
-
-                            }
-                          }else {
-                            setState(() {
-                              addTheFollowUpQuestion(answers.toString(),
+                          answers.remove(answer);
+                        }
+                      });
+                    } );
+              }).toList(),
+            ),
+            SizedBox(
+              height:MediaQuery.of(context).size.height*0.01
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  questionData.isMandatory == false && isLast == false
+                      ? GestureDetector(
+                            onTap: () {
+                              addTheFollowUpQuestion('',
                                   isNestedchoice: true,
                                   question: questionData.question,
-                                  answeValue: {
-                                    'id': questionData.id,
-                                    'question-type': questionData.questionType,
-                                    'score': score,
-                                    'answer': answers
-                                  });
-                              answers = [];
-
+                                  answeValue: {'score': 0});
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
                               );
-                            });
-                          }
-                        }
-                        Future.delayed(Duration(milliseconds:800)).then((value) {
-                          answers=[];
-                          setState(() {
-
-                          });
-
-                        });
-
-                      },
-        child:Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
-    ),
-                      child: isLast ? widget.customLastButton ?? Container(
-                            width: isLast ? 150 : 120,
-                            height: isLast ? 50 : 40,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.teal,
-                                  Colors.teal.shade300,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  offset: Offset(5, 5),
-                                  blurRadius: 10,
-                                )
-                              ],
-                            ),
+                            },
+                            /* child:
+                    Container(
+                      width: 120,
+                      height:  40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.blueGrey,
+                            Colors.blueGrey.shade200,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(5, 5),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),*/
                             child: Center(
                               child: Text(
-                                isLast ? 'Submit Survey' : 'Next',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              widget.skipText ??  'Skip',
+                                style:  widget.customSkipStyle ?? const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.blue,
+                                    fontStyle: FontStyle.italic),
                               ),
                             ),
                           )
-        :Container(
-    constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
-    ),
-                      child:widget.customButton ?? Container(
+                      : const SizedBox(),
 
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.teal,
-                              Colors.teal.shade300,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(5, 5),
-                              blurRadius: 10,
+                      GestureDetector(
+                        onTap: () {
+                          int score = 0;
+                          if (questionData.isMandatory == true) {
+                            if (answers.isEmpty) {
+                              ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'Please select at least one option')));
+                              return;
+                            }
+                            // for (int i = 0; i < answers.length; i++) {
+                            //   if (questionData.answerChoices != null) {
+                            //     score = score +
+                            //         questionData.answerChoices[answers[i]][0]
+                            //             ['score'] as int;
+                            //   }
+                            // }
+                            if (isLast) {
+                              answersMap[questionData.question] = {
+                                'id': questionData.id,
+                                'question-type': questionData.questionType,
+                                'score': score,
+                                'answer': answers
+                              };
+                              sumOfScoresData();
+                              // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                              //     SnackBar(
+                              //         content:
+                              //             Text('Your Score Is $sumOfScores')));
+if(widget.onSurveyEnd!=null){
+widget.onSurveyEnd!(sumOfScores, answersMap);
+}else{
+                                                _showSubmitDialog();
+
+}
+                            } else {
+                              setState(() {
+                                addTheFollowUpQuestion(answers.toString(),
+                                    isNestedchoice: true,
+                                    question: questionData.question,
+                                    answeValue: {
+                                      'id': questionData.id,
+                                      'question-type': questionData.questionType,
+                                      'score': score,
+                                      'answer': answers
+                                    });
+                                answers=[];
+
+                                pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              });
+                            }
+
+                          } else {
+                            if (isLast) {
+                              answersMap[questionData.question] = {
+                                'id': questionData.id,
+                                'question-type': questionData.questionType,
+                                'score': score,
+                                'answer': answers
+                              };
+                              sumOfScoresData();
+                              // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                              //     SnackBar(
+                              //         content:
+                              //             Text('Your Score Is $sumOfScores')));
+                              if(widget.onSurveyEnd!=null){
+                                widget.onSurveyEnd!(sumOfScores, answersMap);
+                              }else{
+                                _showSubmitDialog();
+
+                              }
+                            }else {
+                              setState(() {
+                                addTheFollowUpQuestion(answers.toString(),
+                                    isNestedchoice: true,
+                                    question: questionData.question,
+                                    answeValue: {
+                                      'id': questionData.id,
+                                      'question-type': questionData.questionType,
+                                      'score': score,
+                                      'answer': answers
+                                    });
+                                answers = [];
+
+                                pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              });
+                            }
+                          }
+                          Future.delayed(Duration(milliseconds:800)).then((value) {
+                            answers=[];
+                            setState(() {
+
+                            });
+
+                          });
+
+                        },
+          child:Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
+    ),
+                        child: isLast ? widget.customLastButton ?? Container(
+                              width: isLast ? 150 : 120,
+                              height: isLast ? 50 : 40,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal,
+                                    Colors.teal.shade300,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(5, 5),
+                                    blurRadius: 10,
+                                  )
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  isLast ? 'Submit Survey' : 'Next',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
                             )
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            isLast ? 'Submit Survey' : 'Next',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+          :Container(
+    constraints: BoxConstraints(
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
+    ),
+                        child:widget.customButton ?? Container(
+                          width: MediaQuery.of(context).size.width*0.32,
+                          height: MediaQuery.of(context).size.height*0.05,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal,
+                                Colors.teal.shade300,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(5, 5),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              isLast ? 'Submit Survey' : 'Next',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    )),],
+                      )),],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -2613,7 +2631,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     }
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 12,right: 12),
       child: Column(
         crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
         children: [
@@ -2816,8 +2834,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       },
         child:Container(
     constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
     ),
                       child: isLast ? widget.customLastButton ?? Container(color: Colors.blue,child: const Text('Submit',style: TextStyle(color: Colors.white),),)
                           : widget.customButton ?? Container(
@@ -2873,8 +2891,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
             AlertDialog(
               elevation: 0,
                insetPadding : EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.25, // Adjust these factors as needed
-        bottom: MediaQuery.of(context).size.height * 0.23, // Adjust these factors as needed
+            top: MediaQuery.of(context).size.height * 0.25,
+        bottom: MediaQuery.of(context).size.height * 0.23,
         ),
               title: const Text('Submit Survey?'),
               content: Column(
