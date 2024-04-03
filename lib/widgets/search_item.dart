@@ -98,7 +98,8 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10,right: 10),
+          padding: const EdgeInsets.only(left: 12,right: 12),
+
           child: Column(
             crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
             children: [
@@ -176,6 +177,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                   });
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
+
                   return SizedBox(
                     width:  widget.searchTextFieldWidth ?? 330,
                     child: TextField(
@@ -324,12 +326,14 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                       },
           child:Container(
     constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
     ),
                       child: widget.isLast
                           ? widget.customLastButton ??
                           Container(
+                            width: MediaQuery.of(context).size.width*0.32,
+                            height: MediaQuery.of(context).size.height*0.05,
 
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -362,10 +366,12 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                           )
                                     :Container(
     constraints: BoxConstraints(
-    maxWidth: MediaQuery.of(context).size.width*0.32,
-    maxHeight: MediaQuery.of(context).size.height*0.05,
+    maxWidth: MediaQuery.of(context).size.width*0.5,
+    maxHeight: MediaQuery.of(context).size.height*0.1,
     ),
                           child:widget.customButton ?? Container(
+                            width: MediaQuery.of(context).size.width*0.32,
+                            height: MediaQuery.of(context).size.height*0.05,
 
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
