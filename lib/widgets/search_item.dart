@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,10 @@ class SearchItem extends StatefulWidget {
     this.customButton,
     this.customLastButton,
     this.skipText,
-    this.customSkipStyle,this.answerMap})
+    this.customSkipStyle,
+    this.answerMap,
+    this.textFieldStyle,
+    this.searchTextFieldWidth})
       : super(key: key);
   final TreeNode questionData;
   bool isLast = false;
@@ -28,8 +32,10 @@ class SearchItem extends StatefulWidget {
   String? skipText;
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
+  TextStyle? textFieldStyle;
   HashMap<String, dynamic>? answerMap;
   final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
+  double? searchTextFieldWidth;
 
   @override
   State<SearchItem> createState() => _SearchItemState();
@@ -91,305 +97,312 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 10,),
-            imagePosition == ImagePosition.top &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
-              imagePaceHolder: widget.imagePlaceHolder,
-
-
-            )
-                : Container(),
-            imagePosition == ImagePosition.top &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            Text(
-              widget.questionData.question ?? "",
-              style: widget.searchItemQuestionStyle ??
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            imagePosition == ImagePosition.middle &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10,right: 10),
+          child: Column(
+            crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 10,),
+              imagePosition == ImagePosition.top &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
                 imagePaceHolder: widget.imagePlaceHolder,
 
-            )
-                : Container(),
-            imagePosition == ImagePosition.middle &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            widget.questionData.description!.isNotEmpty
-                ? Text(
-              widget.questionData.description.toString(),
-              style:  widget.description ??
-                  const TextStyle(fontSize: 12),
-            )
-                : const SizedBox(
-              height: 0,
-            ),
-            imagePosition == ImagePosition.bottom &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty
-                ? ImageParser(data:widget.questionData,
-               imagePaceHolder: widget.imagePlaceHolder,
 
-            )
-                : Container(),
-            imagePosition == ImagePosition.bottom &&
-                widget.questionData.image != null &&
-                widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
-            const SizedBox(height: 10),
+              )
+                  : Container(),
+              imagePosition == ImagePosition.top &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              Text(
+                widget.questionData.question ?? "",
+                style: widget.searchItemQuestionStyle ??
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              imagePosition == ImagePosition.middle &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
+                  imagePaceHolder: widget.imagePlaceHolder,
 
-            Autocomplete<String>(
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                if (!_userHasTyped && textEditingValue.text.isEmpty) {
-                  return options.take(options.length);
-                } else if (textEditingValue.text.isEmpty) {
-                  return const Iterable<String>.empty();
-                } else {
-                  return options.where((String option) {
-                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+              )
+                  : Container(),
+              imagePosition == ImagePosition.middle &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              widget.questionData.description!.isNotEmpty
+                  ? Text(
+                widget.questionData.description.toString(),
+                style:  widget.description ??
+                    const TextStyle(fontSize: 12),
+              )
+                  : const SizedBox(
+                height: 0,
+              ),
+              imagePosition == ImagePosition.bottom &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty
+                  ? ImageParser(data:widget.questionData,
+                 imagePaceHolder: widget.imagePlaceHolder,
+
+              )
+                  : Container(),
+              imagePosition == ImagePosition.bottom &&
+                  widget.questionData.image != null &&
+                  widget.questionData.image!.isNotEmpty ? const SizedBox(height: 10,):const SizedBox(height: 0,),
+              const SizedBox(height: 10),
+
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (!_userHasTyped && textEditingValue.text.isEmpty) {
+                    return options.take(options.length);
+                  } else if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  } else {
+                    return options.where((String option) {
+                      return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                    });
+                  }
+                },
+                onSelected: (String selection) {
+                  setState(() {
+                    selectedItem.add(selection);
+                  //  selectedItem = selection;
+                    _userHasTyped = true;
                   });
-                }
-              },
-              onSelected: (String selection) {
-                setState(() {
-                  selectedItem.add(selection);
-                //  selectedItem = selection;
-                  _userHasTyped = true;
-                });
-              },
-              fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
-                return TextField(
-                  controller: fieldTextEditingController,
-                  focusNode: fieldFocusNode,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.blueGrey.shade50,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blueGrey.shade200),
-                      borderRadius: BorderRadius.circular(16.0),
+                },
+                fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
+                  return SizedBox(
+                    width:  widget.searchTextFieldWidth ?? 330,
+                    child: TextField(
+                      style: widget.textFieldStyle ?? const TextStyle(height: 2,),
+                      controller: fieldTextEditingController,
+                      focusNode: fieldFocusNode,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blueGrey.shade50,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueGrey.shade200),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        hintText: 'Search..',
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    hintText: 'Search..',
-                  ),
-                );
-              },
-              optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    width: MediaQuery.sizeOf(context).width/1.05,
-                    height: options.length * 50.0,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(10.0),
-                      itemCount: options.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final String option = options.elementAt(index);
-                        final bool isSelected = selectedItem.contains(option);
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isSelected) {
-                                selectedItem.remove(option);
-                              } else {
-                                selectedItem.add(option);
-                              }
-                            });
-                          },
+                  );
+                },
+                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width/1.05,
+                      height: options.length * 50.0,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(12)
+                      ),
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(10.0),
+                        itemCount: options.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final String option = options.elementAt(index);
+                          final bool isSelected = selectedItem.contains(option);
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (isSelected) {
+                                  selectedItem.remove(option);
+                                } else {
+                                  selectedItem.add(option);
+                                }
+                              });
+                            },
 
-                          //  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                            child: Material(
-                              child: ListTile(
-                                title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(option,),
-                                      Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank)
-                                    ],
-                                  ),
+                            //  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              child: Material(
+                                child: ListTile(
+                                  title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(option,),
+                                        Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank)
+                                      ],
+                                    ),
+                                ),
                               ),
-                            ),
 
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
 
-            const SizedBox(height: 10),
-          //  IngredientChip(items: [selectedItem.toString()],),
+              const SizedBox(height: 10),
+            //  IngredientChip(items: [selectedItem.toString()],),
 
-            const SizedBox(height: 10),
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   itemCount: selectedItem.length,
-            //   itemBuilder: (BuildContext context, int index) {
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 1.2,
-              child: Wrap(
-                spacing: 10, // Spacing between items
-                children: List.generate(
-                  selectedItem.length,
-                      (index) => Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.blueGrey.shade100,
+              const SizedBox(height: 10),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: selectedItem.length,
+              //   itemBuilder: (BuildContext context, int index) {
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: Wrap(
+                  spacing: 10, // Spacing between items
+                  children: List.generate(
+                    selectedItem.length,
+                        (index) => Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.blueGrey.shade100,
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Text(selectedItem[index]),
                     ),
-                    padding: const EdgeInsets.all(8),
-                    child: Text(selectedItem[index]),
                   ),
                 ),
               ),
-            ),
 
-            //  },
-            //),
-            const SizedBox(height: 15),
+              //  },
+              //),
+              const SizedBox(height: 15),
 
 
-            const SizedBox(height: 15,),
-            if (answerDescription.isNotEmpty)
-              Text(answerDescription),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (widget.questionData.isMandatory == false && widget.isLast == false)
+              const SizedBox(height: 15,),
+              if (answerDescription.isNotEmpty)
+                Text(answerDescription),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (widget.questionData.isMandatory == false && widget.isLast == false)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            FocusScope.of(context).unfocus();
+                          });
+                          widget.callBack!([], widget.questionData,true);
+                        },
+                        child: Center(
+                          child: Text(
+
+
+                          widget.skipText ??  'Skip',
+
+                            style: widget.customSkipStyle ?? const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           FocusScope.of(context).unfocus();
                         });
-                        widget.callBack!([], widget.questionData,true);
+                        if (widget.questionData != null) {
+                          widget.callBack!(selectedItem, widget.questionData,false);
+                        }
                       },
-                      child: Center(
-                        child: Text(
-
-
-                        widget.skipText ??  'Skip',
-
-                          style: widget.customSkipStyle ?? const TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    const SizedBox(),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        FocusScope.of(context).unfocus();
-                      });
-                      if (widget.questionData != null) {
-                        widget.callBack!(selectedItem, widget.questionData,false);
-                      }
-                    },
-        child:Container(
+          child:Container(
     constraints: BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width*0.32,
     maxHeight: MediaQuery.of(context).size.height*0.05,
     ),
-                    child: widget.isLast
-                        ? widget.customLastButton ??
-                        Container(
+                      child: widget.isLast
+                          ? widget.customLastButton ??
+                          Container(
 
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal,
-                                Colors.teal.shade300,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.teal,
+                                  Colors.teal.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(5, 5),
+                                  blurRadius: 10,
+                                )
                               ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(5, 5),
-                                blurRadius: 10,
-                              )
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                            child: const Center(
+                              child: Text(
+                                'Submit',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                                  :Container(
+                          )
+                                    :Container(
     constraints: BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width*0.32,
     maxHeight: MediaQuery.of(context).size.height*0.05,
     ),
-                        child:widget.customButton ?? Container(
+                          child:widget.customButton ?? Container(
 
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.teal,
-                            Colors.teal.shade300,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.teal,
+                              Colors.teal.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(5, 5),
+                              blurRadius: 10,
+                            )
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(5, 5),
-                            blurRadius: 10,
-                          )
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.isLast ? 'Submit':'Next',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                        child: Center(
+                          child: Text(
+                            widget.isLast ? 'Submit':'Next',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
 
-                  ))],
+                    ))],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
