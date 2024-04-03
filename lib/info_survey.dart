@@ -61,7 +61,7 @@ this.optionTapNavigation=true,
         this.skipText,
         //    this.appBarBackgroundColor,
         //  this.appBarIconThemeData,
-      this.textFieldDecoration,
+
         this.dropDownDecoration,
   //    this.appBarBackgroundColor,
     //  this.appBarIconThemeData,
@@ -75,6 +75,7 @@ this.optionTapNavigation=true,
 double?dropDownWidth;
   TextStyle?answerDescriptionStyle;
 Color?radioTextColor;
+Color?dropDownColor;
 Color?activeCheckboxColor;
   TextStyle? sliderQuestionStyle;
   TextStyle? radioQuestion;
@@ -698,7 +699,6 @@ Navigator.pop(context);
               data.image != null &&
               data.image!.isNotEmpty ?  SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
           SizedBox(height:MediaQuery.of(context).size.height*0.01),
-
           Column(
             children: (data.answerChoices).keys.map<Widget>((answer) {
               if (data.answerChoices[answer] != null && data.answerChoices[answer]!='') {
@@ -758,12 +758,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           });
 
 
-               // answersMap[data.question!]={
-               //   'id':data.id,
-               //   'question-type':data.questionType,
-               //   'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
-               //   'answer':selectedAnswer
-               // };
+               answersMap[data.question!]={
+                 'id':data.id,
+                 'question-type':data.questionType,
+                 'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
+                 'answer':selectedAnswer
+               };
 
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
@@ -1361,7 +1361,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 11,
-                  childAspectRatio: 3.5/2.2,
+                  childAspectRatio: 3/2.2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
