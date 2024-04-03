@@ -710,6 +710,7 @@ Navigator.pop(context);
                   if (answersMap.containsKey(data.question)) {
                     selectedValue = answersMap[data.question]['answer'];
                   }
+
                 }
                 //final bool isSelected = selectedValue == answer;
               //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
@@ -769,6 +770,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                    'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
                    'answer':selectedAnswer
                  };
+
 
                         pageController.nextPage(
                             duration: const Duration(milliseconds: 500),

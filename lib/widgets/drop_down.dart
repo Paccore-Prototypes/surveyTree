@@ -239,10 +239,11 @@ class _DropDownState extends State<DropDown> {
                       GestureDetector(
                         onTap: () {
 
-                          if (widget.questionData != null) {
-                            widget.callBack!(dropdownValue, widget.questionData,false);
-                          }
-                        },
+
+                        if (widget.questionData != null) {
+                          widget.callBack!(dropdownValue, widget.questionData,false);
+                        }
+                      },
     child: Container(
     constraints: widget.isLast
     ? BoxConstraints(
@@ -251,6 +252,7 @@ class _DropDownState extends State<DropDown> {
     )
         : BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width * 0.5,
+
     maxHeight: MediaQuery.of(context).size.height * 0.1,
     ),
                         child: widget.isLast
@@ -306,6 +308,7 @@ class _DropDownState extends State<DropDown> {
                                 offset: Offset(5, 5),
                                 blurRadius: 10,
                               )
+
                             ],
                           ),
                           child: const Center(
@@ -322,6 +325,7 @@ class _DropDownState extends State<DropDown> {
                       ),
                       )],
                   ),
+
                 ),
               ],
             ),
