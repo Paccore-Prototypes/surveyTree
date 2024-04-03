@@ -94,7 +94,6 @@ Color?activeCheckboxColor;
   Color? activeRadioColor;
   // Color? activeRadioTextColor;
   Color? tileListColor;
-Color? dropDownColor;
 
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
@@ -2548,20 +2547,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             }
                           }
                           Future.delayed(Duration(milliseconds:800)).then((value) {
-                            answers=[];
-                            setState(() {
+    answers=[];
+    setState(() {
 
-                            });
+    });
+    });},
 
-                          }
-                        }
-                        Future.delayed(const Duration(milliseconds:800)).then((value) {
-                          answers=[];
-                          setState(() {
-
-                          });
-
-                        },
           child:Container(
     constraints: BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width*0.5,
