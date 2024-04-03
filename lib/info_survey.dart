@@ -68,7 +68,7 @@ this.optionTapNavigation=true,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth,this.customWidget,
-        this.customWidgetReturn,});
+        this.customWidgetReturn,this.searchTextFieldStyle,this.searchTextFieldWidth,this.searchItemQuestionStyle});
 
   Widget?dateTimeButton;
  double? dropDownHeight;
@@ -125,7 +125,9 @@ Color? dropDownColor;
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
-  Function(String answer,String question, int score)? onCustomWidgetNextTapped; 
+  Function(String answer,String question, int score)? onCustomWidgetNextTapped;
+  TextStyle? searchTextFieldStyle;
+  double? searchTextFieldWidth;
 
 //  Color? appBarBackgroundColor;
   //IconThemeData? appBarIconThemeData;
@@ -401,7 +403,9 @@ Navigator.pop(context);
             customLastButton : widget.customLastButton,
             description: widget.description,
             searchItemQuestionStyle: widget.searchItemQuestionStyle,
+            textFieldStyle: widget.searchTextFieldStyle,
             isLast: isLast,questionData: data[pageIndex],
+            searchTextFieldWidth: widget.searchTextFieldWidth,
             callBack: (data,callingBackData,fromSkip){
 
           print('-----------------------------------building the drop down$data');
@@ -937,11 +941,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                    )
                       :Container(
                         constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width*0.32,
+                          maxWidth: MediaQuery.of(context).size.width*0.5,
                           maxHeight: MediaQuery.of(context).size.height*0.05,
                         ),
                         child: widget.customButton ?? Container(
-
+                          width: 120,
+                          height: 40,
 
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -1502,7 +1507,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(const Duration(milliseconds:200)).then((value) {
+                                Future.delayed(const Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerdata = '';
                                   answerDescription = '';
@@ -1539,7 +1544,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(Duration(milliseconds:800)).then((value) {
+                                Future.delayed(const Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerDescription = '';
                                   answerdata = '';
@@ -1643,7 +1648,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
 
     if(answersMap.containsKey(questionData.question)){
-      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
+     // sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
     }
 
     double sliderScore = 0;
@@ -1927,7 +1932,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           ),
                           child: const Center(
                             child: Text(
-                              'Next',
+                              'Submit',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -2525,7 +2530,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             });
                           }
                         }
-                        Future.delayed(Duration(milliseconds:800)).then((value) {
+                        Future.delayed(const Duration(milliseconds:800)).then((value) {
                           answers=[];
                           setState(() {
 

@@ -36,6 +36,9 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 
   List<String> answers = [];
   String answerdata = '';
+  String scannedText = '';
+
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +91,7 @@ void switching (){
   @override
   void dispose() {
     _controller.dispose();
-    controller.sink;
+    controller.close();
     super.dispose();
   }
 
@@ -105,13 +108,18 @@ void switching (){
   String text = "";
   StreamController<String> controller = StreamController<String>();
 
-String savingValue = '';
+  String savingValue = '';
+
   void setText(value) {
+    controller.close();
+    controller = StreamController<String>();
     controller.add(value);
     print('Saving the taken text from camera --$value');
     savingValue = value;
-    print('Saving the taken text from camera -heheheheh------$savingValue');
+    print('Saving the taken text from camera with saving value------$savingValue');
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -136,13 +144,12 @@ key: infoSurveyKey,
               print('Health Score: $score');
               print('Answers Map: $answersMap');
             },
-
-            customWidget: questionId == 402 ?
+            customWidget: questionId == 404 ?
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               color: Colors.white60,
-              child: Stack(
+              child: Column(
                 children: [
                   ScalableOCR(
                       paintboxCustom: Paint()
@@ -163,128 +170,111 @@ key: infoSurveyKey,
                   StreamBuilder<String>(
                     stream: controller.stream,
                     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      return Result(text: snapshot.data != null ? snapshot.data! : "");
+                      return Result(text: scannedText);
+                      //  return Result(text: snapshot.data != null ? snapshot.data! : "");
                     },
                   ),
-                  Positioned(
-                    left: (MediaQuery.of(context).size.width * 0.5) - (MediaQuery.of(context).size.width * 0.45),
-                    top: (MediaQuery.of(context).size.height * 0.7) - (MediaQuery.of(context).size.height * 0.3),
 
-                    child: Container(
+                  Container(
 
-                      height: MediaQuery.of(context).size.height * 0.34,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.9,
 
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],// Adjust border radius as needed
-                      ),
-
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/notebook.png',
-                            height: 100,
-                            width: 100,
-                          ),
-                          const SizedBox(height: 20),
-                          const Align(alignment: Alignment.center,),
-                          const Text(
-                            'Scan ',
-
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const Text(
-                            'Your Prescription',
-
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: (MediaQuery.of(context).size.width * 0.5) - (MediaQuery.of(context).size.width * 0.39), // Center horizontally
-                    top: (MediaQuery.of(context).size.height * 0.6) + (MediaQuery.of(context).size.height * 0.18), // Below the previous Container
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // ElevatedButton(
-                        //   style: ElevatedButton.styleFrom(
-                        //     primary: Colors.white,
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(12),
-                        //     ),
-                        //     minimumSize: Size(290, 56),
-                        //   ),
-                        //   onPressed: () {
-                        //     // Add your logic to choose from the gallery
-                        //   },
-                        //   child: Text('Choose from Gallery',style: TextStyle(color: Colors.pinkAccent)),
-                        // ),
-                        const SizedBox(height: 30,),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.pinkAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            minimumSize: Size(290, 56),
-                          ),
-                          onPressed: ()async{
-                                          bool isPermissionGranted =
-                                              await getCameraPermission(
-                                                  context);
-                                          if (isPermissionGranted) {
-                                            final XFile? image =
-                                                await ImagePicker().pickImage(
-                                                    source: ImageSource.camera);
-                                            // You can handle the captured image here, such as displaying it or processing it further
-                                            if (image != null) {
-                                              // Do something with the captured image
-                                            }
-                                          }
-                                        },
-                                        // bool? permitted =
-                            //     await Permission.camera.request().isGranted;
-                            // if (permitted) {
-                            //
-                            // } else {
-                            //   await getCameraPermission(context);
-                            //   if (permitted) {
-                            //
-                            //   }
-                            // }
-
-                          child: Text('Take a Photo'),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
                         ),
+                      ],// Adjust border radius as needed
+                    ),
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/notebook.png',
+                          height: 100,
+                          width: 100,
+                        ),
+                        const SizedBox(height: 20),
+                        const Align(alignment: Alignment.center,),
+                        const Text(
+                          'Scan ',
+
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Text(
+                          'Your Prescription',
+
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
                       ],
                     ),
                   ),
+                  const SizedBox(height: 15,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal.shade200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 56),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        scannedText = savingValue;
+                      });
+                    },
+                    child: const Text('Save', style: TextStyle(color: Colors.white)),
+                  ),
 
+                  const SizedBox(height: 30,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pinkAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 56),
+                    ),
+                    onPressed: ()async{
+                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, scannedText, question, score??0);
+                      /*   bool isPermissionGranted =
+                      await getCameraPermission(
+                          context);
+                      if (isPermissionGranted) {
+                        final XFile? image =
+                        await ImagePicker().pickImage(
+                            source: ImageSource.camera);
+                        // You can handle the captured image here, such as displaying it or processing it further
+                        if (image != null) {
+                          // Do something with the captured image
+                        }
+                      }*/
+                    },
+
+                    child: const Text('Next'),
+                  ),
                 ],
               ),
-            )
-           /* Column(
+            ) :
+            questionId == 402 ?
+            Column(
               children: [
                // const SizedBox(height: 40,),
                 Container(
@@ -307,7 +297,7 @@ key: infoSurveyKey,
                   ),
                 ),
                 const SizedBox(height: 30,),
-                Column(
+              /*  Column(
 
                   children: (options)
                       .keys
@@ -334,13 +324,21 @@ key: infoSurveyKey,
                           });
                         } );
                   }).toList(),
-                ),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: Column(
                      children: (options).keys
                            .map<Widget>((answer) {
                        bool isSelected = answerdata == answer;
+
+                       if(infoSurveyKey.currentState!.answersMap.containsKey(question)) {
+                         if(infoSurveyKey.currentState?.answersMap[question]['answer']!=null && infoSurveyKey.currentState?.answersMap[question]['answer']!=''){
+                           if(answerdata==''){
+                             answerdata = infoSurveyKey.currentState?.answersMap[question]['answer'] ?? '';
+                           }
+                         }
+                       }
 
                        return Column(
                          children: [
@@ -406,7 +404,14 @@ key: infoSurveyKey,
                   child: InkWell(
                     onTap: (){
 
-                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, answers.toString(), question, score??0);
+                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, answerdata, question, score??0);
+                      Future.delayed(const Duration(milliseconds: 800)).then((value){
+                        answerdata = '';
+                        setState(() {
+
+                        });
+                      });
+
 
                     },
                     child: Container(
@@ -425,12 +430,13 @@ key: infoSurveyKey,
                         ],
                       ),
                       alignment: Alignment.center,
-                      child: Text('Next Question',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+                      child: const Text('Next Question',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
                     ),
                   ),
                 )
               ],
-            )*/ : Column(crossAxisAlignment: CrossAxisAlignment.center,
+            )
+                : Column(crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
@@ -444,11 +450,11 @@ key: infoSurveyKey,
                       ),
                     color: Colors.blueGrey.shade200,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(width: 1)
+                    border: Border.all(width: 1,color: Colors.blueGrey)
                   ),
                 ),
                 const SizedBox(height: 20,),
-                const Text('Something went wrong',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                const Text('No custom widget found!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
               ],
             ),
 
@@ -486,15 +492,15 @@ key: infoSurveyKey,
 }
 
 class Result extends StatelessWidget {
-const Result({
-Key? key,
-required this.text,
-}) : super(key: key);
+  const Result({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
 
-final String text;
+  final String text;
 
-@override
-Widget build(BuildContext context) {
-return Text("Readed text: $text");
-}
+  @override
+  Widget build(BuildContext context) {
+    return Text("Readed text: $text");
+  }
 }
