@@ -14,21 +14,24 @@ class _IntroductionState extends State<Introduction> {
    return Scaffold(
       body: Column(
        children: [
-
          Container(
-           height: 490,
+           height: 510,
            alignment: Alignment.center,
-           color: Colors.white24,
-
-           child: Image.asset('assets/images/doctorimage.png',
-             height: 350,
-             width: 300,
+           color: Colors.teal.shade300,
+           child: Column(
+             children: [
+               const SizedBox(height: 60,),
+               const Text('Aquesty',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+               Image.asset('assets/images/doctorimage.png',
+                 height: 350,
+                 width: 300,
+               ),
+             ],
            ),
-
          ),
-         SizedBox(height: 40),
-         Padding(
-           padding: const EdgeInsets.only(left: 20),
+         const SizedBox(height: 40),
+         const Padding(
+           padding: EdgeInsets.only(left: 20),
            child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
@@ -46,23 +49,23 @@ class _IntroductionState extends State<Introduction> {
          ),
 
 
-         SizedBox(height: 40),
+         const SizedBox(height: 40),
          ElevatedButton(
            style: ElevatedButton.styleFrom(
-             primary: Colors.pinkAccent,
+             backgroundColor: Colors.pinkAccent,
              shape: RoundedRectangleBorder(
                borderRadius: BorderRadius.circular(12),
              ),
-             minimumSize: Size(290, 56),
+             minimumSize: const Size(340, 56),
            ),
            onPressed: () {
 Navigator.push(context,
   MaterialPageRoute(builder: (context) => ImportingProperties())
 );
            },
-           child: Text('Start',style: TextStyle(color: Colors.white)),
+           child: const Text('Start',style: TextStyle(color: Colors.white,fontSize: 18)),
          ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
 
        ],
      ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:infosurvey_example/callingFile.dart';
 
+import 'intro.dart';
+
 void main() {
   runApp(
     MyApp(),
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: ImportingProperties()
+        home: const Introduction()
     );
   }
 }
