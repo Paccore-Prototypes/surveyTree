@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,10 @@ class SearchItem extends StatefulWidget {
     this.customButton,
     this.customLastButton,
     this.skipText,
-    this.customSkipStyle,this.answerMap})
+    this.customSkipStyle,
+    this.answerMap,
+    this.textFieldStyle,
+    this.searchTextFieldWidth})
       : super(key: key);
   final TreeNode questionData;
   bool isLast = false;
@@ -28,8 +32,10 @@ class SearchItem extends StatefulWidget {
   String? skipText;
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? customSkipStyle;
+  TextStyle? textFieldStyle;
   HashMap<String, dynamic>? answerMap;
   final Function(List<String>? dropDownData, TreeNode callBackData,bool? fromSkip)? callBack;
+  double? searchTextFieldWidth;
 
   @override
   State<SearchItem> createState() => _SearchItemState();
@@ -93,6 +99,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 12,right: 12),
+
           child: Column(
             crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
             children: [
@@ -170,21 +177,26 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                   });
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
-                  return TextField(
-                    controller: fieldTextEditingController,
-                    focusNode: fieldFocusNode,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blueGrey.shade50,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blueGrey.shade200),
-                        borderRadius: BorderRadius.circular(16.0),
+
+                  return SizedBox(
+                    width:  widget.searchTextFieldWidth ?? 330,
+                    child: TextField(
+                      style: widget.textFieldStyle ?? const TextStyle(height: 2,),
+                      controller: fieldTextEditingController,
+                      focusNode: fieldFocusNode,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blueGrey.shade50,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueGrey.shade200),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        hintText: 'Search..',
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      hintText: 'Search..',
                     ),
                   );
                 },
@@ -322,6 +334,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                           Container(
                             width: MediaQuery.of(context).size.width*0.32,
                             height: MediaQuery.of(context).size.height*0.05,
+
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
@@ -359,6 +372,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                           child:widget.customButton ?? Container(
                             width: MediaQuery.of(context).size.width*0.32,
                             height: MediaQuery.of(context).size.height*0.05,
+
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [

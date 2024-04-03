@@ -9,7 +9,6 @@ import 'package:infosurvey/widgets/search_item.dart';
 import '../answers.dart';
 import 'enum.dart';
 
-typedef AnswerCallback = void Function(String answer);
 
 
 class InfoSurvey extends StatefulWidget {
@@ -60,7 +59,6 @@ this.optionTapNavigation=true,
       // this.imagePlace,
         this.listTileShape,
         this.skipText,
-        this.textFieldDecoration,
         //    this.appBarBackgroundColor,
         //  this.appBarIconThemeData,
 
@@ -70,7 +68,7 @@ this.optionTapNavigation=true,
         this.dropDownQuestionStyle,
         this.optionImageHeight,
         this.optionImageWidth,this.customWidget,
-        this.customWidgetReturn,this.onAnswerSelected});
+        this.customWidgetReturn,this.searchTextFieldStyle,this.searchTextFieldWidth,this.searchItemQuestionStyle});
 
   Widget?dateTimeButton;
  double? dropDownHeight;
@@ -96,7 +94,7 @@ Color?activeCheckboxColor;
   Color? activeRadioColor;
   // Color? activeRadioTextColor;
   Color? tileListColor;
-
+Color? dropDownColor;
 
   CrossAxisAlignment? questionContentAlignment;
   TextStyle? textFieldQuestionStyle;
@@ -128,16 +126,18 @@ Color?activeCheckboxColor;
   bool onListTaleTapnavigation;
   RoundedRectangleBorder? listTileShape;
   String? skipText;
-  final AnswerCallback? onAnswerSelected;
+  Function(String answer,String question, int score)? onCustomWidgetNextTapped;
+  TextStyle? searchTextFieldStyle;
+  double? searchTextFieldWidth;
 
 //  Color? appBarBackgroundColor;
   //IconThemeData? appBarIconThemeData;
 
   @override
-  State<InfoSurvey> createState() => _InfoSurveyState();
+  State<InfoSurvey> createState() => InfoSurveyState();
 }
 
-class _InfoSurveyState extends State<InfoSurvey>  {
+class InfoSurveyState extends State<InfoSurvey>  {
   // late AnimationController scaleController = AnimationController(
   //     duration: const Duration(milliseconds: 2000), vsync: this);
   // late Animation<double> scaleAnimation =
@@ -162,14 +162,19 @@ class _InfoSurveyState extends State<InfoSurvey>  {
 
   Map<String,dynamic>? listAnswer;
 
-  void addAnswer(String answer) {
-    if (widget.onAnswerSelected != null) {
-      widget.onAnswerSelected!(answer);
-      print('Selected ---------------------------------------------------------------answer: $answer');
 
-    }
+  void onCustomWidgetNextTapped(int questionId, String answerdata, String question, int score) {
+    addTheFollowUpQuestion(answerdata,
+        isScrollTonextPage: true,
+        question: question,
+        isNestedchoice: true,
+        answeValue: {
+          'id': questionId,
+          'question-type': 'custom_widget',
+          'score': score ?? 0,
+          'answer': answerdata
+        });
   }
-
 
   Future<void> modelJson() async {
     setState(() {
@@ -285,7 +290,7 @@ Navigator.pop(context);
                             widget.onPageChanged!(
                                 answersMap,
                                 pageviewTree?.nodes[pageController.page!.toInt()],
-                                page
+                                page,
                             );
                             print('-----------------------printing index with question data ${pageviewTree?.nodes[pageController.page!.toInt()].question}');
                           });
@@ -399,7 +404,9 @@ Navigator.pop(context);
             customLastButton : widget.customLastButton,
             description: widget.description,
             searchItemQuestionStyle: widget.searchItemQuestionStyle,
+            textFieldStyle: widget.searchTextFieldStyle,
             isLast: isLast,questionData: data[pageIndex],
+            searchTextFieldWidth: widget.searchTextFieldWidth,
             callBack: (data,callingBackData,fromSkip){
 
           print('-----------------------------------building the drop down$data');
@@ -493,8 +500,7 @@ Navigator.pop(context);
 
   void parseAnswers() {
     jsonData = const JsonEncoder.withIndent('  ').convert(answersMap);
-    print(
-        '---------------------------------getting all data from answersMap$jsonData');
+    print('printing the all answer-map values $jsonData');
   }
 
   void addTheFollowUpQuestion(String answer,
@@ -502,7 +508,10 @@ Navigator.pop(context);
       String? question,
       Map<String, dynamic>? answeValue,
       bool isRecrusive = false,
-      haveDescription = false}) async {
+      haveDescription = false,
+      bool? isScrollTonextPage=false
+      
+      }) async {
     TreeModel? model;
     TreeNode? node;
     resetOption();
@@ -535,6 +544,8 @@ Navigator.pop(context);
       model = TreeModel.fromJson(
           widget.treeModel.nodes[currentQuestionIndex].answerChoices[answer]);
       node = model.nodes[0];
+
+
     }
     if (node.questionType != "") {
       pageviewTree!.nodes.add(node);
@@ -546,6 +557,12 @@ Navigator.pop(context);
     //
     // print('----------------------------------Having the data from json decode  $answerValueJson');
     parseAnswers();
+
+    if(isScrollTonextPage??false){
+      pageController.nextPage(duration: const Duration(milliseconds: 500),
+                          curve: Curves.ease);
+
+    }
     setState(() {});
   }
 
@@ -934,6 +951,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             maxHeight: MediaQuery.of(context).size.height*0.1,
                           ),
                           child: widget.customButton ?? Container(
+
 
                             width: MediaQuery.of(context).size.width*0.32,
                             height: MediaQuery.of(context).size.height*0.05,
@@ -1498,7 +1516,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(const Duration(milliseconds:200)).then((value) {
+                                Future.delayed(const Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerdata = '';
                                   answerDescription = '';
@@ -1535,7 +1553,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut,
                                 );
-                                Future.delayed(Duration(milliseconds:800)).then((value) {
+                                Future.delayed(const Duration(milliseconds:800)).then((value) {
                                   answers=[];
                                   answerDescription = '';
                                   answerdata = '';
@@ -1639,7 +1657,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
 
     if(answersMap.containsKey(questionData.question)){
-      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
+     // sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
     }
 
     double sliderScore = 0;
@@ -1913,6 +1931,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
+
                               ),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: const [
@@ -2533,6 +2552,12 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             setState(() {
 
                             });
+
+                          }
+                        }
+                        Future.delayed(const Duration(milliseconds:800)).then((value) {
+                          answers=[];
+                          setState(() {
 
                           });
 

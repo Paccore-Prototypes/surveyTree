@@ -1,13 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:infosurvey/info_survey.dart';
 import 'package:infosurvey/tree_node.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class ImportingProperties extends StatefulWidget {
-  final AnswerCallback? onAnswerSelected;
 
-  const ImportingProperties({super.key,this.onAnswerSelected});
+  const ImportingProperties({super.key,});
 
   @override
   State<ImportingProperties> createState() => _ImportingPropertiesState();
@@ -19,12 +26,19 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 
   TreeModel? model;
   bool isLoad = false;
+  String? questionType;
+  int? score;
   String question = '';
   String description = '';
   int questionId = 0;
   Map<String, dynamic> options = {};
+  List<String> scannedTextList = [];
+
   List<String> answers = [];
   String answerdata = '';
+  String scannedText = '';
+
+
   @override
   void initState() {
     super.initState();
@@ -38,15 +52,46 @@ class _ImportingPropertiesState extends State<ImportingProperties>
   }
 
 
-  onTap(String? answer) {
-    if (widget.onAnswerSelected != null) {
-      widget.onAnswerSelected!(answer!);
+void switching (){
+    if(questionId == 402){
+
     }
+
+}
+
+
+
+  static Future<bool> getCameraPermission(BuildContext context) async {
+    bool isPermissionGranted = false;
+    if (await Permission.camera.request().isGranted) {
+      isPermissionGranted = true;
+      return isPermissionGranted;
+    } else if (await Permission.camera.request().isPermanentlyDenied) {
+      isPermissionGranted = false;
+      // isPermissionGranted = await openAppSettings();
+      if (Platform.isAndroid) {
+
+      } else {
+
+      }
+      return isPermissionGranted;
+    } else if (await Permission.camera.request().isDenied) {
+      isPermissionGranted = false;
+      // Utils.getCameraPermission(context);
+      if (Platform.isIOS) {
+
+      }else{
+
+      }
+      return isPermissionGranted;
+    }
+    return isPermissionGranted;
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    controller.close();
     super.dispose();
   }
 
@@ -59,6 +104,22 @@ class _ImportingPropertiesState extends State<ImportingProperties>
     TreeModel treeModel = TreeModel.fromJson(dataList);
     return treeModel;
   }
+      final GlobalKey<InfoSurveyState> infoSurveyKey = GlobalKey<InfoSurveyState>();
+  String text = "";
+  StreamController<String> controller = StreamController<String>();
+
+  String savingValue = '';
+
+  void setText(value) {
+    controller.close();
+    controller = StreamController<String>();
+    controller.add(value);
+    print('Saving the taken text from camera --$value');
+    savingValue = value;
+    print('Saving the taken text from camera with saving value------$savingValue');
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +130,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
             : model != null
             ? Center(
           child: InfoSurvey(
-
+key: infoSurveyKey,
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
@@ -83,8 +144,137 @@ class _ImportingPropertiesState extends State<ImportingProperties>
               print('Health Score: $score');
               print('Answers Map: $answersMap');
             },
+            customWidget: questionId == 404 ?
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white60,
+              child: Column(
+                children: [
+                  ScalableOCR(
+                      paintboxCustom: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 4.0
+                        ..color = const Color.fromARGB(153, 102, 160, 241),
+                      boxLeftOff: 5,
+                      boxBottomOff: 2.5,
+                      boxRightOff: 5,
+                      boxTopOff: 2.5,
+                      boxHeight: MediaQuery.of(context).size.height / 3,
+                      getRawData: (value) {
+                        inspect(value);
+                      },
+                      getScannedText: (value) {
+                        setText(value);
+                      }),
+                  StreamBuilder<String>(
+                    stream: controller.stream,
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return Result(text: scannedText);
+                      //  return Result(text: snapshot.data != null ? snapshot.data! : "");
+                    },
+                  ),
 
-            customWidget: Column(
+                  Container(
+
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.9,
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],// Adjust border radius as needed
+                    ),
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/notebook.png',
+                          height: 100,
+                          width: 100,
+                        ),
+                        const SizedBox(height: 20),
+                        const Align(alignment: Alignment.center,),
+                        const Text(
+                          'Scan ',
+
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Text(
+                          'Your Prescription',
+
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal.shade200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 56),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        scannedText = savingValue;
+                      });
+                    },
+                    child: const Text('Save', style: TextStyle(color: Colors.white)),
+                  ),
+
+                  const SizedBox(height: 30,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pinkAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 56),
+                    ),
+                    onPressed: ()async{
+                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, scannedText, question, score??0);
+                      /*   bool isPermissionGranted =
+                      await getCameraPermission(
+                          context);
+                      if (isPermissionGranted) {
+                        final XFile? image =
+                        await ImagePicker().pickImage(
+                            source: ImageSource.camera);
+                        // You can handle the captured image here, such as displaying it or processing it further
+                        if (image != null) {
+                          // Do something with the captured image
+                        }
+                      }*/
+                    },
+
+                    child: const Text('Next'),
+                  ),
+                ],
+              ),
+            ) :
+            questionId == 402 ?
+            Column(
               children: [
                // const SizedBox(height: 40,),
                 Container(
@@ -107,12 +297,48 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                   ),
                 ),
                 const SizedBox(height: 30,),
+              /*  Column(
+
+                  children: (options)
+                      .keys
+                      .map<Widget>((answer) {
+                    return CheckboxListTile(
+                        title: Text(
+                          answer,
+                          style:
+                              const TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 16),
+                        ),
+
+                        activeColor:  Colors.indigo,
+                        value: answers.contains(answer),
+                        onChanged: (bool? selected) {
+                          setState(() {
+                            if (selected ?? false) {
+                              if (!answers.contains(answer)) {
+                                answers.add(answer);
+                              }
+                            } else {
+                              answers.remove(answer);
+                            }
+                          });
+                        } );
+                  }).toList(),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: Column(
                      children: (options).keys
                            .map<Widget>((answer) {
                        bool isSelected = answerdata == answer;
+
+                       if(infoSurveyKey.currentState!.answersMap.containsKey(question)) {
+                         if(infoSurveyKey.currentState?.answersMap[question]['answer']!=null && infoSurveyKey.currentState?.answersMap[question]['answer']!=''){
+                           if(answerdata==''){
+                             answerdata = infoSurveyKey.currentState?.answersMap[question]['answer'] ?? '';
+                           }
+                         }
+                       }
 
                        return Column(
                          children: [
@@ -152,12 +378,14 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                              ),
                                selected: isSelected,
                                onTap: () {
+
+
                                  setState(() {
                                    if (answerdata != answer) {
                                      answerdata = answer;
-                                     if (widget.onAnswerSelected != null) {
-                                       widget.onAnswerSelected!(answer);
-                                     }
+
+
+
                                      print('-------------------------------------checking the answerdata value--$answerdata');
                                    } else {
                                          answerdata = '';
@@ -175,7 +403,16 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: InkWell(
                     onTap: (){
-                      onTap(answerdata);
+
+                      infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, answerdata, question, score??0);
+                      Future.delayed(const Duration(milliseconds: 800)).then((value){
+                        answerdata = '';
+                        setState(() {
+
+                        });
+                      });
+
+
                     },
                     child: Container(
                       height: 62,
@@ -193,10 +430,31 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                         ],
                       ),
                       alignment: Alignment.center,
-                      child: Text('Next Question',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+                      child: const Text('Next Question',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
                     ),
                   ),
                 )
+              ],
+            )
+                : Column(crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 400,
+                  width: 300,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image:AssetImage("assets/images/something1.jpg"),
+                        fit: BoxFit.fill,
+                      ),
+                    color: Colors.blueGrey.shade200,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 1,color: Colors.blueGrey)
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                const Text('No custom widget found!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
               ],
             ),
 
@@ -207,10 +465,6 @@ class _ImportingPropertiesState extends State<ImportingProperties>
             //
             // },
 
-            onAnswerSelected: (answer) {
-              // Do whatever you need with the selected answer
-              print('Selected ---------------------------------------------------------------answer: $answer');
-            },
             onPageChanged: (answerMap, questionData, index){
 
               setState(() {
@@ -218,6 +472,9 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                 options = questionData.answerChoices;
                 questionId = questionData.id;
                 description = questionData.description!;
+                score=questionData.score??0;
+                questionType=questionData.questionType;
+
 
 
               });
@@ -230,6 +487,20 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       ),
           )
           : Container(),
-    );
+    ));
+  }
+}
+
+class Result extends StatelessWidget {
+  const Result({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text("Readed text: $text");
   }
 }
