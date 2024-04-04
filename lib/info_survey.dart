@@ -162,7 +162,7 @@ class InfoSurveyState extends State<InfoSurvey>  {
   Map<String,dynamic>? listAnswer;
 
 
-  void onCustomWidgetNextTapped(int questionId, String answerdata, String question, int score) {
+  void onCustomWidgetNextTapped(int questionId, dynamic answerdata, String question, int score) {
     addTheFollowUpQuestion(answerdata,
         isScrollTonextPage: true,
         question: question,

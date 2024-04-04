@@ -5,6 +5,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infosurvey/info_survey.dart';
@@ -26,6 +28,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 
   TreeModel? model;
   bool isLoad = false;
+  bool isLoading = false;
   String? questionType;
   int? score;
   String question = '';
@@ -46,18 +49,11 @@ class _ImportingPropertiesState extends State<ImportingProperties>
       setState(() {
         model = treeModel;
         isLoad = false;
+        isLoading = false;
       });
     });
     _controller = AnimationController(vsync: this);
   }
-
-
-void switching (){
-    if(questionId == 402){
-
-    }
-
-}
 
 
 
@@ -95,9 +91,19 @@ void switching (){
     super.dispose();
   }
 
+
+  String? _scanValue;
+
+  void setScannedValue(String value) {
+    setState(() {
+      _scanValue = value;
+    });
+  }
+
   Future<TreeModel> modelJson() async {
     setState(() {
       isLoad = true;
+      isLoading = true;
     });
     String data = await DefaultAssetBundle.of(context).loadString("assets/survey.json");
     List<Map<String, dynamic>> dataList = List<Map<String, dynamic>>.from(jsonDecode(data));
@@ -119,32 +125,71 @@ void switching (){
     print('Saving the taken text from camera with saving value------$savingValue');
   }
 
+  String _scanBarcode = 'Unknown';
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
+
     return SafeArea(
       child: Scaffold(
         body: isLoad
-            ? const CircularProgressIndicator()
+            ? const Center(child: CircularProgressIndicator())
             : model != null
             ? Center(
           child: InfoSurvey(
-key: infoSurveyKey,
+            key: infoSurveyKey,
         treeModel: model!,
         tileListColor: Colors.blueGrey.shade200,
         showScoreWidget: true,
         questionContentAlignment: CrossAxisAlignment.center,
         onListTaleTapnavigation: false,
         imagePlaceHolder: 'assets/images/placeholder1.png',
-//         onSurveyEnd: (score,answermap){
-// print('the survey score was----- '+score.toString());
-//         },
             surveyResult: (score, answersMap) {
               print('Health Score: $score');
               print('Answers Map: $answersMap');
             },
-            customWidget: questionId == 404 ?
+            customWidget:
+            // questionId==null && questionId==0 ?
+            // Column(crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Container(
+            //       height: 400,
+            //       width: 300,
+            //       alignment: Alignment.center,
+            //       decoration: BoxDecoration(
+            //           image: const DecorationImage(
+            //             image:AssetImage("assets/images/something1.jpg"),
+            //             fit: BoxFit.fill,
+            //           ),
+            //           color: Colors.blueGrey.shade200,
+            //           borderRadius: BorderRadius.circular(12),
+            //           border: Border.all(width: 1,color: Colors.blueGrey)
+            //       ),
+            //     ),
+            //     const SizedBox(height: 20,),
+            //     const Text('No custom widget found with question ID!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+            //   ],
+            // ):
+            questionId == 404 ?
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -167,14 +212,6 @@ key: infoSurveyKey,
                       getScannedText: (value) {
                         setText(value);
                       }),
-                  StreamBuilder<String>(
-                    stream: controller.stream,
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      return Result(text: scannedText);
-                      //  return Result(text: snapshot.data != null ? snapshot.data! : "");
-                    },
-                  ),
-
                   Container(
 
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -187,43 +224,51 @@ key: infoSurveyKey,
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+                          blurRadius: 2,
+                          offset: const Offset(1, 1),
                         ),
                       ],// Adjust border radius as needed
                     ),
 
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/notebook.png',
-                          height: 100,
-                          width: 100,
-                        ),
-                        const SizedBox(height: 20),
-                        const Align(alignment: Alignment.center,),
-                        const Text(
-                          'Scan ',
-
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/notebook.png',
+                            height: 100,
+                            width: 100,
                           ),
-                        ),
-                        const Text(
-                          'Your Prescription',
+                          const SizedBox(height: 20),
 
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          scannedText.isNotEmpty ?
+                          Text(
+                            '              Scanned prescription :\n $scannedText',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ): const Text(
+                            '           Scan \n Your Prescription',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
+                          // StreamBuilder<String>(
+                          //   stream: controller.stream,
+                          //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          //     return Result(text: scannedText,);
+                          //     //  return Result(text: snapshot.data != null ? snapshot.data! : "");
+                          //   },
+                          // ),
+                          const SizedBox(height: 20),
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 15,),
@@ -273,7 +318,7 @@ key: infoSurveyKey,
                 ],
               ),
             ) :
-            questionId == 402 ?
+           questionId == 402 ?
             Column(
               children: [
                // const SizedBox(height: 40,),
@@ -297,7 +342,7 @@ key: infoSurveyKey,
                   ),
                 ),
                 const SizedBox(height: 30,),
-              /*  Column(
+               /* Column(
 
                   children: (options)
                       .keys
@@ -435,28 +480,125 @@ key: infoSurveyKey,
                   ),
                 )
               ],
-            )
-                : Column(crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+            ):
+          questionId == 409 ?
                 Container(
-                  height: 400,
-                  width: 300,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image:AssetImage("assets/images/something1.jpg"),
-                        fit: BoxFit.fill,
-                      ),
-                    color: Colors.blueGrey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(width: 1,color: Colors.blueGrey)
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18,right: 18),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30,),
+                        Text(question,style: const TextStyle(fontSize: 20,fontWeight : FontWeight.bold,color: Colors.black),),
+                        Text(description,style: const TextStyle(fontSize: 10,fontWeight : FontWeight.bold,color: Colors.black),),
+                        const SizedBox(height: 20,),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.9,
+
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 2,
+                                offset: const Offset(1, 1),
+                              ),
+                            ],// Adjust border radius as needed
+                          ),
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/notebook.png',
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                                    'Scan Your Prescription',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+
+
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                        InkWell(
+                          onTap: () => scanQR(),
+                          child: Container(
+                            height: 62,
+                            decoration: BoxDecoration(
+                              color: Colors.teal.shade200,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                  offset: const Offset(1,1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text('Scan the QR',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                        Text('Scan result : $_scanBarcode\n',
+                            style: const TextStyle(fontSize: 10)),
+                        const SizedBox(height: 20,),
+                        InkWell(
+                          onTap: (){
+
+                            infoSurveyKey.currentState!.onCustomWidgetNextTapped(questionId, _scanBarcode, question, score??0);
+                            // Future.delayed(const Duration(milliseconds: 800)).then((value){
+                            //   _scanBarcode = '';
+                            //   setState(() {
+                            //
+                            //   });
+                            // });
+
+
+                          },
+                          child: Container(
+                            height: 62,
+                            //  width: 300,
+                            decoration: BoxDecoration(
+                              color: Colors.pink.shade300,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 2,
+                                  offset: Offset(1,1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text('Next Question',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20,),
-                const Text('No custom widget found!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
-              ],
-            ),
+                )
+                : const Center(child: CircularProgressIndicator()),
 
             // customWidgetReturn: (questionId,question,answers){
             //   print('printing the questionid----------------$questionId');
@@ -466,7 +608,6 @@ key: infoSurveyKey,
             // },
 
             onPageChanged: (answerMap, questionData, index){
-
               setState(() {
                 question = questionData!.question;
                 options = questionData.answerChoices;
@@ -474,9 +615,6 @@ key: infoSurveyKey,
                 description = questionData.description!;
                 score=questionData.score??0;
                 questionType=questionData.questionType;
-
-
-
               });
 
               print('on page change called answerMap--- $answerMap');
@@ -504,3 +642,4 @@ class Result extends StatelessWidget {
     return Text("Readed text: $text");
   }
 }
+
