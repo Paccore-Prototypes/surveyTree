@@ -214,6 +214,7 @@
   }
 },
 
+
   {
     "id": 903,
     "isMandatory": false,
@@ -337,6 +338,20 @@
     },
     "score": 6
   },
+  {
+    "id": 409,
+    "isMandatory": false,
+    "question": "Let's scan QR and get the details",
+    "description": "A QR code (quick response code) is a type of two dimensional (2D) bar code that is used to provide easy access to online information through the digital camera on a smartphone or tablet.",
+    "image": "https://img.freepik.com/free-vector/translator-concept-illustration_114360-6334.jpg?w=740&t=st=1711106890~exp=1711107490~hmac=81da96b4cdc1851164f83fda9f7ae4e130c20866ce09cac7ce6273074986bcdc",
+    "imagePosition": "middle",
+    "imagePlace": "center",
+    "imageHeight": 150,
+    "imageWidth": 150,
+    "questionType": "custom_widget",
+    "score": 6,
+    "answerChoices": null
+  },
 
   {
     "id": 90,
@@ -380,6 +395,8 @@
     },
     "score": 6
   },
+
+
   {
     "id": 2,
     "isMandatory": false,

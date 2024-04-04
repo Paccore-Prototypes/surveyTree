@@ -42,7 +42,7 @@ class _IntroductionState extends State<Introduction> {
                SizedBox(height: 20),
                Text(
                  "Get Ready for survey in advance",
-                 style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
+                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                ),
              ],
            ),
@@ -52,16 +52,17 @@ class _IntroductionState extends State<Introduction> {
          const SizedBox(height: 40),
          ElevatedButton(
            style: ElevatedButton.styleFrom(
-             backgroundColor: Colors.pinkAccent,
+             backgroundColor: Colors.pink.shade300,
              shape: RoundedRectangleBorder(
                borderRadius: BorderRadius.circular(12),
              ),
              minimumSize: const Size(340, 56),
            ),
            onPressed: () {
-Navigator.push(context,
-  MaterialPageRoute(builder: (context) => ImportingProperties())
-);
+             Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ImportingProperties()));
            },
            child: const Text('Start',style: TextStyle(color: Colors.white,fontSize: 18)),
          ),

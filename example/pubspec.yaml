@@ -30,6 +30,7 @@ dependencies:
   flutter_scalable_ocr: ^2.0.0
   permission_handler: 10.3.0
   image_picker: ^1.0.4
+  flutter_barcode_scanner: ^2.0.0
   cupertino_icons: ^1.0.2
 #  integration_test:
 
