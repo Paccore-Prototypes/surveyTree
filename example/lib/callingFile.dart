@@ -323,7 +323,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
               children: [
                // const SizedBox(height: 40,),
                 Container(
-                  height: 250,
+                  height: MediaQuery.of(context).size.height*0.28,
                   alignment: Alignment.center,
                   color: Colors.teal.shade200,
                   child: Row(

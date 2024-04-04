@@ -15,21 +15,21 @@ class _IntroductionState extends State<Introduction> {
       body: Column(
        children: [
          Container(
-           height: 510,
+           height: MediaQuery.of(context).size.height*0.65,
            alignment: Alignment.center,
            color: Colors.teal.shade300,
            child: Column(
              children: [
-               const SizedBox(height: 60,),
+                SizedBox(height:MediaQuery.of(context).size.height*0.1),
                const Text('Aquesty',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                Image.asset('assets/images/doctorimage.png',
-                 height: 350,
-                 width: 300,
+                 height: MediaQuery.of(context).size.height*0.51,
+                 width: MediaQuery.of(context).size.width*0.8,
                ),
              ],
            ),
          ),
-         const SizedBox(height: 40),
+          SizedBox(height:MediaQuery.of(context).size.height*0.05),
          const Padding(
            padding: EdgeInsets.only(left: 20),
            child: Column(
