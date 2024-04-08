@@ -11,7 +11,12 @@ class Introduction extends StatefulWidget {
 class _IntroductionState extends State<Introduction> {
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+    return SafeArea(
+      child: Theme(
+          data: ThemeData(
+              primaryColor: Colors.transparent
+          ),
+    child:Scaffold(
       body: Column(
        children: [
          Container(
@@ -70,7 +75,7 @@ class _IntroductionState extends State<Introduction> {
 
        ],
      ),
-    );
+    )));
 
   }
 }

@@ -855,7 +855,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
                                 content:
-                                    Text('Please select at least one answer'),
+                                    Text('Please select a option'),
                                 behavior: SnackBarBehavior.floating,
                               ));
                             }
@@ -865,7 +865,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
-                                      Text('Please select at least one answer'),
+                                      Text('Please select an option'),
                                   behavior: SnackBarBehavior.floating,
                                 ));
                                 return;
@@ -1484,7 +1484,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
-                                  Text('Please select at least one answer'),
+                                  Text('Please select an option'),
                                   behavior: SnackBarBehavior.floating,
                                 ));
                                 return;
@@ -1656,7 +1656,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
 
     if(answersMap.containsKey(questionData.question)){
-     // sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
+      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
     }
 
     double sliderScore = 0;
