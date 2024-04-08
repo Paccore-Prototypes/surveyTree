@@ -865,7 +865,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
-                                      Text('Please select a option'),
+                                      Text('Please select an option'),
                                   behavior: SnackBarBehavior.floating,
                                 ));
                                 return;
@@ -1484,7 +1484,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
-                                  Text('Please select a option'),
+                                  Text('Please select an option'),
                                   behavior: SnackBarBehavior.floating,
                                 ));
                                 return;
