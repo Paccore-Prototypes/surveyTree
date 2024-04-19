@@ -208,68 +208,78 @@ class _CustomSliderState extends State<CustomSlider> {
                     ),
                   ),
                 )
-                    : const SizedBox(),
-                GestureDetector(
-                    onTap: () {
-    String? ageGroup;
-    double valueSlider = sliderValue.value;
-    if (valueSlider < 10) {
-    ageGroup = 'under_10';
-    } else if (valueSlider >= 10 && valueSlider <= 20) {
-    ageGroup = '10_to_20';
-    } else if (valueSlider > 20 && valueSlider <= 30) {
-    ageGroup = '20_to_30';
-    } else if (valueSlider >= 10 && valueSlider <= 20) {
-    ageGroup = '30_to_40';
-    } else if (valueSlider > 20 && valueSlider <= 30) {
-    ageGroup = '40_to_50';
-    } else if (valueSlider >= 10 && valueSlider <= 20) {
-    ageGroup = '50_to_60';
-    } else if (valueSlider > 20 && valueSlider <= 30) {
-    ageGroup = '60_to_70';
-    } else if (valueSlider >= 10 && valueSlider <= 20) {
-    ageGroup = '70_to_80';
-    } else if (valueSlider > 20 && valueSlider <= 30) {
-    ageGroup = '80_to_90';
-    } else if (valueSlider >= 10 && valueSlider <= 20) {
-    ageGroup = '90_to_100';
-    } else {}
 
-    switch (ageGroup) {
-    case 'under_10':
-    sliderScore = 1;
-    break;
-    case '10_to_20':
-    sliderScore = 2;
-    break;
-    case '20_to_30':
-    sliderScore = 3;
-    break;
-    case '30_to_40':
-    sliderScore = 4;
-    break;
-    case '40_to_50':
-    sliderScore = 5;
-    break;
-    case '50_to_60':
-    sliderScore = 6;
-    break;
-    case '60_to_70':
-    sliderScore = 7;
-    break;
-    case '70_to_80':
-    sliderScore = 8;
-    break;
-    case '80_to_90':
-    sliderScore = 9;
-    break;
-    case '90_to_100':
-    sliderScore = 10;
-    break;
-    default:
-    sliderScore = widget.questionData.score!.toDouble();
-    break;
+    : const SizedBox(),
+    GestureDetector(
+    onTap: () {
+
+    if (widget.questionData != null) {
+    widget.callBack!( sliderValue.value.toStringAsFixed(0),  widget.questionData,false);
     }
+    },
+    //                 : const SizedBox(),
+    //             GestureDetector(
+    //                 onTap: () {
+    // String? ageGroup;
+    // double valueSlider = sliderValue.value;
+    // if (valueSlider < 10) {
+    // ageGroup = 'under_10';
+    // } else if (valueSlider >= 10 && valueSlider <= 20) {
+    // ageGroup = '10_to_20';
+    // } else if (valueSlider > 20 && valueSlider <= 30) {
+    // ageGroup = '20_to_30';
+    // } else if (valueSlider >= 10 && valueSlider <= 20) {
+    // ageGroup = '30_to_40';
+    // } else if (valueSlider > 20 && valueSlider <= 30) {
+    // ageGroup = '40_to_50';
+    // } else if (valueSlider >= 10 && valueSlider <= 20) {
+    // ageGroup = '50_to_60';
+    // } else if (valueSlider > 20 && valueSlider <= 30) {
+    // ageGroup = '60_to_70';
+    // } else if (valueSlider >= 10 && valueSlider <= 20) {
+    // ageGroup = '70_to_80';
+    // } else if (valueSlider > 20 && valueSlider <= 30) {
+    // ageGroup = '80_to_90';
+    // } else if (valueSlider >= 10 && valueSlider <= 20) {
+    // ageGroup = '90_to_100';
+    // } else {}
+    //
+    // switch (ageGroup) {
+    // case 'under_10':
+    // sliderScore = 1;
+    // break;
+    // case '10_to_20':
+    // sliderScore = 2;
+    // break;
+    // case '20_to_30':
+    // sliderScore = 3;
+    // break;
+    // case '30_to_40':
+    // sliderScore = 4;
+    // break;
+    // case '40_to_50':
+    // sliderScore = 5;
+    // break;
+    // case '50_to_60':
+    // sliderScore = 6;
+    // break;
+    // case '60_to_70':
+    // sliderScore = 7;
+    // break;
+    // case '70_to_80':
+    // sliderScore = 8;
+    // break;
+    // case '80_to_90':
+    // sliderScore = 9;
+    // break;
+    // case '90_to_100':
+    // sliderScore = 10;
+    // break;
+    // default:
+    // sliderScore = widget.questionData.score!.toDouble();
+    // break;
+    // }
+    // },
 
                       //   if (isLast) {
                       //     answersMap[questionData.question!] = {
@@ -306,6 +316,7 @@ class _CustomSliderState extends State<CustomSlider> {
                       //     );
                       //   }
                       // },
+
                       child:Container(
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width*0.5,
@@ -335,7 +346,7 @@ class _CustomSliderState extends State<CustomSlider> {
                           ),
                           child: const Center(
                             child: Text(
-                              'Next',
+                              'Submit Survey',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -384,7 +395,7 @@ class _CustomSliderState extends State<CustomSlider> {
                             ),
                           ),
                         ),
-                      );}
+                      ),
                 )
               ],
             ),
