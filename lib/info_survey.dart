@@ -316,7 +316,7 @@ Navigator.pop(context);
         return buildRadioQuestion(data[pageIndex], pageIndex);
       case "slider":
         return buildSliderQuestion(data[pageIndex],);
-      case "multipleChoices":
+      case "multiplechoices":
         return buildMultipleChoicesQuestion(data[pageIndex]);
       case "datetime":
         return buildDateTimeQuestion(data[pageIndex]);
@@ -524,7 +524,8 @@ Navigator.pop(context);
     if (isNestedchoice) {
       if (pageviewTree!
               .nodes[pageController.page!.toInt()].answerChoices[answer] ==
-          null) {
+          null||pageviewTree!
+          .nodes[pageController.page!.toInt()].answerChoices[answer].isEmpty) {
         currentMainChildrenlistIndex = currentMainChildrenlistIndex + 1;
         if (currentMainChildrenlistIndex == widget.treeModel.nodes.length - 1) {
           isLast = true;
@@ -733,8 +734,9 @@ Navigator.pop(context);
                           answersMap[data.question!]={
                             'id':data.id,
                             'question-type':data.questionType,
-                            'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue]!=null?data.answerChoices[selectedValue][0]['score']:0,
-                            'answer':selectedAnswer
+                            'score': data.answerChoices[selectedAnswer] != null && data.answerChoices[selectedAnswer] !=''&&data.answerChoices[selectedAnswer]!='[]'&&data.answerChoices[selectedAnswer]!={}&&data.answerChoices[selectedAnswer].length>0
+                                ? data.answerChoices[selectedAnswer][0]['score'] ?? 0
+                                : 0,                            'answer':selectedAnswer
                           };
                           sumOfScoresData();
 
@@ -755,8 +757,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             answeValue: {
                               'id': data.id,
                               'question-type': data.questionType,
-                              'score': data.answerChoices[selectedAnswer] != null
-                                  ? data.answerChoices[selectedAnswer][0]['score']
+                              'score': data.answerChoices[selectedAnswer] != null && data.answerChoices[selectedAnswer] !=''&&data.answerChoices[selectedAnswer]!='[]'&&data.answerChoices[selectedAnswer]!={}&&data.answerChoices[selectedAnswer].length>0
+                                  ? data.answerChoices[selectedAnswer][0]['score'] ?? 0
                                   : 0,
                               'answer':answer
                             });
@@ -765,7 +767,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                  answersMap[data.question!]={
                    'id':data.id,
                    'question-type':data.questionType,
-                   'score':data.answerChoices==null ? data.score:data.answerChoices[selectedValue][0]['score'],
+                   'score':data.answerChoices[answer].isNotEmpty?data.answerChoices!=null ? data.score:data.answerChoices[selectedValue][0]['score'] :0,
                    'answer':selectedAnswer
                  };
 
@@ -861,7 +863,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             }
                           } else {
                             if (data.isMandatory == true) {
-                              if (answers.isEmpty) {
+                              if (answersMap.isEmpty) {
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
@@ -1000,8 +1002,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   Widget buildAnswerWidget(String answer, TreeNode questionData) {
 
     bool isSelected = answerdata == answer;
-
-    String imageOption = questionData.answerChoices[answer][0]["imageOption"] ?? '';
+print('the data was-------------------'+questionData.answerChoices[answer].toString());
+    String imageOption =questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer]!=[]&&questionData.answerChoices[answer].length>0? questionData.answerChoices[answer][0]["imageOption"] ?? '':'';
     if (questionData.isMultiListSelects == false) {
         return Column(
           children: [
@@ -1056,7 +1058,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
        if (answerdata != answer) {
              answerdata = answer;
              if(questionData.answerChoices[answer][0]['answerDescription']!=null){
-               answerDescription = questionData.answerChoices[answer][0]['answerDescription'];
+               answerDescription = questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty?questionData.answerChoices[answer][0]['answerDescription'] :'';
              }
        } else {
          //    answerdata = '';
@@ -1088,8 +1090,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               answeValue: {
                 'id': questionData.id,
                 'question-type': questionData.questionType,
-                'score': questionData.answerChoices[answer][0]
-                ['score'],
+                'score': questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty?questionData.answerChoices[answer][0]['score'] :0,
                 'answer': answerdata,
                 'optionDescription': answerDescription
               });
@@ -1137,7 +1138,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               //     .answerChoices[answer][0]['answerDescription'] : '';
             } else {
               answerDescription =
-                  questionData.answerChoices[answer][0]['answerDescription'] ??
+              questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty? questionData.answerChoices[answer][0]['answerDescription'] :
                       '';
               answerdata = answer;
             }
@@ -1239,8 +1240,8 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                       answeValue: {
                         'id': questionData.id,
                         'question-type': questionData.questionType,
-                        'score': questionData.answerChoices[answer][0]
-                        ['score'],
+                        'score':questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].answerChoices[answer].isNotEmpty? questionData.answerChoices[answer][0]
+                        ['score']:0,
                         'answer': answer,
                         'optionDescription': answerDescription
                       });
@@ -1656,7 +1657,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
     ValueNotifier<double> sliderValue = ValueNotifier<double>(25);
 
     if(answersMap.containsKey(questionData.question)){
-     // sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
+      sliderValue = ValueNotifier(double.parse(answersMap[questionData.question]['answer']??'25'));
     }
 
     double sliderScore = 0;

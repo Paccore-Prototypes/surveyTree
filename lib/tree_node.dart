@@ -38,7 +38,7 @@ class TreeNode {
     this.inputType,
     this.listGridType,
     this.imageOption,this.isMultiListSelects
-  
+
   });
 }
 
@@ -105,7 +105,7 @@ class TreeModel {
           description: key,
           score: 1,
           image: '',
-          questionType: key, // Placeholder value for children without questionType
+          questionType: key,
           imagePosition: key,
           imagePlace: key,
           imageHeight: 100,

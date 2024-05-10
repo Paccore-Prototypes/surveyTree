@@ -38,7 +38,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
   List<String> scannedTextList = [];
 
   List<String> answers = [];
-  String answerdata = '';
+  dynamic answerdata = '';
   String scannedText = '';
 
 
@@ -411,7 +411,7 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                                    //     child: Container(height: 30, width: 30, color: Colors.orange)),
                                  ],
                                )),
-                             contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 16.0),
+                             contentPadding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16.0),
                              dense:true,
                              shape: isSelected ?
                                  RoundedRectangleBorder(
@@ -423,17 +423,12 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                              ),
                                selected: isSelected,
                                onTap: () {
-
-
                                  setState(() {
                                    if (answerdata != answer) {
                                      answerdata = answer;
-
-
-
                                      print('-------------------------------------checking the answerdata value--$answerdata');
                                    } else {
-                                         answerdata = '';
+                                      //   answerdata = '';
                                    }
                                  });
                                },
