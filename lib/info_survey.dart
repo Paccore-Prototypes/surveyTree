@@ -1982,7 +1982,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                             ),
                         child: const Center(
                           child: Text(
-                           'Next',
+                           'submit',
                             style:
                                 TextStyle(
                                   color: Colors.white,
