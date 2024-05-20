@@ -1730,7 +1730,7 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
               : Container(),
           imagePosition == ImagePosition.bottom &&
               questionData.image != null &&
-              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 0,),
+              questionData.image!.isNotEmpty ? SizedBox(height: MediaQuery.of(context).size.height*0.01,):const SizedBox(height: 50,),
           ValueListenableBuilder<double>(
             valueListenable: sliderValue,
             builder: (context, value, child) {
