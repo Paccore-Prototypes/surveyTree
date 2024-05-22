@@ -68,7 +68,7 @@ class _AnswersState extends State<Answers> with SingleTickerProviderStateMixin {
             const SizedBox(height: 10,),
             Center(child: AnimatedCheck(scores: widget.scores)),
             const SizedBox(height: 20,),
-            Container(
+            SizedBox(
               width:MediaQuery.of(context).size.width,
               height: 50,
               child: const Text(

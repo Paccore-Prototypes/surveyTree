@@ -225,10 +225,53 @@
       "bus":[
 
       ],
-      "trainvan":[
+      "train":[
 
       ],
-      "":null
+      "van":null
+    }
+  },
+  {
+    "id":1000,
+    "questionId":1715276063756,
+    "question":"Types of non that you had for dinner",
+    "questionType":"radio",
+    "isMandatory":false,
+    "image":"https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imageHeight":120,
+    "imageWidth":120,
+    "inputType":"Text",
+    "description":null,
+    "answerChoices":{
+      "green-leaf":[
+        {
+          "id":1107,
+          "questionId":17152762807567,
+          "question":"Which green type do you want?",
+          "questionType":"list",
+          "isMandatory":false,
+          "image":null,
+          "imageHeight":0,
+          "imageWidth":0,
+          "score":30,
+          "inputType":"Text",
+          "description":"agvdkcasgvEFjlhS dv",
+          "answerChoices":{
+            "gongura":[
+
+            ],
+            "palakura":[
+
+            ]
+          }
+        }
+      ],
+      "Dal":[
+        {}
+      ],
+      "Veg-rice":[
+        {}
+      ]
     }
   }
 ]
