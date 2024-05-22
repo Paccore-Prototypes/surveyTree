@@ -351,6 +351,29 @@ Navigator.pop(context);
               }
             }
             if (isLast) {
+              if (callingBackData.answerChoices[answerdata] != null && callingBackData.answerChoices[answerdata].isNotEmpty) {
+                if (callingBackData.answerChoices[answerdata][0]['answerChoices'] != null && callingBackData.answerChoices[answerdata][0]['answerChoices'] != []) {
+                  print('printing the value for list---------' + callingBackData.answerChoices[answerdata][0].toString());
+                  addTheFollowUpQuestion(
+                      data!.isEmpty || data == null ? '' : data,
+                      isNestedchoice: true,
+                      question: callingBackData.question,
+                      answeValue: {
+                        'id': callingBackData.id,
+                        'question-type': callingBackData
+                            .questionType,
+                        'score': callingBackData.answerChoices == null
+                            ? 0
+                            : callingBackData.score,
+                        'answer': data.isEmpty || data == null ? '' : data,
+
+                        'optionDescription': answerDescription
+                      });
+                  pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }}else{
 
               answersMap[callingBackData.question] = {
                 'id': callingBackData.id,
@@ -373,7 +396,7 @@ Navigator.pop(context);
               }
 
               //show Popup Dialog here
-            } else {
+            }} else {
               addTheFollowUpQuestion(
                   data!.isEmpty || data == null ? '' : data,
                   isNestedchoice: true,
@@ -550,6 +573,8 @@ Navigator.pop(context);
     if (node.questionType != "") {
       pageviewTree!.nodes.add(node);
     } else {
+
+
       //Recursion Algorithm
       addTheFollowUpQuestion('', isNestedchoice: true, isRecrusive: true);
     }
@@ -581,6 +606,7 @@ Navigator.pop(context);
 
       for (int i = 0; i < widget.treeModel.nodes.length; i++) {
         if (question == widget.treeModel.nodes[i].question) {
+
           if (currentMainChildrenlistIndex > 0) {
             currentMainChildrenlistIndex = currentMainChildrenlistIndex - 1;
             shouldBreak = true;
@@ -589,9 +615,13 @@ Navigator.pop(context);
         }
       }
 
+
       if (shouldBreak) {
         break;
       }
+    }
+    if (currentMainChildrenlistIndex == widget.treeModel.nodes.length - 1) {
+      isLast = true;
     }
 
     pageviewTree!.nodes.removeAt(pageController.page!.toInt());
@@ -725,30 +755,57 @@ Navigator.pop(context);
                     //  groupValue: selectedValue,
                      // groupValue: (answersMap.containsKey(data.question) && answersMap.containsKey(data.answerChoices)) ? null : selectedValue,
                       onChanged: (selectedAnswer) {
-
                         setState(() {
                           selectedValue = selectedAnswer;
                           answer = selectedAnswer!;
                         });
                         if(isLast){
-                          answersMap[data.question!]={
-                            'id':data.id,
-                            'question-type':data.questionType,
-                            'score': data.answerChoices[selectedAnswer] != null && data.answerChoices[selectedAnswer] !=''&&data.answerChoices[selectedAnswer]!='[]'&&data.answerChoices[selectedAnswer]!={}&&data.answerChoices[selectedAnswer].length>0
-                                ? data.answerChoices[selectedAnswer][0]['score'] ?? 0
-                                : 0,                            'answer':selectedAnswer
-                          };
-                          sumOfScoresData();
+                          if (data.answerChoices[answer][0]['answerChoices']!=null&&data.answerChoices[answer][0]['answerChoices']!=[]) {
+                            print('printing the value ---------'+data.answerChoices[answer][0].toString());
+                            addTheFollowUpQuestion(answer,
+                                isNestedchoice: true,
+                                haveDescription:
+                                data.description != null ? true : false,
+                                question: data.question,
+                                answeValue: {
+                                  'id': data.id,
+                                  'question-type': data.questionType,
+                                  'score': data.answerChoices[selectedAnswer] != null && data.answerChoices[selectedAnswer] !=''&&data.answerChoices[selectedAnswer]!='[]'&&data.answerChoices[selectedAnswer]!={}&&data.answerChoices[selectedAnswer].length>0
+                                      ? data.answerChoices[selectedAnswer][0]['score'] ?? 0
+                                      : 0,
+                                  'answer':answer
+                                });
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          }else{
+                            answersMap[data.question!] = {
+                              'id': data.id,
+                              'question-type': data.questionType,
+                              'score': data.answerChoices[selectedAnswer] !=
+                                  null &&
+                                  data.answerChoices[selectedAnswer] != '' &&
+                                  data.answerChoices[selectedAnswer] != '[]' &&
+                                  data.answerChoices[selectedAnswer] != {} &&
+                                  data.answerChoices[selectedAnswer].length > 0
+                                  ? data
+                                  .answerChoices[selectedAnswer][0]['score'] ??
+                                  0
+                                  : 0, 'answer': selectedAnswer
+                            };
+                            sumOfScoresData();
 
-                          // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
-                          //     SnackBar(content: Text('Your Score Is $sumOfScores')));
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                                _showSubmitDialog();
-
-}
+                            // ScaffoldMessenger.maybeOf(context)!.showSnackBar(
+                            //     SnackBar(content: Text('Your Score Is $sumOfScores')));
+                            if (widget.onSurveyEnd != null) {
+                              widget.onSurveyEnd!(sumOfScores, answersMap);
+                            } else {
+                              _showSubmitDialog();
+                            }
+                          }
                         }else{
+                          //not is last
                  addTheFollowUpQuestion(answer,
                             isNestedchoice: true,
                             haveDescription:
@@ -770,6 +827,11 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                    'score':data.answerChoices[answer].isNotEmpty?data.answerChoices!=null ? data.score:data.answerChoices[selectedValue][0]['score'] :0,
                    'answer':selectedAnswer
                  };
+                 // if(data.answerChoices[answer]!=null && data.answerChoices[answer]!=''){
+                 // if(data.answerChoices[answer][0]['answerChoices']==null&&data.answerChoices[answer][0]['answerChoices']==[]) {
+                 //   _showSubmitDialog();
+                 // }
+                 // }
 
                         pageController.nextPage(
                             duration: const Duration(milliseconds: 500),
@@ -847,17 +909,16 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                               //         content:
                               //             Text('Your Score Is $sumOfScores')));
 
-if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                                _showSubmitDialog();
-
-}
+                              if (widget.onSurveyEnd != null) {
+                                widget.onSurveyEnd!(sumOfScores, answersMap);
+                              } else {
+                                _showSubmitDialog();
+                              }
                             } else {
                               ScaffoldMessenger.maybeOf(context)!
                                   .showSnackBar(const SnackBar(
                                 content:
-                                    Text('Please select at least one answer'),
+                                Text('Please select at least one answer'),
                                 behavior: SnackBarBehavior.floating,
                               ));
                             }
@@ -907,11 +968,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                           }
                         },
                      child:    isLast ? Container(
-
     constraints: BoxConstraints(
     maxWidth: MediaQuery.of(context).size.width*0.5,
     maxHeight: MediaQuery.of(context).size.height*0.1,
-
     ),
                        child: widget.customLastButton ?? Container(
                          width: MediaQuery.of(context).size.width*0.32,
@@ -1057,8 +1116,8 @@ print('the data was-------------------'+questionData.answerChoices[answer].toStr
     setState(() {
        if (answerdata != answer) {
              answerdata = answer;
-             if(questionData.answerChoices[answer][0]['answerDescription']!=null){
-               answerDescription = questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty?questionData.answerChoices[answer][0]['answerDescription'] :'';
+             if(questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty){
+               answerDescription = questionData.answerChoices[answer][0]['answerDescription'] ?? '';
              }
        } else {
          //    answerdata = '';
@@ -1240,7 +1299,7 @@ print('the data was-------------------'+questionData.answerChoices[answer].toStr
                       answeValue: {
                         'id': questionData.id,
                         'question-type': questionData.questionType,
-                        'score':questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].answerChoices[answer].isNotEmpty? questionData.answerChoices[answer][0]
+                        'score':questionData.answerChoices[answer]!=null&&questionData.answerChoices[answer].isNotEmpty? questionData.answerChoices[answer][0]
                         ['score']:0,
                         'answer': answer,
                         'optionDescription': answerDescription
@@ -1431,18 +1490,51 @@ setState(() {
 
                         GestureDetector(
                           onTap: () {
+                            print('printing the value for list1---------'+questionData.answerChoices[answerdata].toString());
                             if (isLast) {
-                            //  if (answersMap.containsKey(questionData.question)) {
+                              if (questionData.answerChoices[answerdata] != null && questionData.answerChoices[answerdata].isNotEmpty) {
+                              if (questionData.answerChoices[answerdata][0]['answerChoices'] != null && questionData.answerChoices[answerdata][0]['answerChoices'] != []) {
+                                print('printing the value for list---------' + questionData.answerChoices[answerdata][0].toString());
+                                addTheFollowUpQuestion(
+                                    questionData.isMultiListSelects == false
+                                        ? answerdata
+                                        : answers.length == 1
+                                        ? answers[0]
+                                        : answers.toString(),
+                                    isNestedchoice: true,
+                                    question: questionData.question,
+                                    answeValue: {
+                                      'id': questionData.id,
+                                      'question-type': questionData
+                                          .questionType,
+                                      'score': questionData.answerChoices ==
+                                          null
+                                          ? 0
+                                          : questionData.score,
+                                      //   'answer':answers,
+                                      'answer': questionData
+                                          .isMultiListSelects == true
+                                          ? answers ?? ''
+                                          : answerdata ?? '',
+                                      'optionDescription': answerDescription
+                                    });
+                                pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              } }else {
+                                //  if (answersMap.containsKey(questionData.question)) {
 
-                                answersMap[questionData.question]={
-                                        'id': questionData.id,
-                                        'question-type': questionData.questionType,
-                                        'score': questionData.answerChoices == null
-                                            ? 0
-                                            : questionData.score,
-                                        'answer': questionData.isMultiListSelects==true? answers:answerdata,
-                                        'optionDescription': answerDescription
-                                      };
+                                answersMap[questionData.question] = {
+                                  'id': questionData.id,
+                                  'question-type': questionData.questionType,
+                                  'score': questionData.answerChoices == null
+                                      ? 0
+                                      : questionData.score,
+                                  'answer': questionData.isMultiListSelects ==
+                                      true ? answers : answerdata,
+                                  'optionDescription': answerDescription
+                                };
                                 sumOfScoresData();
 
                                 //addTheFollowUpQuestion(answerdata,
@@ -1463,14 +1555,13 @@ setState(() {
                                 //             Text('Your Score Is $sumOfScores')));
 
 
-                                if(widget.onSurveyEnd!=null){
-widget.onSurveyEnd!(sumOfScores, answersMap);
-}else{
-                                                _showSubmitDialog();
-
-}
-                          //    }
-     /* else {
+                                if (widget.onSurveyEnd != null) {
+                                  widget.onSurveyEnd!(sumOfScores, answersMap);
+                                } else {
+                                  _showSubmitDialog();
+                                }
+                                //    }
+                                /* else {
                                 ScaffoldMessenger.maybeOf(context)!
                                     .showSnackBar(const SnackBar(
                                   content:
@@ -1478,8 +1569,9 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
                                   behavior: SnackBarBehavior.floating,
                                 ));
                               }*/
+                            }
                           }
-                          else {
+                          else { // not is-last
                             if (questionData.isMandatory == true) {
                               if (questionData.isMultiListSelects == false ? answerdata.isEmpty : answers.isEmpty) {
                                 ScaffoldMessenger.maybeOf(context)!
@@ -3019,6 +3111,4 @@ widget.onSurveyEnd!(sumOfScores, answersMap);
   }
 
  // late AnimationController _controller;
-
-
 }

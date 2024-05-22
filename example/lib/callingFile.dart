@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:infosurvey/info_survey.dart';
 import 'package:infosurvey/tree_node.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -146,8 +145,6 @@ class _ImportingPropertiesState extends State<ImportingProperties>
 
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
       child: Scaffold(
         body: isLoad
@@ -611,11 +608,9 @@ class _ImportingPropertiesState extends State<ImportingProperties>
                 score=questionData.score??0;
                 questionType=questionData.questionType;
               });
-
               print('on page change called answerMap--- $answerMap');
               print('on page change called question Id was---${questionData?.answerChoices}');
               print('on page change called index---$index');
-
         },
       ),
           )
