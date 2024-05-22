@@ -102,7 +102,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
             child: Column(
               crossAxisAlignment:   widget.questionContentAlignment ?? CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 10,),
+                const SizedBox(height: 20,),
                 imagePosition == ImagePosition.top &&
                     widget.questionData.image != null &&
                     widget.questionData.image!.isNotEmpty
@@ -201,8 +201,8 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                     return Align(
                       alignment: Alignment.topLeft,
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width/1.05,
-                        height: options.length * 50.0,
+                        width: MediaQuery.sizeOf(context).width/1.15,
+                        height: options.length * 70.0,
                         decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(12)
@@ -225,7 +225,7 @@ if(widget.answerMap!.containsKey(widget.questionData.question)){
                               },
 
                               //  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                child: Material(
+                                child: Material(color: Colors.blueGrey.shade100,
                                   child: ListTile(
                                     title: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
