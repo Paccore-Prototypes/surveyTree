@@ -740,6 +740,7 @@ Navigator.pop(context);
                   if (answersMap.containsKey(data.question)) {
                     selectedValue = answersMap[data.question]['answer'];
                   }
+
                 }
                 //final bool isSelected = selectedValue == answer;
               //  final bool isSameAsPrevious = isSelected && selectedValue == previousAnswer;
@@ -832,6 +833,7 @@ Navigator.pop(context);
                  //   _showSubmitDialog();
                  // }
                  // }
+
 
                         pageController.nextPage(
                             duration: const Duration(milliseconds: 500),
