@@ -89,6 +89,129 @@ import 'package:Infosurvey_kit/Infosurvey_kit.dart';
 ```
 
 # 💻 Usage
+First, you must initialize the question structure where you specify the type of questions
+and their possible answers, if any. You can also nest questions to form conditional questions.
+You can even mark them as mandatory. This can be either in json format fetched from the server or can be constructed using the
+[Question] model provided as part of this package. The structure is intuitive and determines the flow of the form.
+
+### Types of questions
+The Questions are classified based on the kind of input they take.
+
+### Text Input Question
+This question type lets users type their answers. It supports single-line and multi-line inputs.    
+ ```Dart
+  {
+    "question":"What is yiour gender?",
+    "questionType":"text",
+    "isMandatory":false,
+    "image":"https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imageHeight":120,
+    "imageWidth":120,
+    "inputType":"Text",
+    "description":"zjfhbvldhfblkdhfb"
+  },
+ ```
+### Slider Question
+This type of question uses a slider to capture a value within a specific range. It is useful for ratings or preference scale questions.   
+ ```Dart
+ {
+    "id":120,
+    "questionId":1715276384310000,
+    "question":"How fluent are you in english",
+    "questionType":"slider",
+    "isMandatory":true,
+    "image":"https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imageHeight":120,
+    "imageWidth":120,
+    "inputType":null,
+    "description":null,
+    "answerChoices":null
+  },
+ ```
+### Single Choice Question (Radio)
+Single-choice questions use radio buttons to allow users to select one answer.
+ ```Dart
+   {
+    "question":"How many languages do you ?",
+    "questionType":"radio",
+    "isMandatory":false,
+    "image":"https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imageHeight":120,
+    "imageWidth":120,
+    "inputType":"Text",
+    "description":null,
+    "answerChoices":{
+      "Telugu":[
+
+      ],
+      "hindi":[
+
+      ],
+      "english":[
+
+      ],
+      "spanish":[
+
+      ]
+    }
+  },
+ ```
+### Search Item Question
+Search item questions use checkboxes for multiple selections, allowing the user to pick several options.
+ ```Dart
+{
+    "id":130,
+    "questionId":1715276385753000,
+    "question":"How you are going to home tonight through?",
+    "questionType":"search_item",
+    "isMandatory":false,
+    "image":"",
+    "imageHeight":0,
+    "imageWidth":0,
+    "inputType":null,
+    "description":null,
+    "answerChoices":{
+      "bus":[
+
+      ],
+      "train":[
+
+      ],
+      "van":null
+    }
+  },
+ ```
+### Multiple Choice Question
+This question type allows users to choose multiple answers from the provided options, similar to search items.
+
+ ```Dart
+  {
+    "id":808,
+    "questionId":1715276068160000,
+    "question":"Which item do have?",
+    "questionType":"multiplechoices",
+    "isMandatory":false,
+    "image":"https://img.freepik.com/free-vector/one-happy-boy-eating-table_1308-68783.jpg?w=740&t=st=1711106859~exp=1711107459~hmac=2afd13dc2fed656de8d90fffb61d47b9e5995fded340798d555f2ced1a929acd",
+    "imageHeight":120,
+    "imageWidth":120,
+    "inputType":"Text",
+    "description":null,
+    "answerChoices":{
+      "milk":[
+
+      ],
+      "curd":[
+
+      ],
+      "butter":[
+
+      ],
+      "butter_milk":[
+
+      ]
+    }
+  },
+ ```
 ## Example
 A working example project can be found [HERE](example/)
 
@@ -107,6 +230,7 @@ All that's left is to insert the survey in the widget tree and enjoy.🎉🎊
 )
 
 ```
+
 
 # 🍏vs🤖 : Comparison of Flutter SurveyKit, [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit) to [ResearchKit on iOS](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html)
 This is an overview of which features [iOS ResearchKit Surveys](https://researchkit.org/docs/docs/Survey/CreatingSurveys.html) provides and which ones are already supported by [SurveyKit on Android](https://github.com/quickbirdstudios/SurveyKit).
