@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "isMandatory": false,
+    "question": "What is your gender?",
+    "description": "Better giving the description",
+    "questionType": "radio",
+    "answerChoices": {
+      "Male": [
+        {
+          "id": 101,
+          "isMandatory": true,
+          "question": "Do you have a smoking habit?",
+          "questionType": "list",
+          "score": 8,
+          "answerChoices": {
+            "Yes": [
+              {
+                "id": 102,
+                "isMandatory": true,
+                "question": "How many times do you smoke per day?",
+                "questionType": "text",
+                "inputType":"number",
+                "answerChoices": null,
+                "score": 5
+              }
+            ],
+            "No": []
+          }
+        }
+      ],
+      "Female": [
+        {
+          "id": 103,
+          "isMandatory": false,
+          "question": "Are you pregnant?",
+          "description": "giving the description",
+          "image": "https://fastly.picsum.photos/id/60/200/300.jpg?hmac=OeRKYl1vFStEdR8BEDJW4JRnkE3FdcrGzxxKT_omffg",
+          "questionType": "list",
+          "answerChoices": {
+            "Yes": [
+              {
+                "id": 104,
+                "isMandatory": false,
+                "question": "Are you taking medication?",
+                "description": null,
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "id": 105,
+                      "isMandatory": false,
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": [
+                    {
+                      "id": 106,
+                      "isMandatory": false,
+                      "question": "Are You Taking Any Other Medication Not Related To Pregnecy",
+                      "questionType": "list",
+                      "answerChoices": {
+                        "Yes": [
+                          {
+                            "id": 107,
+                            "isMandatory": true,
+                            "question": "Name The Medicine You Are Taking",
+                            "questionType": "text",
+                            "answerChoices": null
+                          }
+                        ],
+                        "No": [
+                          {
+                            "question": "",
+                            "questionType": null,
+                            "answerChoices": null,
+                            "score": 4
+                          }
+                        ]
+                      },
+                      "score": 10
+                    }
+                  ]
+                },
+                "score": 6
+              }
+            ],
+            "No": [
+              {
+                "id": 109,
+                "isMandatory": true,
+                "question": "Are you taking medication?",
+                "questionType": "list",
+                "answerChoices": {
+                  "Yes": [
+                    {
+                      "id": 110,
+                      "isMandatory": true,
+                      "question": "From when are you taking medication?",
+                      "questionType": "datetime",
+                      "answerChoices": null,
+                      "score": 4
+                    }
+                  ],
+                  "No": []
+                },
+                "score": 2
+              }
+            ]
+          },
+          "score": 4
+        }
+      ],
+      "Other": null
+    }
+  },
+  {
+    "id": 2,
+    "isMandatory": false,
+    "question": "How old are you?",
+    "description": null,
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=1024x1024&w=is&k=20&c=ho97hTtpbzO2oM5e8EDdGf8a6ZLRZr94gWxBAnRMzLk=",
+    "questionType": "text",
+    "score": 6,
+    "answerChoices": null
+  },
+  {
+    "id": 3,
+    "isMandatory": false,
+    "question": "Give your Blood Pressure?",
+    "questionType": "radio",
+    "answerChoices": {
+      "between 80/70mmHg and 130/90mmHg.": [
+        {
+          "id": 301,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 2,
+          "answerChoices": {
+            "yes": [],
+            "no": []
+          }
+        }
+      ],
+      "between 100/70mmHg and 90/100mmHg.": [
+        {
+          "id": 302,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 4,
+          "answerChoices": {
+            "yes": [ ],
+            "no": []
+          }
+        }
+      ],
+      "between 90/60mmHg and 120/80mmHg.": [
+        {
+          "id": 303,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 6,
+          "answerChoices": {
+            "yes": [ ],
+            "no": [ ]
+          }
+        }
+      ],
+      "between 70/60mmHg and 110/80mmHg.": [
+        {
+          "id": 304,
+          "isMandatory": true,
+          "question": "Is this your average BP of the year?",
+          "questionType": "radio",
+          "score": 8,
+          "answerChoices": {
+            "yes": [  ],
+            "no": [ ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "isMandatory": false,
+    "question": "How Many times do you eat?",
+    "questionType": "multipleChoices",
+    "answerChoices": {
+      "two": [],
+      "three": [],
+      "one": [],
+      "four": []
+    }
+  },
+  {
+    "id": 5,
+    "isMandatory": false,
+    "question": "What diet do you prefer?",
+    "questionType": "radio",
+    "answerChoices": {
+      "Veg": [],
+      "Non-Veg": []
+    }
+  }
+]
