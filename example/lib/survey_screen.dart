@@ -1,11 +1,13 @@
-/*
+
+
 import 'package:flutter/material.dart';
-import 'package:survey_module_plugin/model/tree_node_model.dart';
+import 'package:infosurvey_example/tree_model.dart';
 
 class SurveyPage extends StatefulWidget {
   final List<Question> questions;
+  Widget? customWidget;
 
-  SurveyPage({required this.questions});
+  SurveyPage({required this.questions,this.customWidget});
 
   @override
   _SurveyPageState createState() => _SurveyPageState();
@@ -13,208 +15,25 @@ class SurveyPage extends StatefulWidget {
 
 class _SurveyPageState extends State<SurveyPage> {
   List<Question> _questionStack = [];
-  Map<int, List<String>> _selectedAnswers = {}; // Track selected answers by question index
-  int _currentIndexInJson = 0; // Track the current position in the JSON data
-
-  @override
-  void initState() {
-    super.initState();
-    _loadNextBaseQuestion();
-  }
-
-  void _loadNextBaseQuestion() {
-    if (_currentIndexInJson < widget.questions.length) {
-      setState(() {
-        _questionStack.add(widget.questions[_currentIndexInJson]);
-        _currentIndexInJson++; // Move to the next question in JSON for future calls
-      });
-    }
-  }
-
-  void _onAnswerSubmitted(String answer) {
-    _loadNextBaseQuestion();
-  }
-
-  void _onAnswerSelected(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
-    setState(() {
-      // Add or remove the selected answer from the list
-      if (_selectedAnswers[questionIndex] == null) {
-        _selectedAnswers[questionIndex] = [];
-      }
-
-      if (_selectedAnswers[questionIndex]!.contains(selectedAnswer)) {
-        _selectedAnswers[questionIndex]!.remove(selectedAnswer);
-      } else {
-        _selectedAnswers[questionIndex]!.add(selectedAnswer);
-      }
-
-      if (nextQuestions.isNotEmpty) {
-        // Add sub-questions to the stack if they exist
-        _questionStack.addAll(nextQuestions);
-      } else {
-        // No sub-questions, load the next base question from JSON
-        _loadNextBaseQuestion();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Survey")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            for (int i = 0; i < _questionStack.length; i++)
-              buildQuestionWidget(_questionStack[i], i),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildQuestionWidget(Question question, int questionIndex) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          question.question.toString(),
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        if (question.image != null) Image.network(question.image!),
-        SizedBox(height: 10),
-        buildInputWidget(question, questionIndex),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-
-  Widget buildInputWidget(Question question, int questionIndex) {
-    bool isAnswered = _selectedAnswers.containsKey(questionIndex);
-
-    switch (question.questionType) {
-      case 'text':
-        return TextFormField(
-          decoration: const InputDecoration(
-            labelText: 'Your answer',
-            border: OutlineInputBorder(),
-          ),
-          onFieldSubmitted: (value) {
-            _onAnswerSubmitted(value);
-          },
-        );
-
-      case 'list':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            return ListTile(
-              title: Text(entry.key),
-              onTap: isAnswered ? null : () {
-                _onAnswerSelected(questionIndex, entry.key, entry.value);
-              },
-              enabled: !isAnswered,
-            );
-          }).toList(),
-        );
-
-      case 'radio':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            return RadioListTile<String>(
-              title: Text(entry.key),
-              value: entry.key,
-              groupValue: _selectedAnswers[questionIndex]?.first, // Set the selected value
-              onChanged: isAnswered ? null : (value) {
-                _onAnswerSelected(questionIndex, value!, entry.value);
-              },
-            );
-          }).toList(),
-        );
-
-      case 'multipleChoices':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            bool isSelected = _selectedAnswers[questionIndex]?.contains(entry.key) ?? false;
-            return CheckboxListTile(
-              title: Text(entry.key),
-              value: isSelected,
-              onChanged: (value) {
-                if (value != null) {
-                  _onAnswerSelected(questionIndex, entry.key, entry.value);
-                }
-              },
-            );
-          }).toList(),
-        );
-
-      case 'slider':
-        return Slider(
-          value: 0,
-          min: 0,
-          max: 100,
-          divisions: 10,
-          label: "Select a value",
-          onChanged: isAnswered
-              ? null
-              : (value) {
-            setState(() {
-
-             });
-          },
-        );
-
-      case 'datetime':
-        return ElevatedButton(
-          onPressed: isAnswered ? null : () async {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            );
-            if (selectedDate != null) {
-              _onAnswerSubmitted(selectedDate.toString());
-            }
-          },
-          child: Text('Select Date'),
-        );
-
-      default:
-        return Text("Unsupported question type");
-    }
-  }
-}
-*/
-
-
-import 'package:flutter/material.dart';
-
-import 'tree_model.dart';
-
-class SurveyPage extends StatefulWidget {
-  final List<Question> questions;
-
-  SurveyPage({required this.questions});
-
-  @override
-  _SurveyPageState createState() => _SurveyPageState();
-}
-
-class _SurveyPageState extends State<SurveyPage> {
-  List<Question> _questionStack = [];
-  Map<int, List<String>> _selectedAnswers = {}; // Track selected answers by question index
-  int _currentIndexInJson = 0; // Track the current position in the JSON data
-
-  // Track the last selected question and its sub-questions
+  Map<int, List<String>> _selectedAnswers = {};
+  int _currentIndexInJson = 0;
+  List<String> selectedItem = [];
   int? _lastMainQuestionIndex;
   List<Question> _lastSubQuestions = [];
 
+  final TextEditingController _textEditingController = TextEditingController();
+
+  bool _userHasTyped = false;
 
   @override
   void initState() {
     super.initState();
     _loadNextBaseQuestion();
+    _textEditingController.addListener(() {
+      setState(() {
+        _userHasTyped = _textEditingController.text.isNotEmpty;
+      });
+    });
   }
 
   void _loadNextBaseQuestion() {
@@ -222,6 +41,8 @@ class _SurveyPageState extends State<SurveyPage> {
       setState(() {
         _questionStack.add(widget.questions[_currentIndexInJson]);
         _currentIndexInJson++;
+        print('printing the current index----base-----------------$_currentIndexInJson');
+
       });
     }
   }
@@ -230,65 +51,45 @@ class _SurveyPageState extends State<SurveyPage> {
     _loadNextBaseQuestion();
   }
 
+  void _addNodes(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
+    setState(() {
+      _selectedAnswers[questionIndex] = [selectedAnswer];
+      _lastMainQuestionIndex = questionIndex;
+      _lastSubQuestions = nextQuestions;
+
+      if (nextQuestions.isEmpty) {
+        _loadNextBaseQuestion();
+      } else {
+        _questionStack.addAll(nextQuestions);
+      }
+    });
+  }
+
+  void _removeNodes(int questionIndex) {
+    setState(() {
+      if (questionIndex < _questionStack.length - 1) {
+        _questionStack.removeRange(questionIndex + 1, _questionStack.length);
+        _selectedAnswers.removeWhere((key, _) => key > questionIndex);
+        _currentIndexInJson = 1;
+        print('printing the current index------------------$_currentIndexInJson');
+      }
+    });
+  }
+
+
   void _onAnswerSelected(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
     setState(() {
-      // If selected question index is less than the length, remove all questions after it
-      if (questionIndex < _questionStack.length - 1) {
-        _questionStack.removeRange(questionIndex + 1, _questionStack.length);
-        _selectedAnswers.removeWhere((key, _) => key > questionIndex);
+      _removeNodes(questionIndex);
+      _addNodes(questionIndex, selectedAnswer, nextQuestions);
 
-        // Reset currentIndexInJson to the selected question index
-        _currentIndexInJson = questionIndex + 1;
-      }
-
-      // Update the selected answer for the current question
-      _selectedAnswers[questionIndex] = [selectedAnswer];
-
-      // Set the current main question index and update sub-questions
-      _lastMainQuestionIndex = questionIndex;
-      _lastSubQuestions = nextQuestions;
-
-      // Add new sub-questions if they exist
-      if (nextQuestions.isNotEmpty) {
-        _questionStack.addAll(nextQuestions);
-      } else {
-        // Load the next base question if no sub-questions exist
-        _loadNextBaseQuestion();
-      }
     });
   }
 
 
-  void _onAnswerSelected1(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
-    setState(() {
-      // Check if the selected question index is less than the current question stack length
-      if (questionIndex < _questionStack.length - 1) {
-        // Remove all questions after the selected question index
-        _questionStack.removeRange(questionIndex + 1, _questionStack.length);
-
-        // Remove answers associated with questions after the selected index
-        _selectedAnswers.removeWhere((key, _) => key > questionIndex);
-      }
-
-      // Update the selected answer for the current question
-      _selectedAnswers[questionIndex] = [selectedAnswer];
-
-      // Set the current main question index and update sub-questions
-      _lastMainQuestionIndex = questionIndex;
-      _lastSubQuestions = nextQuestions;
-
-      // Add new sub-questions if they exist
-      if (nextQuestions.isNotEmpty) {
-        _questionStack.addAll(nextQuestions);
-      } else {
-        // Load the next base question if no sub-questions exist
-        _loadNextBaseQuestion();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(title: const Text("Survey")),
       body: Padding(
@@ -319,64 +120,267 @@ class _SurveyPageState extends State<SurveyPage> {
     );
   }
 
+  Widget buildSearchBar(Question question){
+    final List<String> options = question.answerChoices!.keys.toList();
+
+    return Column(
+      children: [
+        Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (!_userHasTyped && textEditingValue.text.isEmpty) {
+              return options.take(options.length);
+            } else if (textEditingValue.text.isEmpty) {
+              return const Iterable<String>.empty();
+            } else {
+              return options.where((String option) {
+                return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+              });
+            }
+          },
+          onSelected: (String selection) {
+            setState(() {
+              selectedItem.add(selection);
+              //  selectedItem = selection;
+              _userHasTyped = true;
+            });
+          },
+          fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
+
+            return SizedBox(
+              width: 330,
+              child: TextFormField(
+                style: const TextStyle(height: 2,),
+                controller: fieldTextEditingController,
+                focusNode: fieldFocusNode,
+                onFieldSubmitted: (value) {
+                  _onAnswerSubmitted(value);
+                },
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.blueGrey.shade50,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey.shade200),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  hintText: 'Search..',
+                ),
+              ),
+            );
+          },
+          optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+            return Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width/1.15,
+                height: options.length * 70.0,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(12)
+                ),
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  itemCount: options.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final String option = options.elementAt(index);
+                    final bool isSelected = selectedItem.contains(option);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            selectedItem.remove(option);
+                          } else {
+                            selectedItem.add(option);
+                          }
+                        });
+                      },
+
+                      //  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                      child: Material(color: Colors.blueGrey.shade100,
+                        child: ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(option,),
+                              Icon(isSelected ? Icons.check_box : Icons.check_box_outline_blank)
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 1.2,
+          child: Wrap(
+            spacing: 10, // Spacing between items
+            children: List.generate(
+              selectedItem.length,
+                  (index) => Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.blueGrey.shade100,
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Text(selectedItem[index]),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
+  }
+
+  Widget buildTextField(int questionIndex) {
+    // Use the stored value from _selectedAnswers for the corresponding question index
+    String savedAnswer = _selectedAnswers[questionIndex]?.first ?? '';
+
+    // Initialize the TextEditingController with the saved value
+    TextEditingController _controller = TextEditingController(text: savedAnswer);
+
+    return TextFormField(
+      controller: _controller,
+      decoration: const InputDecoration(
+        hintText: 'Enter value',
+        border: OutlineInputBorder(),
+      ),
+      onChanged: (value) {
+        // Save the answer whenever the text changes
+        setState(() {
+          _selectedAnswers[questionIndex] = [value];
+        });
+      },
+      onFieldSubmitted: (value) {
+        _onAnswerSubmitted(value);
+      },
+    );
+  }
+
+
+  Widget buildListTile(Question question, int questionIndex){
+    return Column(
+      children: question.answerChoices!.entries.map((entry) {
+        bool isSelected = _selectedAnswers[questionIndex]?.contains(entry.key) ?? false;
+        return ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: isSelected ? Colors.green.shade300:Colors.transparent),
+          ),
+          title: Text(entry.key,style: TextStyle(color: isSelected ? Colors.green.shade800 : Colors.black),),
+          trailing: isSelected ? Image.asset('assets/images/clipart342615.png',scale: 15,):null,
+          onTap: () {
+            _onAnswerSelected(questionIndex, entry.key, entry.value);
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildDropDown(Question question, int questionIndex){
+    return Container(
+      height: 60,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: InputDecorator(
+          decoration: const InputDecoration(
+            hintText: 'Select a value',
+            border: OutlineInputBorder(),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedAnswers[questionIndex]?.first ?? 'Select a value',
+              isExpanded: true,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  _onAnswerSelected(questionIndex, newValue, []);
+                }
+              },
+              items: [
+                const DropdownMenuItem<String>(
+                  value: 'Select a value',
+                  child: Text('Select a value'),
+                ),
+                ...question.answerChoices!.entries.map<DropdownMenuItem<String>>((entry) {
+                  return DropdownMenuItem<String>(
+                    value: entry.key,
+                    child: Text(entry.key),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildRadioButton(Question question, int questionIndex){
+    return Column(
+      children: question.answerChoices!.entries.map((entry) {
+        return RadioListTile<String>(
+          title: Text(entry.key),
+          value: entry.key,
+          groupValue: _selectedAnswers[questionIndex]?.first,
+          onChanged: (value) {
+            if (value != null) {
+              _onAnswerSelected(questionIndex, value, entry.value);
+            }
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildMultiChoices(Question question, int questionIndex){
+    return Column(
+      children: question.answerChoices!.entries.map((entry) {
+        bool isSelected = _selectedAnswers[questionIndex]?.contains(entry.key) ?? false;
+        return CheckboxListTile(
+          title: Text(entry.key),
+          value: isSelected,
+          onChanged: (value) {
+            if (value != null) {
+              _onAnswerSelected(questionIndex, entry.key, entry.value);
+            }
+          },
+        );
+      }).toList(),
+    );
+  }
+
   Widget buildInputWidget(Question question, int questionIndex) {
-    // bool isAnswered = _selectedAnswers.containsKey(questionIndex);
 
     switch (question.questionType) {
       case 'text':
-        return TextFormField(
-          decoration: const InputDecoration(
-            labelText: 'Your answer',
-            border: OutlineInputBorder(),
-          ),
-          onFieldSubmitted: (value) {
-            _onAnswerSubmitted(value);
-          },
-        );
+        return buildTextField(questionIndex);
 
       case 'list':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            return ListTile(
-              title: Text(entry.key),
-              onTap: () {
-                _onAnswerSelected(questionIndex, entry.key, entry.value);
-              },
-            );
-          }).toList(),
-        );
+        return buildListTile(question,questionIndex);
+
+      case 'dropdown':
+        return buildDropDown(question,questionIndex);
+
+      case 'search':
+        return buildSearchBar(question);
 
       case 'radio':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            return RadioListTile<String>(
-              title: Text(entry.key),
-              value: entry.key,
-              groupValue: _selectedAnswers[questionIndex]?.first,
-              onChanged: (value) {
-                if (value != null) {
-                  _onAnswerSelected(questionIndex, value, entry.value);
-                }
-              },
-            );
-          }).toList(),
-        );
+        return buildRadioButton(question, questionIndex);
 
       case 'multipleChoices':
-        return Column(
-          children: question.answerChoices!.entries.map((entry) {
-            bool isSelected = _selectedAnswers[questionIndex]?.contains(entry.key) ?? false;
-            return CheckboxListTile(
-              title: Text(entry.key),
-              value: isSelected,
-              onChanged: (value) {
-                if (value != null) {
-                  _onAnswerSelected(questionIndex, entry.key, entry.value);
-                }
-              },
-            );
-          }).toList(),
-        );
+        return buildMultiChoices(question, questionIndex);
 
       case 'slider':
         return Slider(
@@ -387,7 +391,7 @@ class _SurveyPageState extends State<SurveyPage> {
           label: "Select a value",
           onChanged: (value) {
             setState(() {
-              // Handle slider value update if needed
+
             });
           },
         );
@@ -412,5 +416,8 @@ class _SurveyPageState extends State<SurveyPage> {
         return const Text("Unsupported question type");
     }
   }
+
 }
+
+
 
