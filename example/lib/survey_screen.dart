@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:infosurvey_example/tree_model.dart';
 
+
 class SurveyPage extends StatefulWidget {
   final List<Question> questions;
   Widget? customWidget;
@@ -37,12 +38,15 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   void _loadNextBaseQuestion() {
+    // Check if the current index has reached the length of the questions
     if (_currentIndexInJson < widget.questions.length) {
       setState(() {
-        _questionStack.add(widget.questions[_currentIndexInJson]);
+        // Only add the question if it's not already in the stack
+        if (!_questionStack.contains(widget.questions[_currentIndexInJson])) {
+          _questionStack.add(widget.questions[_currentIndexInJson]);
+        }
         _currentIndexInJson++;
         print('printing the current index----base-----------------$_currentIndexInJson');
-
       });
     }
   }
@@ -57,31 +61,53 @@ class _SurveyPageState extends State<SurveyPage> {
       _lastMainQuestionIndex = questionIndex;
       _lastSubQuestions = nextQuestions;
 
-      if (nextQuestions.isEmpty) {
-        _loadNextBaseQuestion();
-      } else {
+      // Check if there are sub-questions
+      if (nextQuestions.isNotEmpty) {
+        // Add sub-questions to the stack
         _questionStack.addAll(nextQuestions);
+      } else {
+        // No sub-questions, so load the next base question
+        _loadNextBaseQuestion();
       }
     });
   }
 
   void _removeNodes(int questionIndex) {
     setState(() {
+      // Remove any questions after the current question index
       if (questionIndex < _questionStack.length - 1) {
         _questionStack.removeRange(questionIndex + 1, _questionStack.length);
         _selectedAnswers.removeWhere((key, _) => key > questionIndex);
-        _currentIndexInJson = 1;
-        print('printing the current index------------------$_currentIndexInJson');
+
+        // Ensure that _currentIndexInJson is updated properly
+        if (_questionStack.isNotEmpty) {
+          // Find the index of the last valid base question
+          final lastBaseQuestion = _questionStack.lastWhere(
+                (question) => widget.questions.contains(question),
+            //orElse: () => null,
+          );
+          if (lastBaseQuestion != null) {
+            _currentIndexInJson = widget.questions.indexOf(lastBaseQuestion) + 1;
+          }
+        } else {
+          _currentIndexInJson = 0; // Reset to start if no valid questions are left
+        }
+
+        // Print for debugging to verify correct index
+        print('Updated current index-----------------------: $_currentIndexInJson');
       }
     });
   }
 
 
+
   void _onAnswerSelected(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
     setState(() {
-      _removeNodes(questionIndex);
+      // Remove nodes only for sub-questions, not the main sequence
+      if (nextQuestions.isNotEmpty || questionIndex == _lastMainQuestionIndex) {
+        _removeNodes(questionIndex);
+      }
       _addNodes(questionIndex, selectedAnswer, nextQuestions);
-
     });
   }
 
