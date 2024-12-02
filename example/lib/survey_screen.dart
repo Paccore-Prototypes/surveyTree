@@ -8,13 +8,14 @@ class SurveyPage extends StatefulWidget {
   final List<Question> questions;
   Widget? customWidget;
 
-  SurveyPage({required this.questions,this.customWidget});
+  SurveyPage({super.key, required this.questions,this.customWidget});
 
   @override
   _SurveyPageState createState() => _SurveyPageState();
 }
 
 class _SurveyPageState extends State<SurveyPage> {
+
   List<Question> _questionStack = [];
   Map<int, List<String>> _selectedAnswers = {};
   int _currentIndexInJson = 0;
@@ -23,6 +24,7 @@ class _SurveyPageState extends State<SurveyPage> {
   List<Question> _lastSubQuestions = [];
 
   final TextEditingController _textEditingController = TextEditingController();
+  Map<int, TextEditingController> _controllers = {};
 
   bool _userHasTyped = false;
 
@@ -37,11 +39,18 @@ class _SurveyPageState extends State<SurveyPage> {
     });
   }
 
+
+  @override
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   void _loadNextBaseQuestion() {
-    // Check if the current index has reached the length of the questions
     if (_currentIndexInJson < widget.questions.length) {
       setState(() {
-        // Only add the question if it's not already in the stack
         if (!_questionStack.contains(widget.questions[_currentIndexInJson])) {
           _questionStack.add(widget.questions[_currentIndexInJson]);
         }
@@ -72,6 +81,7 @@ class _SurveyPageState extends State<SurveyPage> {
     });
   }
 
+
   void _removeNodes(int questionIndex) {
     setState(() {
       // Remove any questions after the current question index
@@ -90,7 +100,7 @@ class _SurveyPageState extends State<SurveyPage> {
             _currentIndexInJson = widget.questions.indexOf(lastBaseQuestion) + 1;
           }
         } else {
-          _currentIndexInJson = 0; // Reset to start if no valid questions are left
+          _currentIndexInJson = 0;
         }
 
         // Print for debugging to verify correct index
@@ -98,7 +108,6 @@ class _SurveyPageState extends State<SurveyPage> {
       }
     });
   }
-
 
 
   void _onAnswerSelected(int questionIndex, String selectedAnswer, List<Question> nextQuestions) {
@@ -115,7 +124,6 @@ class _SurveyPageState extends State<SurveyPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: const Text("Survey")),
       body: Padding(
@@ -269,20 +277,23 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   Widget buildTextField(int questionIndex) {
-    // Use the stored value from _selectedAnswers for the corresponding question index
+
     String savedAnswer = _selectedAnswers[questionIndex]?.first ?? '';
 
-    // Initialize the TextEditingController with the saved value
-    TextEditingController _controller = TextEditingController(text: savedAnswer);
+
+    if (!_controllers.containsKey(questionIndex)) {
+      _controllers[questionIndex] = TextEditingController(text: savedAnswer);
+    }
+
+    TextEditingController controller = _controllers[questionIndex]!;
 
     return TextFormField(
-      controller: _controller,
+      controller: controller,
       decoration: const InputDecoration(
         hintText: 'Enter value',
         border: OutlineInputBorder(),
       ),
       onChanged: (value) {
-        // Save the answer whenever the text changes
         setState(() {
           _selectedAnswers[questionIndex] = [value];
         });
@@ -290,6 +301,22 @@ class _SurveyPageState extends State<SurveyPage> {
       onFieldSubmitted: (value) {
         _onAnswerSubmitted(value);
       },
+    );
+  }
+  Widget buildRadioButton(Question question, int questionIndex){
+    return Column(
+      children: question.answerChoices!.entries.map((entry) {
+        return RadioListTile<String>(
+          title: Text(entry.key),
+          value: entry.key,
+          groupValue: _selectedAnswers[questionIndex]?.first,
+          onChanged: (value) {
+            if (value != null) {
+              _onAnswerSelected(questionIndex, value, entry.value);
+            }
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -353,22 +380,6 @@ class _SurveyPageState extends State<SurveyPage> {
     );
   }
 
-  Widget buildRadioButton(Question question, int questionIndex){
-    return Column(
-      children: question.answerChoices!.entries.map((entry) {
-        return RadioListTile<String>(
-          title: Text(entry.key),
-          value: entry.key,
-          groupValue: _selectedAnswers[questionIndex]?.first,
-          onChanged: (value) {
-            if (value != null) {
-              _onAnswerSelected(questionIndex, value, entry.value);
-            }
-          },
-        );
-      }).toList(),
-    );
-  }
 
   Widget buildMultiChoices(Question question, int questionIndex){
     return Column(
