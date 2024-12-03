@@ -48,7 +48,6 @@ class TreeModel {
   }
 }
 
-
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
 
@@ -58,6 +57,8 @@ class SurveyScreen extends StatefulWidget {
 
 class _SurveyScreenState extends State<SurveyScreen> {
   late Future<TreeModel> treeModelFuture;
+  List<TreeNode> shownQuestions = [];
+  int currentBaseQuestionIndex = 0;
   Map<int, String> selectedAnswers = {};
   Map<int, List<TreeNode>> subQuestions = {};
   final Map<int, TextEditingController> _controllers = {};
@@ -81,19 +82,31 @@ class _SurveyScreenState extends State<SurveyScreen> {
           ?.map<TreeNode>((e) => TreeNode.fromJson(e))
           .toList() ??
           [];
+
+      if (subQuestions[node.id]!.isEmpty) {
+        _showNextBaseQuestion();
+      }
     });
   }
 
-  Widget _buildSubQuestions(TreeNode node) {
-    if (!subQuestions.containsKey(node.id) || subQuestions[node.id]!.isEmpty) {
-      return Container();
+
+
+  void _showNextBaseQuestion() {
+    if (currentBaseQuestionIndex < shownQuestions.length - 1) {
+      currentBaseQuestionIndex++;
+    } else {
+      currentBaseQuestionIndex++;
+      treeModelFuture.then((treeModel) {
+        if (currentBaseQuestionIndex < treeModel.nodes.length) {
+          setState(() {
+            shownQuestions.add(treeModel.nodes[currentBaseQuestionIndex]);
+          });
+        }
+      });
     }
-    return Column(
-      children: subQuestions[node.id]!.map((subNode) {
-        return _buildQuestionTile(subNode);
-      }).toList(),
-    );
   }
+
+
 
   Widget _buildQuestionTile(TreeNode node) {
     return Padding(
@@ -134,9 +147,15 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   selectedAnswers[node.id] = value;
                 });
               },
+              onFieldSubmitted: (_) => _showNextBaseQuestion(),
             ),
           const SizedBox(height: 8),
-          _buildSubQuestions(node),
+          if (subQuestions[node.id] != null)
+            Column(
+              children: subQuestions[node.id]!
+                  .map((subNode) => _buildQuestionTile(subNode))
+                  .toList(),
+            ),
         ],
       ),
     );
@@ -154,10 +173,13 @@ class _SurveyScreenState extends State<SurveyScreen> {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Error loading questions'));
           } else {
+            if (shownQuestions.isEmpty) {
+              shownQuestions.add(snapshot.data!.nodes.first);
+            }
             return ListView(
-              children: snapshot.data!.nodes.map((node) {
-                return _buildQuestionTile(node);
-              }).toList(),
+              children: shownQuestions
+                  .map((node) => _buildQuestionTile(node))
+                  .toList(),
             );
           }
         },
@@ -165,3 +187,33 @@ class _SurveyScreenState extends State<SurveyScreen> {
     );
   }
 }
+
+
+// void _onOptionSelected2(TreeNode node, String selectedOption) {
+//   setState(() {
+//     selectedAnswers[node.id] = selectedOption;
+//     subQuestions[node.id] = node.answerChoices[selectedOption]
+//         ?.map<TreeNode>((e) => TreeNode.fromJson(e))
+//         .toList() ?? [];
+//
+//     // Restrict loading next base question if this sub-question already has a base question answered
+//     if (subQuestions[node.id]!.isEmpty) {
+//       // Check if the current node is a sub-node under another answered base node
+//       bool shouldLoadNextBaseQuestion = true;
+//
+//       // Check if any previous sub-node (from selectedAnswers) has the same parent base node
+//       for (var entry in selectedAnswers.entries) {
+//         if (entry.key != node.id && selectedAnswers.containsKey(node.id)) {
+//           print('having the selected answers values-----------------$selectedAnswers');
+//           shouldLoadNextBaseQuestion = false;
+//           break;
+//         }
+//       }
+//
+//       // If no such previous sub-node exists, load the next base question
+//       if (shouldLoadNextBaseQuestion) {
+//         _showNextBaseQuestion();
+//       }
+//     }
+//   });
+// }
